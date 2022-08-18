@@ -14,3 +14,8 @@ export interface iWord {
   textMeaningTranslate: string;
   textExampleTranslate: string;
 }
+export interface iPair {
+  word: string;
+  translate: string;
+  isCorrect: boolean;
+}
