@@ -1,7 +1,8 @@
 import constants from "../constants";
+import { iWord } from "../types/index";
 
 export default class Api {
-  public async getWords(group: string, page: string): Promise<Response> {
+  public async getWords(group: string, page: string): Promise<iWord[]> {
     const res = await fetch(
       `${constants.URL}/words?group=${group}&page=${page}`,
       {
@@ -9,6 +10,10 @@ export default class Api {
       }
     );
     const words = await res.json();
-    return words;
+    const arr: Array<iWord> = [];
+    for (const key in words) {
+      arr.push(words[key]);
+    }
+    return arr;
   }
 }
