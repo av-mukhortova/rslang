@@ -12,21 +12,27 @@ class Pages {
   getWordData(chapters: HTMLElement, group: string) {
     const api = new Api();
     const words = api.getWords(group, `${this.page}`);
-    this.create(chapters, words);
+    words.then((data: iWord[]) => this.create(chapters, data));
   }
 
-  create(chapters: HTMLElement, words: Promise<iWord[]>) {
+  create(chapters: HTMLElement, data: iWord[]) {
     chapters.innerHTML = "";
     const prevBtn = document.createElement("button") as HTMLButtonElement;
     const nextBtn = document.createElement("button") as HTMLButtonElement;
-    const word = document.createElement("div") as HTMLDivElement;
+    const words = document.createElement("div") as HTMLDivElement;
     const pageNumber = document.createElement("div") as HTMLDivElement;
-    word.setAttribute("class", "words");
+    words.setAttribute("class", "words");
     pageNumber.setAttribute("class", "pageNumber");
-    prevBtn.setAttribute("id", "prevBtn");
-    nextBtn.setAttribute("id", "nextBtn");
+    prevBtn.setAttribute("id", "prev-btn");
+    nextBtn.setAttribute("id", "next-btn");
     const itemPage = new ItemPage();
-    itemPage.create(words);
+    data.forEach((el) => {
+      words.innerHTML += itemPage.create(el);
+    });
+    chapters.append(prevBtn);
+    chapters.append(nextBtn);
+    chapters.append(words);
+    chapters.append(pageNumber);
   }
 }
 
