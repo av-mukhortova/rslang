@@ -12,10 +12,10 @@ class Pages {
   getWordData(chapters: HTMLElement, group: string) {
     const api = new Api();
     const words = api.getWords(group, `${this.page}`);
-    words.then((data: iWord[]) => this.create(chapters, data));
+    words.then((data: iWord[]) => this.create(chapters, data, group));
   }
 
-  create(chapters: HTMLElement, data: iWord[]) {
+  create(chapters: HTMLElement, data: iWord[], group: string) {
     chapters.innerHTML = "";
     const prevBtn = document.createElement("button") as HTMLButtonElement;
     const nextBtn = document.createElement("button") as HTMLButtonElement;
@@ -25,6 +25,7 @@ class Pages {
     pageNumber.setAttribute("class", "pageNumber");
     prevBtn.setAttribute("id", "prev-btn");
     nextBtn.setAttribute("id", "next-btn");
+    pageNumber.textContent = `${this.page + 1}`;
     const itemPage = new ItemPage();
     data.forEach((el) => {
       words.innerHTML += itemPage.create(el);
@@ -33,6 +34,19 @@ class Pages {
     chapters.append(nextBtn);
     chapters.append(words);
     chapters.append(pageNumber);
+
+    prevBtn.addEventListener("click", () => {
+      if (this.page > 0) {
+        this.page -= 1;
+        this.getWordData(chapters, group);
+      }
+    });
+    nextBtn.addEventListener("click", () => {
+      if (this.page < 29) {
+        this.page += 1;
+        this.getWordData(chapters, group);
+      }
+    });
   }
 }
 
