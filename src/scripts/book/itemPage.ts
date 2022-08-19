@@ -3,9 +3,9 @@ import { iWord } from "../../types/index";
 class ItemPage {
   create(data: iWord) {
     return `
-      <div class="item-page">
+      <div class="item-page" id="${data.id}">
         <div class="item-page__images">
-          <img src="${data.image}" alt="foto">
+          <img src="https://react-learnwords-example.herokuapp.com/${data.image}" alt="foto">
         </div>
         <div class="item-page__texts">
           <div class="item-page__en">
@@ -20,7 +20,12 @@ class ItemPage {
             <p>${data.textExampleTranslate}</p>
           </div>
         </div>
-        <button class="item-page__voce">V</button>
+        <button class="item-page__voce">Озвучить</button>
+        <div class="item-page__authorized">
+          <button class="item-page__studi">Изученно</button>
+          <button class="item-page__difficult">Сложные слова +</button>
+          <button class="item-page__difficult-delete">Сложные слова -</button>        
+        </div>
       </div>
     `;
   }

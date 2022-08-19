@@ -21,7 +21,7 @@ class Pages {
     const nextBtn = document.createElement("button") as HTMLButtonElement;
     const words = document.createElement("div") as HTMLDivElement;
     const pageNumber = document.createElement("div") as HTMLDivElement;
-    words.setAttribute("class", "words");
+    words.setAttribute("class", `words group__${group}`);
     pageNumber.setAttribute("class", "pageNumber");
     prevBtn.setAttribute("id", "prev-btn");
     nextBtn.setAttribute("id", "next-btn");
