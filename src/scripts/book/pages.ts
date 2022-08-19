@@ -30,6 +30,8 @@ class Pages {
     data.forEach((el) => {
       words.innerHTML += itemPage.create(el);
     });
+    prevBtn.innerHTML = "<";
+    nextBtn.innerHTML = ">";
     chapters.append(prevBtn);
     chapters.append(nextBtn);
     chapters.append(words);
