@@ -2,7 +2,6 @@ import { iWord } from "../../types/index";
 
 class ItemPage {
   create(data: iWord) {
-    console.log(data);
     return `
       <div class="item-page">
         <div class="item-page__images">

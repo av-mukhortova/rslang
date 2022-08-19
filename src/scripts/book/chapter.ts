@@ -3,6 +3,11 @@ import Pages from "./pages";
 class Chapter {
   public create() {
     const body = document.querySelector("body");
+    const chap = document.querySelector(".chapters") as HTMLElement;
+    if (chap) {
+      const bod = chap?.parentNode;
+      bod?.removeChild(chap);
+    }
     const chapters = document.createElement("section");
     chapters.setAttribute("class", "chapters");
     for (let i = 0; i < 6; i += 1) {
