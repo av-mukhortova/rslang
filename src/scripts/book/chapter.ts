@@ -1,4 +1,5 @@
 import Pages from "./pages";
+import "../../assets/styles/bookStyle/chapter.css";
 
 class Chapter {
   public create() {
@@ -13,6 +14,7 @@ class Chapter {
     for (let i = 0; i < 6; i += 1) {
       const chapter = document.createElement("div");
       chapter.setAttribute("id", `chapter-${i}`);
+      chapter.setAttribute("class", `chapter`);
       const number = document.createElement("p");
       number.textContent = `chapter ${i + 1}`;
       chapter.append(number);

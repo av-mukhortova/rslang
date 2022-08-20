@@ -1,6 +1,7 @@
 import { iWord } from "../../types/index";
 import Api from "../api";
 import ItemPage from "./itemPage";
+import "../../assets/styles/bookStyle/pages.css";
 
 class Pages {
   page: number;
@@ -17,10 +18,12 @@ class Pages {
 
   create(chapters: HTMLElement, data: iWord[], group: string) {
     chapters.innerHTML = "";
+    const containerWords = document.createElement("div") as HTMLDivElement;
     const prevBtn = document.createElement("button") as HTMLButtonElement;
     const nextBtn = document.createElement("button") as HTMLButtonElement;
     const words = document.createElement("div") as HTMLDivElement;
     const pageNumber = document.createElement("div") as HTMLDivElement;
+    containerWords.setAttribute("class", `container-words`);
     words.setAttribute("class", `words group__${group}`);
     pageNumber.setAttribute("class", "pageNumber");
     prevBtn.setAttribute("id", "prev-btn");
@@ -32,10 +35,11 @@ class Pages {
     });
     prevBtn.innerHTML = "<";
     nextBtn.innerHTML = ">";
-    chapters.append(prevBtn);
-    chapters.append(nextBtn);
-    chapters.append(words);
-    chapters.append(pageNumber);
+    containerWords.append(prevBtn);
+    containerWords.append(nextBtn);
+    containerWords.append(words);
+    containerWords.append(pageNumber);
+    chapters.append(containerWords);
 
     prevBtn.addEventListener("click", () => {
       if (this.page > 0) {

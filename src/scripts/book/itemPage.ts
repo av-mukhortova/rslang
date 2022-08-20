@@ -1,4 +1,5 @@
 import { iWord } from "../../types/index";
+import "../../assets/styles/bookStyle/ItemPage.css";
 
 class ItemPage {
   create(data: iWord) {
@@ -19,8 +20,8 @@ class ItemPage {
             <p>${data.textMeaningTranslate}</p>
             <p>${data.textExampleTranslate}</p>
           </div>
+          <button class="item-page__voce">Озвучить</button>
         </div>
-        <button class="item-page__voce">Озвучить</button>
         <div class="item-page__authorized">
           <button class="item-page__studi">Изученно</button>
           <button class="item-page__difficult">Сложные слова +</button>
