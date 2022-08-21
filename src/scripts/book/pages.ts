@@ -17,7 +17,7 @@ class Pages {
     words.then((data: iWord[]) => this.create(chapters, data, group));
   }
 
-  create(chapters: HTMLElement, data: iWord[], group: string) {
+  create(chapters: HTMLElement, data: iWord[], group: string): void {
     const paginationItem = new PaginationItem();
 
     chapters.innerHTML = "";
@@ -76,6 +76,24 @@ class Pages {
       this.page = +page - 1;
       this.getWordData(chapters, group);
     });
+
+    this.check();
+  }
+
+  check(): void {
+    const authorizedCheck = true;
+    const authorizedBlock: NodeListOf<HTMLElement> = document.querySelectorAll(
+      ".item-page__authorized"
+    );
+    if (authorizedCheck) {
+      authorizedBlock.forEach((el): void => {
+        el.style.display = "block";
+      });
+    } else {
+      authorizedBlock.forEach((el): void => {
+        el.style.display = "none";
+      });
+    }
   }
 }
 
