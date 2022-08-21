@@ -34,3 +34,23 @@
     display: flex;
     justify-content: center;
 }
+
+.pagination {
+  margin: 15px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination button {
+  width: 28px;
+  height: 28px;
+  margin: 3px;
+  background-color: aliceblue;
+  border: 1px solid black;
+}
+
+.pagination button:hover {
+  background-color: rgb(221, 162, 226);
+  box-shadow: -5px -5px 8px 0 rgba(0,0,0,0.2);
+}
