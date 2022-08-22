@@ -15,7 +15,6 @@ class ChechActivStudi {
         const idCard = studiKeys.indexOf(cardID);
         studiKeys.splice(idCard, 1);
         localStorage.setItem(`studi`, `${studiKeys}`);
-        console.log(studiKeys);
       }
     }
   }

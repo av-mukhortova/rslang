@@ -25,7 +25,7 @@ class ItemPage {
         <div class="item-page__authorized">
           <button class="item-page__studi">Изученно</button>
           <button class="item-page__difficult">Сложные слова +</button>
-          <button class="item-page__difficult-delete">Сложные слова -</button>        
+          <button class="item-page__difficult-delete" style="display: none;">Сложные слова -</button>        
         </div>
       </div>
     `;
