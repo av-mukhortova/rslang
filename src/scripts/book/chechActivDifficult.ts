@@ -1,4 +1,6 @@
-const cardDifficults: string[] = [];
+const keyCardDifficults = localStorage.getItem("cardDifficults")?.split(",");
+const cardDifficults: string[] =
+  keyCardDifficults === undefined ? [] : keyCardDifficults;
 
 class ChechActivDifficult {
   add(cardDifficult: HTMLElement, cardID: string | null) {

@@ -1,4 +1,5 @@
-const studiKeys: string[] = [];
+const keyStudi = localStorage.getItem("studi")?.split(",");
+const studiKeys: string[] = keyStudi === undefined ? [] : keyStudi;
 
 class ChechActivStudi {
   check(card: HTMLElement, cardStudiBtn: HTMLElement, cardID: string | null) {
