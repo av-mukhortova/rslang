@@ -2,6 +2,7 @@ import { iWord } from "../../types/index";
 import Api from "../api";
 import ItemPage from "./itemPage";
 import PaginationItem from "./paginationItem";
+import ChechActiv from "./chechActiv";
 import "../../assets/styles/bookStyle/pages.css";
 
 class Pages {
@@ -19,6 +20,7 @@ class Pages {
 
   create(chapters: HTMLElement, data: iWord[], group: string): void {
     const paginationItem = new PaginationItem();
+    const chechActiv = new ChechActiv();
 
     chapters.innerHTML = "";
     const containerWords = document.createElement("div") as HTMLDivElement;
@@ -75,6 +77,14 @@ class Pages {
       if (!page) return;
       this.page = +page - 1;
       this.getWordData(chapters, group);
+    });
+
+    const containerWordsClass = document.querySelector(
+      ".container-words"
+    ) as HTMLElement;
+    containerWordsClass.addEventListener("click", (e: Event): void => {
+      // console.log(e);
+      chechActiv.check(e);
     });
 
     this.check();
