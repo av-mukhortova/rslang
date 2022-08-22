@@ -1,4 +1,5 @@
 import { iWord } from "../../types/index";
+import constants from "../../constants";
 import "../../assets/styles/bookStyle/ItemPage.css";
 
 class ItemPage {
@@ -6,21 +7,21 @@ class ItemPage {
     return `
       <div class="item-page" id="${data.id}">
         <div class="item-page__images">
-          <img src="https://react-learnwords-example.herokuapp.com/${data.image}" alt="foto">
+          <img src="${constants.URL}/${data.image}" alt="foto">
         </div>
         <div class="item-page__texts">
           <div class="item-page__en">
             <h4>"${data.word}"</h4>
             <p>Transcription: <b>"${data.transcription}"</b></p>
-            <p>${data.textMeaning}</p>
             <p>${data.textExample}</p>
+            <p>${data.textMeaning}</p>
           </div>
           <div class="item-page__ru">
             <p>Перевод: <b>${data.wordTranslate}</b></p>
             <p>${data.textMeaningTranslate}</p>
             <p>${data.textExampleTranslate}</p>
           </div>
-          <button class="item-page__voce">Озвучить</button>
+          <button class="item-page__voce" id="${data.audio}-${data.audioExample}-${data.audioMeaning}">Озвучить</button>
         </div>
         <div class="item-page__authorized">
           <button class="item-page__studi">Изученно</button>

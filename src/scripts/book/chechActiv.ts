@@ -1,10 +1,12 @@
 import ChechActivStudi from "./chechActivStudi";
 import ChechActivDifficult from "./chechActivDifficult";
+import Voses from "./voses";
 
 class ChechActiv {
   check(eventEl: Event) {
     const chechActivStudi = new ChechActivStudi();
     const chechActivDifficult = new ChechActivDifficult();
+    const voses = new Voses();
 
     const card = (eventEl.target as HTMLElement).closest(
       ".item-page"
@@ -14,9 +16,12 @@ class ChechActiv {
     const cardStudiBtn = eventEl.target as HTMLElement;
     const cardDifficult = eventEl.target as HTMLElement;
     const cardDifficultDell = eventEl.target as HTMLElement;
+    const textsVoce = eventEl.target as HTMLElement;
 
-    if (!cardStudiBtn && !cardDifficult && !cardDifficultDell) {
+    if (!cardStudiBtn && !cardDifficult && !cardDifficultDell && !textsVoce) {
       return;
+    } else if (textsVoce.classList.contains("item-page__voce")) {
+      voses.start(textsVoce);
     } else if (cardStudiBtn.classList.contains("item-page__studi")) {
       chechActivStudi.check(card, cardStudiBtn, cardID);
     } else if (cardDifficult.classList.contains("item-page__difficult")) {

@@ -83,7 +83,6 @@ class Pages {
       ".container-words"
     ) as HTMLElement;
     containerWordsClass.addEventListener("click", (e: Event): void => {
-      // console.log(e);
       chechActiv.check(e);
     });
 
