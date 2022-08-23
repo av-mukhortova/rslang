@@ -15,9 +15,9 @@ class ChechActivStudi {
     group: string
   ) {
     cardStudiBtn.classList.toggle("activ");
+    const groupId = Number(group);
     if (cardStudiBtn.classList.contains("activ")) {
       card.style.backgroundColor = "green";
-      const groupId = Number(group);
       if (!cardID) return;
       if (studiKeys[groupId]) {
         if (studiKeys[groupId][pageNumber]) {
@@ -33,11 +33,11 @@ class ChechActivStudi {
     } else {
       card.style.backgroundColor = "";
       if (!cardID) return;
-      // if (studiKeys[pageNumber]["key"].indexOf(cardID) !== -1) {
-      //   const id = studiKeys[pageNumber]["key"].indexOf(cardID);
-      //   studiKeys[pageNumber]["key"].splice(id, 1);
-      //   localStorage.setItem(`studi`, `${JSON.stringify(studiKeys)}`);
-      // }
+      if (studiKeys[groupId][pageNumber]["key"].indexOf(cardID) !== -1) {
+        const id = studiKeys[groupId][pageNumber]["key"].indexOf(cardID);
+        studiKeys[groupId][pageNumber]["key"].splice(id, 1);
+        localStorage.setItem(`studi`, `${JSON.stringify(studiKeys)}`);
+      }
     }
   }
 }
