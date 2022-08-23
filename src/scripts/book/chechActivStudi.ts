@@ -1,21 +1,37 @@
-const keyStudi = localStorage.getItem("studi")?.split(",");
-const studiKeys: string[] = keyStudi === undefined ? [] : keyStudi;
+const keyStudi = localStorage.getItem("studi");
+
+interface Key {
+  key: string[];
+}
+
+const studiKeys: Key[] = keyStudi === null ? [] : JSON.parse(keyStudi);
 
 class ChechActivStudi {
-  check(card: HTMLElement, cardStudiBtn: HTMLElement, cardID: string | null) {
+  check(
+    card: HTMLElement,
+    cardStudiBtn: HTMLElement,
+    cardID: string | null,
+    pageNumber: number
+  ) {
+    // console.log(pageNumber);
     cardStudiBtn.classList.toggle("activ");
     if (cardStudiBtn.classList.contains("activ")) {
       card.style.backgroundColor = "green";
       if (!cardID) return;
-      studiKeys.push(cardID);
-      localStorage.setItem(`studi`, `${studiKeys}`);
+      if (studiKeys[pageNumber]) {
+        studiKeys[pageNumber]["key"].push(cardID);
+      } else {
+        studiKeys[pageNumber] = { key: [cardID] };
+      }
+      console.log(studiKeys);
+      localStorage.setItem(`studi`, `${JSON.stringify(studiKeys)}`);
     } else {
       card.style.backgroundColor = "";
       if (!cardID) return;
-      if (studiKeys.indexOf(cardID) !== -1) {
-        const idCard = studiKeys.indexOf(cardID);
-        studiKeys.splice(idCard, 1);
-        localStorage.setItem(`studi`, `${studiKeys}`);
+      if (studiKeys[pageNumber]["key"].indexOf(cardID) !== -1) {
+        const id = studiKeys[pageNumber]["key"].indexOf(cardID);
+        studiKeys[pageNumber]["key"].splice(id, 1);
+        localStorage.setItem(`studi`, `${JSON.stringify(studiKeys)}`);
       }
     }
   }

@@ -3,7 +3,7 @@ import ChechActivDifficult from "./chechActivDifficult";
 import Voses from "./voses";
 
 class ChechActiv {
-  check(eventEl: Event) {
+  check(eventEl: Event, pageNumber: number) {
     const chechActivStudi = new ChechActivStudi();
     const chechActivDifficult = new ChechActivDifficult();
     const voses = new Voses();
@@ -23,7 +23,7 @@ class ChechActiv {
     } else if (textsVoce.classList.contains("item-page__voce")) {
       voses.start(textsVoce);
     } else if (cardStudiBtn.classList.contains("item-page__studi")) {
-      chechActivStudi.check(card, cardStudiBtn, cardID);
+      chechActivStudi.check(card, cardStudiBtn, cardID, pageNumber);
     } else if (cardDifficult.classList.contains("item-page__difficult")) {
       chechActivDifficult.add(card, cardDifficult, cardID);
     } else if (
