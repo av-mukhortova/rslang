@@ -25,11 +25,17 @@ class ChechActiv {
     } else if (cardStudiBtn.classList.contains("item-page__studi")) {
       chechActivStudi.check(card, cardStudiBtn, cardID, pageNumber, group);
     } else if (cardDifficult.classList.contains("item-page__difficult")) {
-      chechActivDifficult.add(card, cardDifficult, cardID, pageNumber);
+      chechActivDifficult.add(card, cardDifficult, cardID, pageNumber, group);
     } else if (
       cardDifficultDell.classList.contains("item-page__difficult-delete")
     ) {
-      chechActivDifficult.dell(card, cardDifficultDell, cardID, pageNumber);
+      chechActivDifficult.dell(
+        card,
+        cardDifficultDell,
+        cardID,
+        pageNumber,
+        group
+      );
     }
   }
 }
