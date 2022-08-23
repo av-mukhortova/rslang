@@ -90,7 +90,7 @@ class Pages {
       ".container-words"
     ) as HTMLElement;
     containerWordsClass.addEventListener("click", (e: Event): void => {
-      chechActiv.check(e, this.page);
+      chechActiv.check(e, this.page, group);
     });
 
     this.check();
