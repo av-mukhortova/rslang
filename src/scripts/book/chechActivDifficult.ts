@@ -1,12 +1,6 @@
-const keyCardDifficults = localStorage.getItem("cardDifficults");
+import LocalKeySaveDel from "./localKeySaveDel";
 
-interface Key {
-  key: string[];
-}
-
-const cardDifficults: [Key[]] =
-  keyCardDifficults === null ? [] : JSON.parse(keyCardDifficults);
-
+const localKeySaveDel = new LocalKeySaveDel("cardDifficults");
 class ChechActivDifficult {
   add(
     card: HTMLElement,
@@ -23,18 +17,7 @@ class ChechActivDifficult {
     cardDifficultDel.style.display = "block";
     cardDifficult.style.display = "none";
     card.style.border = "5px solid red";
-    if (!cardID) return;
-    if (cardDifficults[groupId]) {
-      if (cardDifficults[groupId][pageNumber]) {
-        cardDifficults[groupId][pageNumber]["key"].push(cardID);
-      } else {
-        cardDifficults[groupId][pageNumber] = { key: [cardID] };
-      }
-    } else {
-      cardDifficults[groupId] = [];
-      cardDifficults[groupId][pageNumber] = { key: [cardID] };
-    }
-    localStorage.setItem("cardDifficults", `${JSON.stringify(cardDifficults)}`);
+    localKeySaveDel.save(groupId, pageNumber, cardID);
   }
   dell(
     card: HTMLElement,
@@ -51,15 +34,7 @@ class ChechActivDifficult {
     cardDifficult.style.display = "block";
     cardDifficultDell.style.display = "none";
     card.style.border = "";
-    if (!cardID) return;
-    if (cardDifficults[groupId][pageNumber]["key"].indexOf(cardID) !== -1) {
-      const id = cardDifficults[groupId][pageNumber]["key"].indexOf(cardID);
-      cardDifficults[groupId][pageNumber]["key"].splice(id, 1);
-      localStorage.setItem(
-        `cardDifficults`,
-        `${JSON.stringify(cardDifficults)}`
-      );
-    }
+    localKeySaveDel.remove(groupId, pageNumber, cardID);
   }
 }
 

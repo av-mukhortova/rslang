@@ -1,10 +1,6 @@
-// const keyStudi = localStorage.getItem("studi");
-
 interface Key {
   key: string[];
 }
-
-// const studiKeys: [Key[]] = keyStudi === null ? [] : JSON.parse(keyStudi);
 
 class LocalKeySaveDel {
   localKey: string | null;
