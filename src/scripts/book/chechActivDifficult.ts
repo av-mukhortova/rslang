@@ -1,9 +1,23 @@
-const keyCardDifficults = localStorage.getItem("cardDifficults")?.split(",");
-const cardDifficults: string[] =
-  keyCardDifficults === undefined ? [] : keyCardDifficults;
+// const keyCardDifficults = localStorage.getItem("cardDifficults")?.split(",");
+// const cardDifficults: string[] =
+//   keyCardDifficults === undefined ? [] : keyCardDifficults;
+
+const keyCardDifficults = localStorage.getItem("cardDifficults");
+
+interface Key {
+  key: string[];
+}
+
+const cardDifficults: Key[] =
+  keyCardDifficults === null ? [] : JSON.parse(keyCardDifficults);
 
 class ChechActivDifficult {
-  add(card: HTMLElement, cardDifficult: HTMLElement, cardID: string | null) {
+  add(
+    card: HTMLElement,
+    cardDifficult: HTMLElement,
+    cardID: string | null,
+    pageNumber: number
+  ) {
     const blockAuthor = cardDifficult.closest(
       ".item-page__authorized"
     ) as HTMLElement;
@@ -12,13 +26,18 @@ class ChechActivDifficult {
     cardDifficult.style.display = "none";
     card.style.border = "5px solid red";
     if (!cardID) return;
-    cardDifficults.push(cardID);
-    localStorage.setItem("cardDifficults", `${cardDifficults}`);
+    if (cardDifficults[pageNumber]) {
+      cardDifficults[pageNumber]["key"].push(cardID);
+    } else {
+      cardDifficults[pageNumber] = { key: [cardID] };
+    }
+    localStorage.setItem("cardDifficults", `${JSON.stringify(cardDifficults)}`);
   }
   dell(
     card: HTMLElement,
     cardDifficultDell: HTMLElement,
-    cardID: string | null
+    cardID: string | null,
+    pageNumber: number
   ) {
     const blockAuthor = cardDifficultDell.closest(
       ".item-page__authorized"
@@ -28,10 +47,13 @@ class ChechActivDifficult {
     cardDifficultDell.style.display = "none";
     card.style.border = "";
     if (!cardID) return;
-    if (cardDifficults.indexOf(cardID) !== -1) {
-      const idCard = cardDifficults.indexOf(cardID);
-      cardDifficults.splice(idCard, 1);
-      localStorage.setItem(`cardDifficults`, `${cardDifficults}`);
+    if (cardDifficults[pageNumber]["key"].indexOf(cardID) !== -1) {
+      const id = cardDifficults[pageNumber]["key"].indexOf(cardID);
+      cardDifficults[pageNumber]["key"].splice(id, 1);
+      localStorage.setItem(
+        `cardDifficults`,
+        `${JSON.stringify(cardDifficults)}`
+      );
     }
   }
 }

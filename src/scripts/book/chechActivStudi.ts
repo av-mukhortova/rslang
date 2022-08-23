@@ -13,7 +13,6 @@ class ChechActivStudi {
     cardID: string | null,
     pageNumber: number
   ) {
-    // console.log(pageNumber);
     cardStudiBtn.classList.toggle("activ");
     if (cardStudiBtn.classList.contains("activ")) {
       card.style.backgroundColor = "green";
@@ -23,7 +22,6 @@ class ChechActivStudi {
       } else {
         studiKeys[pageNumber] = { key: [cardID] };
       }
-      console.log(studiKeys);
       localStorage.setItem(`studi`, `${JSON.stringify(studiKeys)}`);
     } else {
       card.style.backgroundColor = "";
