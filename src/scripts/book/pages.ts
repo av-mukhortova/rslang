@@ -3,6 +3,7 @@ import Api from "../api";
 import ItemPage from "./itemPage";
 import PaginationItem from "./paginationItem";
 import ChechActiv from "./chechActiv";
+import CheckWordsOnload from "./checkWordsOnload";
 import "../../assets/styles/bookStyle/pages.css";
 
 class Pages {
@@ -21,6 +22,7 @@ class Pages {
   create(chapters: HTMLElement, data: iWord[], group: string): void {
     const paginationItem = new PaginationItem();
     const chechActiv = new ChechActiv();
+    const checkWordsOnload = new CheckWordsOnload();
 
     chapters.innerHTML = "";
     const containerWords = document.createElement("div") as HTMLDivElement;
@@ -42,9 +44,11 @@ class Pages {
     data.forEach((el): void => {
       words.innerHTML += itemPage.create(el);
     });
+
     for (let i = 0; i <= 29; i++) {
       pagination.innerHTML += paginationItem.create(i + 1);
     }
+
     prevBtn.innerHTML = "<";
     nextBtn.innerHTML = ">";
 
@@ -54,6 +58,10 @@ class Pages {
     containerWords.append(pageNumber);
     containerWords.append(pagination);
     chapters.append(containerWords);
+
+    const wordsNode = document.querySelector(".words") as HTMLElement;
+    // console.log(wordsNode);
+    checkWordsOnload.check(wordsNode);
 
     prevBtn.addEventListener("click", (): void => {
       if (this.page > 0) {
