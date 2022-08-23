@@ -20,13 +20,8 @@ export default class Sprint {
     this.koef = 1;
     this.results = [];
   }
-  public async start(): Promise<void> {
-    const level: number = this.askLevel();
-    const words: Array<iWord> = await this.getAllWordsOfLevel(level);
-    this.setPairs(words);
-    this.shuffle();
-    this.drawPlay();
-    this.play();
+  public start(): void {
+    this.askLevel();
   }
   async getAllWordsOfLevel(group: number): Promise<iWord[]> {
     const res: Array<iWord> = [];
@@ -41,8 +36,26 @@ export default class Sprint {
     }
     return res;
   }
-  private askLevel(): number {
-    return 0;
+  private askLevel(): void {
+    const mainDiv: HTMLDivElement | null = document.querySelector(".main");
+    const levelDiv: HTMLDivElement | null = document.querySelector(".level");
+    levelDiv?.classList.remove("hidden");
+    mainDiv?.classList.add("hidden");
+
+    const levelDlg: HTMLDivElement | null =
+      document.querySelector(".level_dlg");
+    levelDlg?.addEventListener("click", (event: MouseEvent): void => {
+      const target: HTMLElement = event.target as HTMLElement;
+      if (target.tagName.toLowerCase() === "button") {
+        const level = target.dataset.level ? +target.dataset.level : 0;
+        this.getAllWordsOfLevel(level).then((words: Array<iWord>) => {
+          this.setPairs(words);
+          this.shuffle();
+          this.drawPlay();
+          this.play();
+        });
+      }
+    });
   }
   private setPairs(words: Array<iWord>): void {
     this.pairs.length = 0;
@@ -76,10 +89,10 @@ export default class Sprint {
     }
   }
   private drawPlay(): void {
-    const mainDiv: HTMLDivElement | null = document.querySelector(".main");
+    const levelDiv: HTMLDivElement | null = document.querySelector(".level");
     const sprintDiv: HTMLDivElement | null = document.querySelector(".sprint");
     sprintDiv?.classList.remove("hidden");
-    mainDiv?.classList.add("hidden");
+    levelDiv?.classList.add("hidden");
 
     sprintDiv?.replaceChildren();
 
