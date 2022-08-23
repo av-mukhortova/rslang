@@ -57,6 +57,9 @@ export default class Sprint {
         word: words[i].word,
         translate: translate,
         isCorrect: translate === words[i].wordTranslate,
+        transcription: words[i].transcription,
+        audio: words[i].audio,
+        wordTranslate: words[i].wordTranslate,
       };
       this.pairs.push(pair);
     }
@@ -183,6 +186,9 @@ export default class Sprint {
         word: this.pairs[this.currentPair].word,
         translate: this.pairs[this.currentPair].translate,
         isCorrect: true,
+        transcription: this.pairs[this.currentPair].transcription,
+        audio: this.pairs[this.currentPair].audio,
+        wordTranslate: this.pairs[this.currentPair].wordTranslate,
       };
       this.results.push(res);
       this.addPoints();
@@ -191,6 +197,9 @@ export default class Sprint {
         word: this.pairs[this.currentPair].word,
         translate: this.pairs[this.currentPair].translate,
         isCorrect: false,
+        transcription: this.pairs[this.currentPair].transcription,
+        audio: this.pairs[this.currentPair].audio,
+        wordTranslate: this.pairs[this.currentPair].wordTranslate,
       };
       this.results.push(res);
       this.rightInRow = 0;
@@ -201,7 +210,6 @@ export default class Sprint {
     this.changeWord();
   }
   private addPoints(): void {
-    console.log(this.rightInRow);
     if (this.rightInRow === 3) {
       this.rightInRow = 0;
       this.koef += 1;
@@ -236,7 +244,62 @@ export default class Sprint {
       document.querySelector(".sprint_results");
     sprintDiv?.classList.add("hidden");
     sprintRes?.classList.remove("hidden");
-    console.log(this.results);
+
+    const table: HTMLTableElement = document.createElement("table");
+    sprintRes?.append(table);
+    const thead: HTMLTableCaptionElement = document.createElement("thead");
+    thead.innerHTML = "Результаты";
+    const tbody: HTMLElement = document.createElement("tbody");
+    table.append(thead, tbody);
+
+    for (let i = 0; i < this.results.length; i += 1) {
+      const tr: HTMLTableRowElement | null = document.createElement("tr");
+      tbody.appendChild(tr);
+      const tdSound: HTMLTableCellElement | null = document.createElement("td");
+      const soundBtn: HTMLButtonElement | null =
+        document.createElement("button");
+      soundBtn.id = this.results[i].word;
+      soundBtn.className = "hidden";
+      soundBtn.dataset.sound = this.results[i].audio;
+      const soundLabel: HTMLLabelElement | null =
+        document.createElement("label");
+      soundLabel.htmlFor = this.results[i].word;
+      const soundImg: HTMLImageElement | null = document.createElement("img");
+      soundImg.src = "./assets/img/volume.png";
+      soundImg.alt = "sound";
+      tdSound.append(soundBtn, soundLabel);
+      soundLabel.append(soundImg);
+      const tdWord: HTMLTableCellElement | null = document.createElement("td");
+      tdWord.appendChild(document.createTextNode(this.results[i].word));
+      const tdTrans: HTMLTableCellElement | null = document.createElement("td");
+      tdTrans.appendChild(
+        document.createTextNode(this.results[i].transcription)
+      );
+      const tdTransl: HTMLTableCellElement | null =
+        document.createElement("td");
+      tdTransl.appendChild(
+        document.createTextNode(this.results[i].wordTranslate)
+      );
+      const tdCorrect: HTMLTableCellElement | null =
+        document.createElement("td");
+      tdCorrect.appendChild(
+        document.createTextNode(this.results[i].isCorrect ? "Верно" : "Неверно")
+      );
+      tr.append(tdSound, tdWord, tdTrans, tdTransl, tdCorrect);
+    }
+
+    const sprint_table: HTMLTableElement | null = document.querySelector(
+      ".sprint_results table"
+    );
+    sprint_table?.addEventListener("click", (event: MouseEvent): void => {
+      const target: HTMLElement = event.target as HTMLElement;
+      const sound: string = target.dataset.sound as string;
+      if (sound) {
+        const audio = new Audio();
+        audio.src = `${constants.URL}/${sound}`;
+        audio.autoplay = true;
+      }
+    });
   }
   private removeChecks() {
     const answer1: HTMLInputElement | null =

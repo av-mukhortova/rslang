@@ -18,4 +18,7 @@ export interface iPair {
   word: string;
   translate: string;
   isCorrect: boolean;
+  transcription: string;
+  audio: string;
+  wordTranslate: string;
 }
