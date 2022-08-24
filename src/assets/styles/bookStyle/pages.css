@@ -1,0 +1,56 @@
+#prev-btn,
+#next-btn {
+    height: 800px;
+    width: 30px;
+    background-color: inherit;
+    border: 2px solid rgb(51, 4, 55);
+    color: black;
+    font-size: 24px;
+    font-weight: 900;
+    position: fixed;
+}
+
+#prev-btn:hover{
+  background-color: rgb(221, 162, 226);
+  box-shadow: 15px 0 10px 0 rgba(0,0,0,0.2);
+}
+#next-btn:hover {
+  background-color: rgb(221, 162, 226);
+  box-shadow: -15px 0 10px 0 rgba(0,0,0,0.2);
+}
+
+#prev-btn {
+  left: 0;
+}
+
+#next-btn {
+  right: 0;
+}
+
+.pageNumber {
+    margin: 20px 0;
+    font-size: 3rem;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination {
+  margin: 15px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination button {
+  width: 28px;
+  height: 28px;
+  margin: 3px;
+  background-color: aliceblue;
+  border: 1px solid black;
+}
+
+.pagination button:hover {
+  background-color: rgb(221, 162, 226);
+  box-shadow: -5px -5px 8px 0 rgba(0,0,0,0.2);
+}

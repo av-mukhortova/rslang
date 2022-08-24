@@ -36,6 +36,7 @@ export default class Sprint {
     this.timerId = 0;
     this.isKeyUp = true;
     this.askLevel();
+
   }
   async getAllWordsOfLevel(group: number): Promise<iWord[]> {
     const res: Array<iWord> = [];
