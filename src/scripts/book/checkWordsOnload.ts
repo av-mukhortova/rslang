@@ -28,6 +28,7 @@ class CheckWordsOnload {
     const gropDifficults = difficults[+group];
 
     if (gropDifficults) {
+      if (!gropDifficults[pageNumber]) return;
       const pageDifficults: [string] = gropDifficults[pageNumber]["key"];
 
       if (pageDifficults.length >= 20) {
@@ -43,6 +44,7 @@ class CheckWordsOnload {
     }
 
     if (gropStudes) {
+      if (!gropStudes[pageNumber]) return;
       if (gropStudes[pageNumber]["key"]) {
         const pageStudes: [string] = gropStudes[pageNumber]["key"];
         if (pageStudes.length >= 20) {
