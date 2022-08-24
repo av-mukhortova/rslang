@@ -10,6 +10,9 @@ export default class Sprint {
   rightInRow: number;
   koef: number;
   results: Array<iPair>;
+  timerId: number;
+  isPlaying: boolean;
+  isKeyUp: boolean;
 
   constructor() {
     this.api = new Api();
@@ -19,8 +22,19 @@ export default class Sprint {
     this.rightInRow = 0;
     this.koef = 1;
     this.results = [];
+    this.timerId = 0;
+    this.isPlaying = false;
+    this.isKeyUp = true;
   }
   public start(): void {
+    this.currentPair = 0;
+    this.pairs = [];
+    this.points = 0;
+    this.rightInRow = 0;
+    this.koef = 1;
+    this.results = [];
+    this.timerId = 0;
+    this.isKeyUp = true;
     this.askLevel();
   }
   async getAllWordsOfLevel(group: number): Promise<iWord[]> {
@@ -46,7 +60,8 @@ export default class Sprint {
       document.querySelector(".level_dlg");
     levelDlg?.addEventListener("click", (event: MouseEvent): void => {
       const target: HTMLElement = event.target as HTMLElement;
-      if (target.tagName.toLowerCase() === "button") {
+      if (target.tagName.toLowerCase() === "button" && !this.isPlaying) {
+        this.isPlaying = true;
         const level = target.dataset.level ? +target.dataset.level : 0;
         this.getAllWordsOfLevel(level).then((words: Array<iWord>) => {
           this.setPairs(words);
@@ -96,9 +111,14 @@ export default class Sprint {
 
     sprintDiv?.replaceChildren();
 
+    const close_btn: HTMLButtonElement | null =
+      document.createElement("button");
+    close_btn.innerHTML = "Close";
+    close_btn.id = "sprint_close";
+
     const sprint_dlg: HTMLDivElement = document.createElement("div");
     sprint_dlg.className = "sprint_dlg";
-    sprintDiv?.append(sprint_dlg);
+    sprintDiv?.append(close_btn, sprint_dlg);
 
     const header_sprint: HTMLDivElement = document.createElement("div");
     header_sprint.className = "header_sprint";
@@ -158,10 +178,10 @@ export default class Sprint {
       document.querySelector("#sprint_timer");
     if (timer) {
       let timePassed = 0;
-      const timerId = setInterval(() => {
+      this.timerId = +setInterval(() => {
         timePassed = timePassed += 1;
         if (constants.timerValue - timePassed === 0) {
-          clearInterval(timerId);
+          clearInterval(this.timerId);
           this.showResults();
         }
         timer.innerHTML = (constants.timerValue - timePassed).toString();
@@ -172,6 +192,8 @@ export default class Sprint {
       document.querySelector("#sprint_true");
     const false_btn: HTMLButtonElement | null =
       document.querySelector("#sprint_false");
+    const close_btn: HTMLButtonElement | null =
+      document.querySelector("#sprint_close");
 
     true_btn?.addEventListener("click", (): void => {
       this.checkAnswer(true);
@@ -179,9 +201,20 @@ export default class Sprint {
     false_btn?.addEventListener("click", (): void => {
       this.checkAnswer(false);
     });
+    close_btn?.addEventListener("click", (): void => {
+      this.closeGame();
+    });
     document.addEventListener("keydown", (event) => {
-      if (event.code === "ArrowRight") this.checkAnswer(true);
-      if (event.code === "ArrowLeft") this.checkAnswer(false);
+      if (this.isPlaying && this.isKeyUp) {
+        if (event.code === "ArrowRight") this.checkAnswer(true);
+        if (event.code === "ArrowLeft") this.checkAnswer(false);
+        this.isKeyUp = false;
+      }
+    });
+    document.addEventListener("keyup", (event) => {
+      if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
+        this.isKeyUp = true;
+      }
     });
   }
   private changeWord() {
@@ -220,7 +253,12 @@ export default class Sprint {
       this.removeChecks();
     }
     this.currentPair += 1;
-    this.changeWord();
+    if (this.currentPair === this.pairs.length) {
+      clearInterval(this.timerId);
+      this.showResults();
+    } else {
+      this.changeWord();
+    }
   }
   private addPoints(): void {
     if (this.rightInRow === 3) {
@@ -252,14 +290,31 @@ export default class Sprint {
     }
   }
   private showResults() {
+    this.isPlaying = false;
     const sprintDiv: HTMLDivElement | null = document.querySelector(".sprint");
     const sprintRes: HTMLDivElement | null =
       document.querySelector(".sprint_results");
     sprintDiv?.classList.add("hidden");
     sprintRes?.classList.remove("hidden");
 
+    sprintRes?.replaceChildren();
+
+    const res_btns: HTMLDivElement = document.createElement("div");
+    res_btns.className = "res_btns";
+    const close_btn: HTMLButtonElement | null =
+      document.createElement("button");
+    close_btn.innerHTML = "Close";
+    close_btn.id = "result_close";
+    const book_btn: HTMLButtonElement | null = document.createElement("button");
+    book_btn.innerHTML = "Book";
+    book_btn.id = "result_book";
+    const try_btn: HTMLButtonElement | null = document.createElement("button");
+    try_btn.innerHTML = "Try more";
+    try_btn.id = "result_try";
+    res_btns.append(close_btn, book_btn, try_btn);
+
     const table: HTMLTableElement = document.createElement("table");
-    sprintRes?.append(table);
+    sprintRes?.append(table, res_btns);
     const thead: HTMLTableCaptionElement = document.createElement("thead");
     thead.innerHTML = "Результаты";
     const tbody: HTMLElement = document.createElement("tbody");
@@ -313,6 +368,19 @@ export default class Sprint {
         audio.autoplay = true;
       }
     });
+    const close_res: HTMLButtonElement | null =
+      document.querySelector("#result_close");
+    close_res?.addEventListener("click", (): void => {
+      this.closeResults();
+    });
+    const restart_res: HTMLButtonElement | null =
+      document.querySelector("#result_try");
+    restart_res?.addEventListener("click", (): void => {
+      const res: HTMLDivElement | null =
+        document.querySelector(".sprint_results");
+      res?.classList.add("hidden");
+      this.start();
+    });
   }
   private removeChecks() {
     const answer1: HTMLInputElement | null =
@@ -324,5 +392,20 @@ export default class Sprint {
     const answer3: HTMLInputElement | null =
       document.querySelector("#sprint_answer3");
     if (answer3) answer3.checked = false;
+  }
+  private closeGame() {
+    clearInterval(this.timerId);
+    this.isPlaying = false;
+    const sprintDiv: HTMLDivElement | null = document.querySelector(".sprint");
+    const main: HTMLDivElement | null = document.querySelector(".main");
+    sprintDiv?.classList.add("hidden");
+    main?.classList.remove("hidden");
+  }
+  private closeResults() {
+    const resDiv: HTMLDivElement | null =
+      document.querySelector(".sprint_results");
+    const main: HTMLDivElement | null = document.querySelector(".main");
+    resDiv?.classList.add("hidden");
+    main?.classList.remove("hidden");
   }
 }
