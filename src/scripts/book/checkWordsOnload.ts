@@ -2,14 +2,6 @@ const studi: string | null = localStorage.getItem("studi");
 const cardDifficults: string | null = localStorage.getItem("cardDifficults");
 
 class CheckWordsOnload {
-  studiCount: number;
-  difficultiCount: number;
-
-  constructor() {
-    this.studiCount = 0;
-    this.difficultiCount = 0;
-  }
-
   check(
     wordsNode: HTMLElement,
     pagination: HTMLElement,
@@ -32,10 +24,10 @@ class CheckWordsOnload {
       const pageDifficults: [string] = gropDifficults[pageNumber]["key"];
 
       if (pageDifficults.length >= 20) {
-        wordsNode.style.border = "5px solid red";
-        wordsNode.style.padding = "10px 0";
-
-        this.addPaginationStyle(pagination, pageNumber, "pageDifficults");
+        this.addPageStyle(wordsNode, pagination, "pageDifficults", pageNumber);
+        // wordsNode.style.border = "5px solid red";
+        // wordsNode.style.padding = "10px 0";
+        // this.addPaginationStyle(pagination, pageNumber, "pageDifficults");
       }
 
       if (gropDifficults[pageNumber]["key"]) {
@@ -48,12 +40,67 @@ class CheckWordsOnload {
       if (gropStudes[pageNumber]["key"]) {
         const pageStudes: [string] = gropStudes[pageNumber]["key"];
         if (pageStudes.length >= 20) {
-          wordsNode.style.backgroundColor = "rgba(144, 230, 151, 0.85)";
-          wordsNode.style.padding = "10px 0";
-          this.addPaginationStyle(pagination, pageNumber, "pageStudes");
+          this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
         }
 
         this.addCardStyle(wordsNode, pageStudes, "pageStudes");
+      }
+    }
+  }
+
+  addPageStyle(
+    wordsNode: HTMLElement,
+    pagination: HTMLElement,
+    namePage: string,
+    pageNumber: number
+  ) {
+    if (namePage === "pageStudes" || namePage === "studi") {
+      wordsNode.style.backgroundColor = "rgba(144, 230, 151, 0.85)";
+      wordsNode.style.padding = "10px 0";
+      this.addPaginationStyle(pagination, pageNumber, namePage);
+    }
+
+    if (namePage === "pageDifficults" || namePage === "cardDifficults") {
+      wordsNode.style.border = "5px solid red";
+      wordsNode.style.padding = "10px 0";
+      this.addPaginationStyle(pagination, pageNumber, namePage);
+    }
+  }
+
+  removePageStyle(
+    wordsNode: HTMLElement,
+    pagination: HTMLElement,
+    namePage: string,
+    pageNumber: number
+  ) {
+    if (namePage === "pageStudes" || namePage === "studi") {
+      wordsNode.style.backgroundColor = "";
+      this.removePaginationStyle(pagination, pageNumber, namePage);
+    }
+
+    if (namePage === "pageDifficults" || namePage === "cardDifficults") {
+      wordsNode.style.border = "";
+      this.removePaginationStyle(pagination, pageNumber, namePage);
+    }
+  }
+
+  removePaginationStyle(
+    pagination: HTMLElement,
+    pageNumber: number,
+    namePage: string
+  ) {
+    for (let i = 0; i < pagination.childNodes.length; i++) {
+      const pagin_el = pagination.childNodes[i] as HTMLElement;
+      if (pagin_el.nodeName !== "#text") {
+        const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
+        if (pagin_elNum === String(pageNumber + 1)) {
+          if (namePage === "pageDifficults" || namePage === "cardDifficults") {
+            pagin_el.style.border = "";
+          }
+          if (namePage === "pageStudes" || namePage === "studi") {
+            pagin_el.style.backgroundColor = "";
+          }
+        }
       }
     }
   }
@@ -68,10 +115,10 @@ class CheckWordsOnload {
       if (pagin_el.nodeName !== "#text") {
         const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
         if (pagin_elNum === String(pageNumber + 1)) {
-          if (namePage === "pageDifficults") {
+          if (namePage === "pageDifficults" || namePage === "cardDifficults") {
             pagin_el.style.border = "2px solid red";
           }
-          if (namePage === "pageStudes") {
+          if (namePage === "pageStudes" || namePage === "studi") {
             pagin_el.style.backgroundColor = "green";
           }
         }

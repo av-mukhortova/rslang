@@ -6,7 +6,9 @@ class ChechActivStudi {
     cardStudiBtn: HTMLElement,
     cardID: string | null,
     pageNumber: number,
-    group: string
+    group: string,
+    wordsNode: HTMLElement,
+    pagination: HTMLElement
   ) {
     const localKeySaveDel = new LocalKeySaveDel("studi");
 
@@ -14,10 +16,16 @@ class ChechActivStudi {
     const groupId = Number(group);
     if (cardStudiBtn.classList.contains("activ")) {
       card.style.backgroundColor = "green";
-      localKeySaveDel.save(groupId, pageNumber, cardID);
+      localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
     } else {
       card.style.backgroundColor = "";
-      localKeySaveDel.remove(groupId, pageNumber, cardID);
+      localKeySaveDel.remove(
+        groupId,
+        pageNumber,
+        cardID,
+        wordsNode,
+        pagination
+      );
     }
   }
 }

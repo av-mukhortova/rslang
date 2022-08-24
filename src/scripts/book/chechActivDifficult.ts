@@ -7,7 +7,9 @@ class ChechActivDifficult {
     cardDifficult: HTMLElement,
     cardID: string | null,
     pageNumber: number,
-    group: string
+    group: string,
+    wordsNode: HTMLElement,
+    pagination: HTMLElement
   ) {
     const groupId = Number(group);
     const blockAuthor = cardDifficult.closest(
@@ -17,14 +19,16 @@ class ChechActivDifficult {
     cardDifficultDel.style.display = "block";
     cardDifficult.style.display = "none";
     card.style.border = "5px solid red";
-    localKeySaveDel.save(groupId, pageNumber, cardID);
+    localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
   }
   dell(
     card: HTMLElement,
     cardDifficultDell: HTMLElement,
     cardID: string | null,
     pageNumber: number,
-    group: string
+    group: string,
+    wordsNode: HTMLElement,
+    pagination: HTMLElement
   ) {
     const groupId = Number(group);
     const blockAuthor = cardDifficultDell.closest(
@@ -34,7 +38,7 @@ class ChechActivDifficult {
     cardDifficult.style.display = "block";
     cardDifficultDell.style.display = "none";
     card.style.border = "";
-    localKeySaveDel.remove(groupId, pageNumber, cardID);
+    localKeySaveDel.remove(groupId, pageNumber, cardID, wordsNode, pagination);
   }
 }
 
