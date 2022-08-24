@@ -1,0 +1,50 @@
+.chapters {
+    width: 92%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.chapter {
+    width: 150px;
+    height: 300px;
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid black;
+    border-radius: 5px;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.chapter:hover {
+    border: 3px solid rgb(195, 12, 12);
+    color: rgb(195, 12, 12);
+}
+
+#chapter-0 {
+    background-color: rgba(210, 109, 238, 0.85);
+} 
+#chapter-1 {
+    background-color: rgba(240, 110, 229, 0.85);
+} 
+#chapter-2 {
+    background-color: rgba(214, 83, 204, 0.85);
+} 
+#chapter-3 {
+    background-color: rgba(198, 52, 145, 0.85);
+} 
+#chapter-4 {
+    background-color: rgba(199, 49, 111, 0.85);
+} 
+#chapter-5 {
+    background-color: rgba(195, 40, 128, 0.85);
+} 
+#chapter-6 {
+    background-color: rgba(173, 15, 104, 0.85);
+} 

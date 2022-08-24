@@ -12,7 +12,6 @@ export default class Sprint {
     const level: number = this.askLevel();
     const words: Array<iWord> = await this.getAllWordsOfLevel(level);
     const pairs: Array<iPair> = this.setPairs(words);
-    console.log(pairs);
     this.drawPlay();
   }
   async getAllWordsOfLevel(group: number): Promise<iWord[]> {
