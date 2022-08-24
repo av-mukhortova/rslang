@@ -34,15 +34,7 @@ class CheckWordsOnload {
         wordsNode.style.border = "5px solid red";
         wordsNode.style.padding = "10px 0";
 
-        for (let i = 0; i < pagination.childNodes.length; i++) {
-          const pagin_el = pagination.childNodes[i] as HTMLElement;
-          if (pagin_el.nodeName !== "#text") {
-            const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
-            if (pagin_elNum === String(pageNumber + 1)) {
-              pagin_el.style.border = "2px solid red";
-            }
-          }
-        }
+        this.addPaginationStyle(pagination, pageNumber, "pageDifficults");
       }
 
       if (gropDifficults[pageNumber]["key"]) {
@@ -69,16 +61,7 @@ class CheckWordsOnload {
         if (pageStudes.length >= 20) {
           wordsNode.style.backgroundColor = "rgba(144, 230, 151, 0.85)";
           wordsNode.style.padding = "10px 0";
-
-          for (let i = 0; i < pagination.childNodes.length; i++) {
-            const pagin_el = pagination.childNodes[i] as HTMLElement;
-            if (pagin_el.nodeName !== "#text") {
-              const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
-              if (pagin_elNum === String(pageNumber + 1)) {
-                pagin_el.style.backgroundColor = "green";
-              }
-            }
-          }
+          this.addPaginationStyle(pagination, pageNumber, "pageStudes");
         }
 
         for (let i = 0; i < wordsNode.childNodes.length; i++) {
@@ -92,6 +75,26 @@ class CheckWordsOnload {
               ).classList.toggle("activ");
               child.style.backgroundColor = "green";
             }
+          }
+        }
+      }
+    }
+  }
+  addPaginationStyle(
+    pagination: HTMLElement,
+    pageNumber: number,
+    namePage: string
+  ) {
+    for (let i = 0; i < pagination.childNodes.length; i++) {
+      const pagin_el = pagination.childNodes[i] as HTMLElement;
+      if (pagin_el.nodeName !== "#text") {
+        const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
+        if (pagin_elNum === String(pageNumber + 1)) {
+          if (namePage === "pageDifficults") {
+            pagin_el.style.border = "2px solid red";
+          }
+          if (namePage === "pageStudes") {
+            pagin_el.style.backgroundColor = "green";
           }
         }
       }
