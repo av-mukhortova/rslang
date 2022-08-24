@@ -38,20 +38,7 @@ class CheckWordsOnload {
       }
 
       if (gropDifficults[pageNumber]["key"]) {
-        for (let i = 0; i < wordsNode.childNodes.length; i++) {
-          const child = wordsNode.childNodes[i] as HTMLElement;
-          if (child.nodeName !== "#text") {
-            const id = child.getAttribute("id");
-            if (!id) return;
-            if (pageDifficults?.indexOf(id) !== -1) {
-              (child.childNodes[5].childNodes[3] as HTMLElement).style.display =
-                "none";
-              (child.childNodes[5].childNodes[5] as HTMLElement).style.display =
-                "block";
-              child.style.border = "5px solid red";
-            }
-          }
-        }
+        this.addCardStyle(wordsNode, pageDifficults, "pageDifficults");
       }
     }
 
@@ -64,22 +51,11 @@ class CheckWordsOnload {
           this.addPaginationStyle(pagination, pageNumber, "pageStudes");
         }
 
-        for (let i = 0; i < wordsNode.childNodes.length; i++) {
-          const child = wordsNode.childNodes[i] as HTMLElement;
-          if (child.nodeName !== "#text") {
-            const id = child.getAttribute("id");
-            if (!id) return;
-            if (pageStudes?.indexOf(id) !== -1) {
-              (
-                child.childNodes[5].childNodes[1] as HTMLElement
-              ).classList.toggle("activ");
-              child.style.backgroundColor = "green";
-            }
-          }
-        }
+        this.addCardStyle(wordsNode, pageStudes, "pageStudes");
       }
     }
   }
+
   addPaginationStyle(
     pagination: HTMLElement,
     pageNumber: number,
@@ -95,6 +71,33 @@ class CheckWordsOnload {
           }
           if (namePage === "pageStudes") {
             pagin_el.style.backgroundColor = "green";
+          }
+        }
+      }
+    }
+  }
+
+  addCardStyle(wordsNode: HTMLElement, array: [string], namePage: string) {
+    for (let i = 0; i < wordsNode.childNodes.length; i++) {
+      const child = wordsNode.childNodes[i] as HTMLElement;
+      if (child.nodeName !== "#text") {
+        const id = child.getAttribute("id");
+        if (!id) return;
+        if (namePage === "pageDifficults") {
+          if (array?.indexOf(id) !== -1) {
+            (child.childNodes[5].childNodes[3] as HTMLElement).style.display =
+              "none";
+            (child.childNodes[5].childNodes[5] as HTMLElement).style.display =
+              "block";
+            child.style.border = "5px solid red";
+          }
+        }
+        if (namePage === "pageStudes") {
+          if (array?.indexOf(id) !== -1) {
+            (child.childNodes[5].childNodes[1] as HTMLElement).classList.toggle(
+              "activ"
+            );
+            child.style.backgroundColor = "green";
           }
         }
       }
