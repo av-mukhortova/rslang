@@ -19,3 +19,11 @@ export interface iPair {
   translate: string;
   isCorrect: boolean;
 }
+
+export interface iArray {
+  AudioM: HTMLAudioElement;
+  imgMessage: string;
+  Arr: string[];
+  Word: string;
+  wordTrans: string;
+}
