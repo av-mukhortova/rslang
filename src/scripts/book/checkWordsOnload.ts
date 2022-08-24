@@ -27,26 +27,35 @@ class CheckWordsOnload {
     const gropDifficults = difficults[+group];
 
     if (gropDifficults) {
-      if (!gropDifficults[pageNumber]) return;
-      const pageDifficults: [string] = gropDifficults[pageNumber]["key"];
+      if (gropDifficults[pageNumber]) {
+        const pageDifficults: [string] = gropDifficults[pageNumber]["key"];
 
-      if (pageDifficults.length >= 20) {
-        this.addPageStyle(wordsNode, pagination, "pageDifficults", pageNumber);
-      }
+        if (pageDifficults.length >= 20) {
+          this.addPageStyle(
+            wordsNode,
+            pagination,
+            "pageDifficults",
+            pageNumber
+          );
+        }
 
-      if (gropDifficults[pageNumber]["key"]) {
-        this.addCardStyle(wordsNode, pageDifficults, "pageDifficults");
+        if (gropDifficults[pageNumber]["key"]) {
+          this.addCardStyle(wordsNode, pageDifficults, "pageDifficults");
+        }
       }
     }
 
     if (gropStudes) {
       if (!gropStudes[pageNumber]) return;
+      const pageStudes: [string] = gropStudes[pageNumber]["key"];
+      if (pageStudes.length >= 20) {
+        this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
+      }
       if (gropStudes[pageNumber]["key"]) {
-        const pageStudes: [string] = gropStudes[pageNumber]["key"];
-        if (pageStudes.length >= 20) {
-          this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
-        }
-
+        console.log(
+          "gropStudes[pageNumber]['key']",
+          gropStudes[pageNumber]["key"]
+        );
         this.addCardStyle(wordsNode, pageStudes, "pageStudes");
       }
     }
