@@ -18,6 +18,7 @@ export interface iPair {
   word: string;
   translate: string;
   isCorrect: boolean;
+
 }
 
 export interface iArray {
@@ -26,4 +27,9 @@ export interface iArray {
   Arr: string[];
   Word: string;
   wordTrans: string;
+
+  transcription: string;
+  audio: string;
+  wordTranslate: string;
+
 }

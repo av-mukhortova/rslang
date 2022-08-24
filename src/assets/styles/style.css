@@ -1,9 +1,11 @@
 .hidden {
     display: none;
 }
+
 button {
     cursor: pointer;
 }
+
 
 .choise_element{
     display:flex;
@@ -90,4 +92,23 @@ button {
 }
 .press_element_next{
     text-align: center;
+
+.level {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.level_dlg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 500px;
+    transform: translate(-50%, -50%);
+
 }
