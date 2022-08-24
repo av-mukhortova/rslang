@@ -60,7 +60,7 @@ class Pages {
     chapters.append(containerWords);
 
     const wordsNode = document.querySelector(".words") as HTMLElement;
-    checkWordsOnload.check(wordsNode, pagination, this.page);
+    checkWordsOnload.check(wordsNode, pagination, this.page, group);
 
     prevBtn.addEventListener("click", (): void => {
       if (this.page > 0) {

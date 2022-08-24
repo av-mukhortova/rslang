@@ -8,7 +8,7 @@ class ChechActivStudi {
     pageNumber: number,
     group: string
   ) {
-    const localKeySaveDel = new LocalKeySaveDel("activ");
+    const localKeySaveDel = new LocalKeySaveDel("studi");
 
     cardStudiBtn.classList.toggle("activ");
     const groupId = Number(group);
