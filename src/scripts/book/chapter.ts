@@ -1,6 +1,5 @@
 import Pages from "./pages";
 import "../../assets/styles/bookStyle/chapter.css";
-
 class Chapter {
   public create() {
     const body = document.querySelector("body");

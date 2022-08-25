@@ -1,5 +1,6 @@
 import Sprint from "./sprint";
 import Chapter from "./book/chapter";
+import { process } from "./audiocall";
 
 export default class App {
   public start(): void {
@@ -14,6 +15,11 @@ export default class App {
     textbookBtn?.addEventListener("click", (): void => {
       const chapter = new Chapter();
       chapter.create();
+    });
+    const AudioBtn: HTMLButtonElement | null =
+      document.querySelector("#btn_audiocall");
+    AudioBtn?.addEventListener("click", (): void => {
+      process();
     });
   }
 }

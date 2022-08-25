@@ -26,7 +26,8 @@ class ItemPage {
         <div class="item-page__authorized">
           <button class="item-page__studi">Изученно</button>
           <button class="item-page__difficult">Сложные слова +</button>
-          <button class="item-page__difficult-delete" style="display: none;">Сложные слова -</button>        
+          <button class="item-page__difficult-delete" style="display: none;">Сложные слова -</button>
+          <button page_audio=${data.page} group_audio=${data.group} class="btn_audiocall_book">Аудиовызов</button>        
         </div>
       </div>
     `;

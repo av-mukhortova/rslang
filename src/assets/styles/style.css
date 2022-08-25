@@ -7,91 +7,106 @@ button {
 }
 
 
-.choise_element{
-    display:flex;
+.choise_element {
+    display: flex;
     justify-content: space-around;
 }
-.audiocall{
-    width:1000px;
-    background-color:blue;
-    position:relative;
+
+.audiocall {
+    width: 1000px;
+    background-color: blue;
+    position: relative;
 }
-.finish_element{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background-color:transparent;
-    z-index:10;
+
+.finish_element {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 10;
 }
-.finish_element_character{
-     position:absolute;
-    width:200px;
-    height:200px;
-    background-color:yellow;
-    left:calc(50% - 100px);
+
+.finish_element_character {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: yellow;
+    left: calc(50% - 100px);
     top: 50%;
     transform: translateY(-50%);
-    z-index:15;
+    z-index: 15;
     overflow: scroll;
 }
-.small_img_size{
-    width:20px;
+
+.small_img_size {
+    width: 20px;
 }
-.picture_element{
-    margin-top:20px;
-    width:200px;
-    margin:0 auto;
-    
+
+.picture_element {
+    margin-top: 20px;
+    width: 200px;
+    margin: 0 auto;
+
 }
-.press_element{
-    margin-top:100px;
-   
-    width:100px;
-    margin:0 auto;
-    cursor:pointer;
+
+.press_element {
+    margin-top: 100px;
+
+    width: 100px;
+    margin: 0 auto;
+    cursor: pointer;
 }
-.word_main{
-     
-    
-    
-    font-size:22px;
+
+.word_main {
+
+
+
+    font-size: 22px;
 }
-.word_character{
-    margin-top:20px;
-    text-align:center;
-    width:200px;
-    margin:0 auto;
-}
-.choise{
-    border: 4px double black; 
-    background: #fc3; 
-    padding: 10px;
-    cursor:pointer;
-    width:100px;
+
+.word_character {
+    margin-top: 20px;
     text-align: center;
-       margin-top:50px;
+    width: 200px;
+    margin: 0 auto;
 }
-.choise:hover{
-    background: rgb(210, 186, 114);
+
+.choise {
+    border: 4px double black;
+    background: #fc3;
+    padding: 10px;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+    margin-top: 50px;
 }
-.hov{
-    margin-top:20px;
-}
-.hov:hover{
+
+.choise:hover {
     background: rgb(210, 186, 114);
 }
 
-.element_character{
-    width:300px;
-    margin:0 auto;
-  cursor:pointer;
-  background: #fc3;
+.hov {
+    margin-top: 20px;
 }
-.press_element_alternate{
+
+.hov:hover {
+    background: rgb(210, 186, 114);
+}
+
+.element_character {
+    width: 300px;
+    margin: 0 auto;
+    cursor: pointer;
+    background: #fc3;
+}
+
+.press_element_alternate {
     text-align: center;
 }
-.press_element_next{
+
+.press_element_next {
     text-align: center;
+}
 
 .level {
     position: fixed;
@@ -110,5 +125,4 @@ button {
     top: 50%;
     width: 500px;
     transform: translate(-50%, -50%);
-
 }
