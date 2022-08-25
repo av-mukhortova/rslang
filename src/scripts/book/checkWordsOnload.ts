@@ -1,6 +1,3 @@
-// const studi: string | null = localStorage.getItem("studi");
-// const cardDifficults: string | null = localStorage.getItem("cardDifficults");
-
 class CheckWordsOnload {
   studi: string | null;
   cardDifficults: string | null;
@@ -52,10 +49,6 @@ class CheckWordsOnload {
         this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
       }
       if (gropStudes[pageNumber]["key"]) {
-        console.log(
-          "gropStudes[pageNumber]['key']",
-          gropStudes[pageNumber]["key"]
-        );
         this.addCardStyle(wordsNode, pageStudes, "pageStudes");
       }
     }

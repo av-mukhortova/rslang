@@ -42,7 +42,7 @@
   justify-content: center;
 }
 
-.pagination button {
+.pagination-btn {
   width: 28px;
   height: 28px;
   margin: 3px;
@@ -53,4 +53,16 @@
 .pagination button:hover {
   background-color: rgb(221, 162, 226);
   box-shadow: -5px -5px 8px 0 rgba(0,0,0,0.2);
+}
+
+.pagination-btn-studi {
+  background-color: green;
+}
+.pagination-btn-dif {
+  border: 2px solid red;
+}
+
+.pagination-btn-all {
+  background-color: green;
+  border: 2px solid red;
 }

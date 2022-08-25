@@ -20,7 +20,7 @@ class Pages {
   }
 
   create(chapters: HTMLElement, data: iWord[], group: string): void {
-    const paginationItem = new PaginationItem();
+    const paginationItem = new PaginationItem(group, this.page);
     const chechActiv = new ChechActiv();
     const checkWordsOnload = new CheckWordsOnload();
 
