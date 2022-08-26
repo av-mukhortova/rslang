@@ -1,7 +1,11 @@
-const studi: string | null = localStorage.getItem("studi");
-const cardDifficults: string | null = localStorage.getItem("cardDifficults");
-
 class CheckWordsOnload {
+  studi: string | null;
+  cardDifficults: string | null;
+
+  constructor() {
+    this.studi = localStorage.getItem("studi");
+    this.cardDifficults = localStorage.getItem("cardDifficults");
+  }
   check(
     wordsNode: HTMLElement,
     pagination: HTMLElement,
@@ -9,40 +13,42 @@ class CheckWordsOnload {
     group: string
   ) {
     let studis: [] = [];
-    if (studi) {
-      studis = JSON.parse(studi);
+    if (this.studi) {
+      studis = JSON.parse(this.studi);
     }
     let difficults: [] = [];
-    if (cardDifficults) {
-      difficults = JSON.parse(cardDifficults);
+    if (this.cardDifficults) {
+      difficults = JSON.parse(this.cardDifficults);
     }
     const gropStudes = studis[+group];
     const gropDifficults = difficults[+group];
 
     if (gropDifficults) {
-      if (!gropDifficults[pageNumber]) return;
-      const pageDifficults: [string] = gropDifficults[pageNumber]["key"];
+      if (gropDifficults[pageNumber]) {
+        const pageDifficults: [string] = gropDifficults[pageNumber]["key"];
 
-      if (pageDifficults.length >= 20) {
-        this.addPageStyle(wordsNode, pagination, "pageDifficults", pageNumber);
-        // wordsNode.style.border = "5px solid red";
-        // wordsNode.style.padding = "10px 0";
-        // this.addPaginationStyle(pagination, pageNumber, "pageDifficults");
-      }
+        if (pageDifficults.length >= 20) {
+          this.addPageStyle(
+            wordsNode,
+            pagination,
+            "pageDifficults",
+            pageNumber
+          );
+        }
 
-      if (gropDifficults[pageNumber]["key"]) {
-        this.addCardStyle(wordsNode, pageDifficults, "pageDifficults");
+        if (gropDifficults[pageNumber]["key"]) {
+          this.addCardStyle(wordsNode, pageDifficults, "pageDifficults");
+        }
       }
     }
 
     if (gropStudes) {
       if (!gropStudes[pageNumber]) return;
+      const pageStudes: [string] = gropStudes[pageNumber]["key"];
+      if (pageStudes.length >= 20) {
+        this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
+      }
       if (gropStudes[pageNumber]["key"]) {
-        const pageStudes: [string] = gropStudes[pageNumber]["key"];
-        if (pageStudes.length >= 20) {
-          this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
-        }
-
         this.addCardStyle(wordsNode, pageStudes, "pageStudes");
       }
     }

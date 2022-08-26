@@ -4,8 +4,13 @@ import ItemPage from "./itemPage";
 import PaginationItem from "./paginationItem";
 import ChechActiv from "./chechActiv";
 import CheckWordsOnload from "./checkWordsOnload";
+import GameLink from "./gameLink";
 import "../../assets/styles/bookStyle/pages.css";
 import Sprint from "../sprint";
+
+const gameLinkarr = ["qqqqq", "wwwww"];
+const gameNamearr = ["Аудиовызов", "Спринт"];
+const authorizedCheck = false;
 
 class Pages {
   page: number;
@@ -21,9 +26,10 @@ class Pages {
   }
 
   create(chapters: HTMLElement, data: iWord[], group: string): void {
-    const paginationItem = new PaginationItem();
+    const paginationItem = new PaginationItem(group, this.page);
     const chechActiv = new ChechActiv();
     const checkWordsOnload = new CheckWordsOnload();
+    const gameLink = new GameLink();
 
     chapters.innerHTML = "";
     const containerWords = document.createElement("div") as HTMLDivElement;
@@ -57,6 +63,19 @@ class Pages {
       pagination.innerHTML += paginationItem.create(i + 1);
     }
 
+    const gameBlock = document.createElement("div");
+    if (authorizedCheck) {
+      gameBlock.setAttribute("class", "game-block");
+      gameLinkarr.forEach((el: string, id: number) => {
+        gameBlock.innerHTML += gameLink.creat(
+          el,
+          gameNamearr[id],
+          +group,
+          this.page
+        );
+      });
+    }
+
     prevBtn.innerHTML = "<";
     nextBtn.innerHTML = ">";
 
@@ -66,6 +85,8 @@ class Pages {
     containerWords.append(pageNumber);
     containerWords.append(pagination);
     chapters.append(sprintBtn, audiocallBtn, containerWords);
+    containerWords.append(gameBlock);
+    chapters.append(containerWords);
 
     const wordsNode = document.querySelector(".words") as HTMLElement;
     checkWordsOnload.check(wordsNode, pagination, this.page, group);
@@ -122,7 +143,7 @@ class Pages {
   }
 
   check(): void {
-    const authorizedCheck = true;
+    // const authorizedCheck = true;
     const authorizedBlock: NodeListOf<HTMLElement> = document.querySelectorAll(
       ".item-page__authorized"
     );
