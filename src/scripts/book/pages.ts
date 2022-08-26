@@ -6,6 +6,7 @@ import ChechActiv from "./chechActiv";
 import CheckWordsOnload from "./checkWordsOnload";
 import GameLink from "./gameLink";
 import "../../assets/styles/bookStyle/pages.css";
+import Sprint from "../sprint";
 
 const gameLinkarr = ["qqqqq", "wwwww"];
 const gameNamearr = ["Аудиовызов", "Спринт"];
@@ -37,6 +38,8 @@ class Pages {
     const words = document.createElement("div") as HTMLDivElement;
     const pageNumber = document.createElement("div") as HTMLDivElement;
     const pagination = document.createElement("div") as HTMLDivElement;
+    const sprintBtn = document.createElement("button") as HTMLButtonElement;
+    const audiocallBtn = document.createElement("button") as HTMLButtonElement;
 
     containerWords.setAttribute("class", `container-words`);
     pagination.setAttribute("class", `pagination`);
@@ -44,6 +47,11 @@ class Pages {
     pageNumber.setAttribute("class", "pageNumber");
     prevBtn.setAttribute("id", "prev-btn");
     nextBtn.setAttribute("id", "next-btn");
+
+    sprintBtn.id = "book-sprint-btn";
+    sprintBtn.innerHTML = "Спринт";
+    audiocallBtn.id = "book-audiocall-btn";
+    audiocallBtn.innerHTML = "Аудиовызов";
 
     pageNumber.textContent = `${this.page + 1}`;
     const itemPage = new ItemPage();
@@ -76,6 +84,7 @@ class Pages {
     containerWords.append(words);
     containerWords.append(pageNumber);
     containerWords.append(pagination);
+    chapters.append(sprintBtn, audiocallBtn, containerWords);
     containerWords.append(gameBlock);
     chapters.append(containerWords);
 
@@ -92,6 +101,23 @@ class Pages {
       if (this.page < 29) {
         this.page += 1;
         this.getWordData(chapters, group);
+      }
+    });
+
+    const sprint = new Sprint();
+    sprintBtn.addEventListener("click", (): void => {
+      sprint.startFromBook(group, this.page);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (sprint.isKeyUp && sprint.isPlaying) {
+        if (event.code === "ArrowRight") sprint.checkAnswer(true);
+        if (event.code === "ArrowLeft") sprint.checkAnswer(false);
+        sprint.isKeyUp = false;
+      }
+    });
+    document.addEventListener("keyup", (event) => {
+      if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
+        sprint.isKeyUp = true;
       }
     });
 

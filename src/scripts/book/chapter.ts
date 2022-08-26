@@ -18,7 +18,11 @@ class Chapter {
   }
 
   public create() {
-    const body = document.querySelector("body");
+    const book: HTMLDivElement | null = document.querySelector(".book");
+    book?.classList.remove("hidden");
+    const main: HTMLDivElement | null = document.querySelector(".main");
+    main?.classList.add("hidden");
+
     const chap = document.querySelector(".chapters") as HTMLElement;
     if (chap) {
       const bod = chap?.parentNode;
@@ -54,6 +58,7 @@ class Chapter {
       chapter.append(number);
       chapters.append(chapter);
     }
+
     body?.append(chapters);
     chapters.addEventListener("click", (e: Event): void => {
       const idChapter = (e.target as HTMLElement).closest("div") as HTMLElement;

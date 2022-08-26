@@ -1,0 +1,43 @@
+.sprint {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.sprint_dlg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 500px;
+    transform: translate(-50%, -50%);
+}
+
+.sprint span {
+    display: block;
+}
+
+.header_sprint {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.words_sprint {
+  margin: 50px 0;
+  text-align: center;
+}
+
+.words_sprint span {
+    margin: 20px 0;
+}
+
+.buttons_sprint {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
