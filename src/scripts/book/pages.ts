@@ -4,7 +4,11 @@ import ItemPage from "./itemPage";
 import PaginationItem from "./paginationItem";
 import ChechActiv from "./chechActiv";
 import CheckWordsOnload from "./checkWordsOnload";
+import GameLink from "./gameLink";
 import "../../assets/styles/bookStyle/pages.css";
+
+const gameLinkarr = ["qqqqq", "wwwww"];
+const gameNamearr = ["Аудиовызов", "Спринт"];
 
 class Pages {
   page: number;
@@ -23,6 +27,7 @@ class Pages {
     const paginationItem = new PaginationItem(group, this.page);
     const chechActiv = new ChechActiv();
     const checkWordsOnload = new CheckWordsOnload();
+    const gameLink = new GameLink();
 
     chapters.innerHTML = "";
     const containerWords = document.createElement("div") as HTMLDivElement;
@@ -49,6 +54,12 @@ class Pages {
       pagination.innerHTML += paginationItem.create(i + 1);
     }
 
+    const gameBlock = document.createElement("div");
+    gameBlock.setAttribute("class", "game-block");
+    gameLinkarr.forEach((el: string, id: number) => {
+      gameBlock.innerHTML += gameLink.creat(el, gameNamearr[id]);
+    });
+
     prevBtn.innerHTML = "<";
     nextBtn.innerHTML = ">";
 
@@ -57,6 +68,7 @@ class Pages {
     containerWords.append(words);
     containerWords.append(pageNumber);
     containerWords.append(pagination);
+    containerWords.append(gameBlock);
     chapters.append(containerWords);
 
     const wordsNode = document.querySelector(".words") as HTMLElement;
