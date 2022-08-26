@@ -9,6 +9,7 @@ import "../../assets/styles/bookStyle/pages.css";
 
 const gameLinkarr = ["qqqqq", "wwwww"];
 const gameNamearr = ["Аудиовызов", "Спринт"];
+const authorizedCheck = false;
 
 class Pages {
   page: number;
@@ -55,15 +56,17 @@ class Pages {
     }
 
     const gameBlock = document.createElement("div");
-    gameBlock.setAttribute("class", "game-block");
-    gameLinkarr.forEach((el: string, id: number) => {
-      gameBlock.innerHTML += gameLink.creat(
-        el,
-        gameNamearr[id],
-        +group,
-        this.page
-      );
-    });
+    if (authorizedCheck) {
+      gameBlock.setAttribute("class", "game-block");
+      gameLinkarr.forEach((el: string, id: number) => {
+        gameBlock.innerHTML += gameLink.creat(
+          el,
+          gameNamearr[id],
+          +group,
+          this.page
+        );
+      });
+    }
 
     prevBtn.innerHTML = "<";
     nextBtn.innerHTML = ">";
@@ -114,7 +117,7 @@ class Pages {
   }
 
   check(): void {
-    const authorizedCheck = true;
+    // const authorizedCheck = true;
     const authorizedBlock: NodeListOf<HTMLElement> = document.querySelectorAll(
       ".item-page__authorized"
     );
