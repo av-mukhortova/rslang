@@ -57,7 +57,12 @@ class Pages {
     const gameBlock = document.createElement("div");
     gameBlock.setAttribute("class", "game-block");
     gameLinkarr.forEach((el: string, id: number) => {
-      gameBlock.innerHTML += gameLink.creat(el, gameNamearr[id]);
+      gameBlock.innerHTML += gameLink.creat(
+        el,
+        gameNamearr[id],
+        +group,
+        this.page
+      );
     });
 
     prevBtn.innerHTML = "<";

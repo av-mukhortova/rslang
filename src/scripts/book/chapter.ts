@@ -30,7 +30,6 @@ class Chapter {
       this.countStudi = 0;
       this.countDifficalt = 0;
       this.count(i);
-      console.log(this.countStudi, this.countDifficalt, i);
       const chapter = document.createElement("div");
       chapter.setAttribute("id", `chapter-${i}`);
 
