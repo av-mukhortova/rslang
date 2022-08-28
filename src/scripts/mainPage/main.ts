@@ -1,10 +1,12 @@
 import Header from "./header";
 import Menu from "./menu";
+import Authorization from "./authorization/authorization";
 
 class Main {
   start() {
     const header = new Header();
     const menu = new Menu();
+    const authorization = new Authorization();
 
     const body = document.querySelector("body") as HTMLElement;
     body.prepend(header.start());
@@ -17,6 +19,13 @@ class Main {
       } else {
         menu.create();
       }
+    });
+
+    const headerauthorization = document.querySelector(
+      ".header__authorization"
+    ) as HTMLElement;
+    headerauthorization?.addEventListener("click", () => {
+      authorization.create();
     });
   }
 }
