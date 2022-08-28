@@ -24,5 +24,15 @@ export default class App {
     AudioBtn?.addEventListener("click", (): void => {
       process();
     });
+    const signBtn: HTMLButtonElement | null =
+      document.querySelector("#signup_button");
+    signBtn?.addEventListener("click", (): void => {
+      alert("Рег");
+    });
+    const loginBtn: HTMLButtonElement | null =
+      document.querySelector("#login_button");
+    loginBtn?.addEventListener("click", (): void => {
+      alert("Войти");
+    });
   }
 }
