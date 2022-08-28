@@ -59,12 +59,12 @@ class Chapter {
       chapters.append(chapter);
     }
 
-    body?.append(chapters);
+    book?.append(chapters);
     chapters.addEventListener("click", (e: Event): void => {
       const idChapter = (e.target as HTMLElement).closest("div") as HTMLElement;
       if (!idChapter?.getAttribute("id")) return;
       const group = idChapter?.getAttribute("id")?.split("-")[1];
-      body?.setAttribute("class", `chapter-${group}`);
+      book?.setAttribute("class", `chapter-${group}`);
       const pages = new Pages();
       if (!group) return;
       pages.getWordData(chapters, group);
