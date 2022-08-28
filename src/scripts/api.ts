@@ -60,4 +60,26 @@ export default class Api {
     };
     return resp;
   }
+  public async refreshToken(userId: string): Promise<iAuthResp> {
+    const res = await fetch(`${constants.URL}/users/${userId}/tokens`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      const content = await res.json();
+      return content;
+    }
+    const resp: iAuthResp = {
+      message: "",
+      token: "",
+      refreshToken: "",
+      userId: "",
+      name: "",
+    };
+    return resp;
+  }
 }

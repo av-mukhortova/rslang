@@ -27,38 +27,5 @@ export default class App {
     AudioBtn?.addEventListener("click", (): void => {
       process();
     });
-    /*
-    const auth = new Auth();
-    const name: HTMLInputElement | null = document.querySelector("#auth_name");
-    const email: HTMLInputElement | null =
-      document.querySelector("#auth_email");
-    const pass: HTMLInputElement | null =
-      document.querySelector("#auth_password");
-    const signBtn: HTMLButtonElement | null =
-      document.querySelector("#signup_button");
-    signBtn?.addEventListener("click", (): void => {
-      if (email?.value && pass?.value && name?.value) {
-        const user: iUser = {
-          id: "",
-          name: name?.value,
-          email: email?.value,
-          password: pass?.value,
-        };
-        auth.signUp(user);
-      }
-    });
-    const loginBtn: HTMLButtonElement | null =
-      document.querySelector("#login_button");
-    loginBtn?.addEventListener("click", (): void => {
-      if (email?.value && pass?.value && name?.value) {
-        const user: iUser = {
-          id: "",
-          name: name?.value,
-          email: email?.value,
-          password: pass?.value,
-        };
-        auth.signIn(user);
-      }
-    }); */
   }
 }
