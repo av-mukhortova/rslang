@@ -26,6 +26,14 @@ class Main {
     ) as HTMLElement;
     headerauthorization?.addEventListener("click", () => {
       authorization.create();
+      const signupButton = document.querySelector(
+        ".signup_button"
+      ) as HTMLButtonElement;
+      if (signupButton) {
+        signupButton.style.display = "block";
+      } else {
+        authorization.create();
+      }
     });
   }
 }
