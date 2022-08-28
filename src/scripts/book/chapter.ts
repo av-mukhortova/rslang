@@ -24,7 +24,6 @@ class Chapter {
     main?.classList.add("hidden");
 
     const chap = document.querySelector(".chapters") as HTMLElement;
-    const body = document.querySelector("body") as HTMLElement;
     if (chap) {
       const bod = chap?.parentNode;
       bod?.removeChild(chap);
