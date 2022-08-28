@@ -11,7 +11,7 @@ import Sprint from "../sprint";
 
 const gameLinkarr = ["qqqqq", "wwwww"];
 const gameNamearr = ["Аудиовызов", "Спринт"];
-const authorizedCheck = false;
+const authorizedCheck = true;
 
 class Pages {
   page: number;
