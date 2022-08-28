@@ -1,3 +1,4 @@
+import "./assets/styles/mainPage/mainPage.css";
 import "./assets/styles/style.css";
 import "./assets/styles/sprint_style.css";
 import App from "./scripts/app";
