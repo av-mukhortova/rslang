@@ -9,7 +9,10 @@ class Main {
     const authorization = new Authorization();
 
     const body = document.querySelector("body") as HTMLElement;
+    const herro = document.createElement("section") as HTMLElement;
+    herro.setAttribute("class", "herro");
     body.prepend(header.start());
+    body.append(herro);
 
     const menuBurger = document.querySelector(".header__burger");
     menuBurger?.addEventListener("click", () => {
