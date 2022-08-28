@@ -6,6 +6,7 @@ import ChechActiv from "./chechActiv";
 import CheckWordsOnload from "./checkWordsOnload";
 import GameLink from "./gameLink";
 import "../../assets/styles/bookStyle/pages.css";
+import { process } from "../../scripts/audiocall";
 import Sprint from "../sprint";
 
 const gameLinkarr = ["qqqqq", "wwwww"];
@@ -130,6 +131,14 @@ class Pages {
       if (!page) return;
       this.page = +page - 1;
       this.getWordData(chapters, group);
+    });
+    document.querySelectorAll(".btn_audiocall_book")?.forEach((item) => {
+      item.addEventListener("click", async () => {
+        const btnAudiocallBook = document.querySelector(".btn_audiocall_book");
+        const groupList = Number(btnAudiocallBook?.getAttribute("group_audio"));
+        const pageList = Number(btnAudiocallBook?.getAttribute("page_audio"));
+        process(groupList, pageList);
+      });
     });
 
     const containerWordsClass = document.querySelector(
