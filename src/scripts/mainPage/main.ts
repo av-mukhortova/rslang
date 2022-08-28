@@ -3,13 +3,17 @@ import Menu from "./menu";
 import Authorization from "./authorization/authorization";
 
 class Main {
+  header: Header;
+  menu: Menu;
+  authorization: Authorization;
+  constructor() {
+    this.header = new Header();
+    this.menu = new Menu();
+    this.authorization = new Authorization();
+  }
   start() {
-    const header = new Header();
-    const menu = new Menu();
-    const authorization = new Authorization();
-
     const body = document.querySelector("body") as HTMLElement;
-    body.prepend(header.start());
+    body.prepend(this.header.start());
 
     const menuBurger = document.querySelector(".header__burger");
     menuBurger?.addEventListener("click", () => {
@@ -17,7 +21,7 @@ class Main {
       if (menuSection) {
         menuSection.style.display = "block";
       } else {
-        menu.create();
+        this.menu.create();
       }
     });
 
@@ -25,16 +29,48 @@ class Main {
       ".header__authorization"
     ) as HTMLElement;
     headerauthorization?.addEventListener("click", () => {
-      authorization.create();
-      const signupButton = document.querySelector(
-        ".signup_button"
-      ) as HTMLButtonElement;
-      if (signupButton) {
-        signupButton.style.display = "block";
+      if (!headerauthorization.classList.contains("isAuth")) {
+        this.authorization.create(this);
+        const signupButton = document.querySelector(
+          ".signup_button"
+        ) as HTMLButtonElement;
+        if (signupButton) {
+          signupButton.style.display = "block";
+        } else {
+          this.authorization.create(this);
+        }
       } else {
-        authorization.create();
+        localStorage.clear();
+        const auth: HTMLDivElement | null = document.querySelector(
+          ".header__authorization"
+        );
+        if (auth) {
+          const img: HTMLImageElement | null = document.querySelector(
+            ".header__authorization img"
+          );
+          auth.classList.remove("isAuth");
+          if (img) {
+            img.src =
+              "https://www.imagehousing.com/images/2022/08/27/avatar.png";
+          }
+        }
       }
     });
+  }
+  public auth(userName: string) {
+    const auth: HTMLDivElement | null = document.querySelector(
+      ".header__authorization"
+    );
+    if (auth) {
+      const img: HTMLImageElement | null = document.querySelector(
+        ".header__authorization img"
+      );
+      auth.classList.add("isAuth");
+      if (img) {
+        img.src = "./assets/img/logout.png";
+      }
+      console.log(userName);
+    }
   }
 }
 
