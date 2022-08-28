@@ -1,6 +1,7 @@
 import constants from "../constants";
 import { iPair, iWord } from "../types/index";
 import Api from "./api";
+import Chapter from "./book/chapter";
 
 export default class Sprint {
   api: Api;
@@ -13,6 +14,9 @@ export default class Sprint {
   timerId: number;
   isPlaying: boolean;
   isKeyUp: boolean;
+  isBook: boolean;
+  bookGroup: string;
+  bookPage: number;
 
   constructor() {
     this.api = new Api();
@@ -25,9 +29,16 @@ export default class Sprint {
     this.timerId = 0;
     this.isPlaying = false;
     this.isKeyUp = true;
+    this.isBook = false;
+    this.bookGroup = "";
+    this.bookPage = 0;
   }
 
   public start(): void {
+    this.resetAll();
+    this.askLevel();
+  }
+  private resetAll() {
     this.currentPair = 0;
     this.pairs = [];
     this.points = 0;
@@ -36,9 +47,10 @@ export default class Sprint {
     this.results = [];
     this.timerId = 0;
     this.isKeyUp = true;
-    this.askLevel();
+    this.bookGroup = "";
+    this.bookPage = 0;
   }
-  async getAllWordsOfLevel(group: number): Promise<iWord[]> {
+  private async getAllWordsOfLevel(group: number): Promise<iWord[]> {
     const res: Array<iWord> = [];
     let page = 0;
     while (page < constants.amountOfLevels - 1) {
@@ -74,7 +86,6 @@ export default class Sprint {
     });
   }
   private setPairs(words: Array<iWord>): void {
-    this.pairs.length = 0;
     for (let i = 0; i < words.length; i += 1) {
       const isCorrect: number = this.getRandomNumber(0, 1);
       const wrongIndex: number = this.getRandomNumber(0, words.length - 1);
@@ -106,9 +117,12 @@ export default class Sprint {
   }
   private drawPlay(): void {
     const levelDiv: HTMLDivElement | null = document.querySelector(".level");
+    levelDiv?.classList.add("hidden");
+    const chapterDiv: HTMLDivElement | null = document.querySelector(".book");
+    chapterDiv?.classList.add("hidden");
+
     const sprintDiv: HTMLDivElement | null = document.querySelector(".sprint");
     sprintDiv?.classList.remove("hidden");
-    levelDiv?.classList.add("hidden");
 
     sprintDiv?.replaceChildren();
 
@@ -227,7 +241,7 @@ export default class Sprint {
       translate.innerHTML = this.pairs[this.currentPair].translate;
     }
   }
-  private checkAnswer(answer: boolean): void {
+  public checkAnswer(answer: boolean): void {
     if (answer === this.pairs[this.currentPair].isCorrect) {
       const res: iPair = {
         word: this.pairs[this.currentPair].word,
@@ -310,7 +324,7 @@ export default class Sprint {
     book_btn.innerHTML = "Book";
     book_btn.id = "result_book";
     const try_btn: HTMLButtonElement | null = document.createElement("button");
-    try_btn.innerHTML = "Try more";
+    try_btn.innerHTML = "Play again";
     try_btn.id = "result_try";
     res_btns.append(close_btn, book_btn, try_btn);
 
@@ -380,7 +394,24 @@ export default class Sprint {
       const res: HTMLDivElement | null =
         document.querySelector(".sprint_results");
       res?.classList.add("hidden");
-      this.start();
+      if (this.isBook) {
+        this.startFromBook(this.bookGroup, this.bookPage);
+      } else {
+        this.start();
+      }
+    });
+    const book_res: HTMLButtonElement | null =
+      document.querySelector("#result_book");
+    book_res?.addEventListener("click", (): void => {
+      const book: HTMLDivElement | null = document.querySelector(".book");
+      book?.classList.remove("hidden");
+      const main: HTMLDivElement | null =
+        document.querySelector(".sprint_results");
+      main?.classList.add("hidden");
+      if (!this.isBook) {
+        const chapter = new Chapter();
+        chapter.create();
+      }
     });
   }
   private removeChecks() {
@@ -408,5 +439,52 @@ export default class Sprint {
     const main: HTMLDivElement | null = document.querySelector(".main");
     resDiv?.classList.add("hidden");
     main?.classList.remove("hidden");
+  }
+  public startFromBook(group: string, page: number) {
+    this.resetAll();
+    this.isBook = true;
+    this.bookGroup = group;
+    this.bookPage = page;
+    this.isPlaying = true;
+    this.getWordsOfPage(+group, page).then((words: Array<iWord>) => {
+      this.setPairs(words);
+      if (page > 0) {
+        this.getWordsOfPreviousPages(+group, page - 1).then(
+          (words: Array<iWord>) => {
+            this.setPairs(words);
+            this.drawPlay();
+            this.play();
+          }
+        );
+      } else {
+        this.drawPlay();
+        this.play();
+      }
+    });
+  }
+  private async getWordsOfPage(group: number, page: number): Promise<iWord[]> {
+    const res: Array<iWord> = [];
+    const answer: Array<iWord> = await this.api.getWords(
+      group.toString(),
+      page.toString()
+    );
+    answer.forEach((item) => res.push(item));
+    return res;
+  }
+  private async getWordsOfPreviousPages(
+    group: number,
+    page: number
+  ): Promise<iWord[]> {
+    let currentPage = page;
+    const res: Array<iWord> = [];
+    while (currentPage >= 0) {
+      const answer: Array<iWord> = await this.api.getWords(
+        group.toString(),
+        currentPage.toString()
+      );
+      answer.forEach((item) => res.push(item));
+      currentPage -= 1;
+    }
+    return res;
   }
 }

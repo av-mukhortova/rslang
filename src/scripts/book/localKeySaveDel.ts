@@ -52,7 +52,6 @@ class LocalKeySaveDel {
   ) {
     if (!cardID) return;
     if (this.keysArr[groupId][pageNumber]["key"].indexOf(cardID) !== -1) {
-      console.log(this.keysArr[groupId][pageNumber]["key"].length);
       if (this.keysArr[groupId][pageNumber]["key"].length === 20) {
         const checkWordsOnload = new CheckWordsOnload();
         checkWordsOnload.removePageStyle(

@@ -42,7 +42,7 @@
   justify-content: center;
 }
 
-.pagination button {
+.pagination-btn {
   width: 28px;
   height: 28px;
   margin: 3px;
@@ -53,4 +53,52 @@
 .pagination button:hover {
   background-color: rgb(221, 162, 226);
   box-shadow: -5px -5px 8px 0 rgba(0,0,0,0.2);
+}
+
+.pagination-btn-studi {
+  background-color: green;
+}
+.pagination-btn-dif {
+  border: 2px solid red;
+}
+
+.pagination-btn-all {
+  background-color: green;
+  border: 2px solid red;
+}
+
+.game-block {
+  width: 100%;
+  height: 160px;
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-block .game {
+  width: 120px;
+  height: 120px;
+  margin: 1.4rem;
+  background-color: bisque;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.game-block .game a {
+  outline: none;
+  text-decoration: none;
+  color: black;
+  font-size: 1.2rem;
+}
+
+.game-none {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(38, 38, 38, 0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
 }

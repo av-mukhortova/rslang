@@ -21,7 +21,6 @@ export interface iPair {
   transcription: string;
   audio: string;
   wordTranslate: string;
-
 }
 
 export interface iArray {
