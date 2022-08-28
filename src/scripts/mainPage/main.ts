@@ -40,7 +40,9 @@ class Main {
           this.authorization.create(this);
         }
       } else {
-        localStorage.clear();
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         const auth: HTMLDivElement | null = document.querySelector(
           ".header__authorization"
         );

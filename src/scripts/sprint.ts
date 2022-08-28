@@ -18,6 +18,12 @@ export default class Sprint {
   bookGroup: string;
   bookPage: number;
 
+  countCorrect: number;
+  countIncorrect: number;
+  longSeria: number;
+  inRow: number;
+  userWords: { [key: string]: string };
+
   constructor() {
     this.api = new Api();
     this.currentPair = 0;
@@ -32,6 +38,11 @@ export default class Sprint {
     this.isBook = false;
     this.bookGroup = "";
     this.bookPage = 0;
+    this.countCorrect = 0;
+    this.countIncorrect = 0;
+    this.longSeria = 0;
+    this.inRow = 0;
+    this.userWords = {};
   }
 
   public start(): void {
@@ -187,6 +198,7 @@ export default class Sprint {
   }
   private play(): void {
     this.currentPair = 0;
+    this.getUserWords();
     this.changeWord();
 
     const timer: HTMLSpanElement | null =
@@ -264,9 +276,15 @@ export default class Sprint {
       };
       this.results.push(res);
       this.rightInRow = 0;
+      this.countIncorrect += 1;
+      this.longSeria =
+        this.longSeria > this.inRow ? this.longSeria : this.inRow;
+      this.inRow = 0;
       this.koef = 1;
       this.removeChecks();
     }
+    if (this.isNewWord(this.pairs[this.currentPair].word))
+      this.saveNewWord(this.pairs[this.currentPair].word);
     this.currentPair += 1;
     if (this.currentPair === this.pairs.length) {
       clearInterval(this.timerId);
@@ -283,6 +301,8 @@ export default class Sprint {
     }
     this.points += constants.points * this.koef;
     this.rightInRow += 1;
+    this.inRow += 1;
+    this.countCorrect += 1;
     const pointsSpan: HTMLSpanElement | null =
       document.querySelector("#sprint_points");
     if (pointsSpan) {
@@ -305,6 +325,7 @@ export default class Sprint {
     }
   }
   private showResults() {
+    this.saveStatistics();
     this.isPlaying = false;
     const sprintDiv: HTMLDivElement | null = document.querySelector(".sprint");
     const sprintRes: HTMLDivElement | null =
@@ -486,5 +507,46 @@ export default class Sprint {
       currentPage -= 1;
     }
     return res;
+  }
+  private saveStatistics(): void {
+    const now = new Date();
+    const date = now.getDate();
+    const countCorrectAll = localStorage.getItem(`sprint_correct_${date}`);
+    const countIncorrectAll = localStorage.getItem(`sprint_incorrect_${date}`);
+    const longest = localStorage.getItem(`sprint_longest_${date}`);
+    if ((longest && +longest < this.longSeria) || !longest) {
+      localStorage.setItem(`sprint_longest_${date}`, this.longSeria.toString());
+    }
+    localStorage.setItem(
+      `sprint_correct_${date}`,
+      countCorrectAll
+        ? (+countCorrectAll + this.countCorrect).toString()
+        : this.countCorrect.toString()
+    );
+    localStorage.setItem(
+      `sprint_incorrect_${date}`,
+      countIncorrectAll
+        ? (+countIncorrectAll + this.countIncorrect).toString()
+        : this.countIncorrect.toString()
+    );
+    const words = Object.keys(this.userWords).join(",");
+    localStorage.setItem("words", words);
+  }
+  private getUserWords(): void {
+    const userStr = localStorage.getItem("words");
+    const arr = userStr?.split(",");
+    if (arr) {
+      for (let i = 0; i < arr?.length; i += 1) {
+        const key = arr[i].toString();
+        this.userWords[key] = arr[i];
+      }
+    }
+  }
+  private isNewWord(word: string): boolean {
+    if (this.userWords[word]) return false;
+    return true;
+  }
+  private saveNewWord(word: string): void {
+    this.userWords[word] = word;
   }
 }
