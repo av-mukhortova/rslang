@@ -1,9 +1,12 @@
 import Sprint from "./sprint";
 import Chapter from "./book/chapter";
+import Main from "./mainPage/main";
 import { process } from "./audiocall";
 
 export default class App {
   public start(): void {
+    const main = new Main();
+    main.start();
     const sprint = new Sprint();
     const sprintBtn: HTMLButtonElement | null =
       document.querySelector("#btn_sprint");
