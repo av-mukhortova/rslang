@@ -11,8 +11,10 @@ class FooterBlock {
 
     container.innerHTML = `
       <p>RS LANG 2022</p>
-      <img src="https://www.imagehousing.com/images/2022/08/28/rs-school-android.png" alt="rs-school-android.png" border="0" />
-    `;
+      <a href="https://rs.school/">
+        <img src="https://www.imagehousing.com/images/2022/08/28/rs-school-android.png" alt="rs-school-android.png" border="0" />
+      </a>
+      `;
     dataTeam.forEach((el) => {
       teamNames.innerHTML += `
         <a href="${el.linkGitHub}">${el.name}</a>
