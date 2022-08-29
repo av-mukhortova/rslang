@@ -5,6 +5,7 @@ import StudiBlockDiv from "./studiBlockDiv";
 import StatisticsText from "./statisticsText";
 import VideoReport from "./videoReport";
 import Team from "./team";
+import FooterBlock from "./footerBlock";
 
 class Main {
   start() {
@@ -15,6 +16,7 @@ class Main {
     const statisticsText = new StatisticsText();
     const videoReportBlock = new VideoReport();
     const team = new Team();
+    const footerBlock = new FooterBlock();
 
     const body = document.querySelector("body") as HTMLElement;
     const herro = document.createElement("section") as HTMLElement;
@@ -22,6 +24,7 @@ class Main {
     const statisticsBlock = document.createElement("section") as HTMLElement;
     const videoReport = document.createElement("section") as HTMLElement;
     const teamSection = document.createElement("section") as HTMLElement;
+    const footer = document.createElement("footer") as HTMLElement;
 
     herro.setAttribute("class", "herro");
     studiBlock.setAttribute("class", "main__studi-block");
@@ -32,6 +35,7 @@ class Main {
     statisticsBlock.append(statisticsText.create());
     videoReport.append(videoReportBlock.create());
     teamSection.append(team.create());
+    footer.append(footerBlock.create());
 
     body.prepend(header.start());
     body.append(herro);
@@ -39,6 +43,7 @@ class Main {
     body.append(statisticsBlock);
     body.append(videoReport);
     body.append(teamSection);
+    body.append(footer);
 
     const menuBurger = document.querySelector(".header__burger");
     menuBurger?.addEventListener("click", () => {

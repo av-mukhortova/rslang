@@ -1,9 +1,10 @@
 import "../../assets/styles/mainPage/team.scss";
-const dataTeam = [
+export const dataTeam = [
   {
     img: "https://www.imagehousing.com/images/2022/08/28/photo_2022-02-22_12-38-14.jpg",
     linkGitHub: "https://github.com/rrroeva",
-    name: "Alina Mukhortova",
+    name: "Alina",
+    secondname: "Mukhortova",
     spatial: `Team lead, Frontent developer`,
     work1: "Авторизация ",
     work2: "Игра Спринт",
@@ -13,7 +14,8 @@ const dataTeam = [
   {
     img: "https://www.imagehousing.com/images/2022/08/28/photo_2022-02-22_12-38-14.jpg",
     linkGitHub: "https://github.com/AlexGradus",
-    name: "Aliaksandr Sakalouski",
+    name: "Aliaksandr",
+    secondname: "Sakalouski",
     spatial: `Frontent developer`,
     work1: "Игра Аудиовызов",
     work2: "статистики",
@@ -23,7 +25,8 @@ const dataTeam = [
   {
     img: "https://www.imagehousing.com/images/2022/08/28/photo_2022-02-22_12-38-14.jpg",
     linkGitHub: "https://github.com/alimbaeva",
-    name: "Asel Alymbaeva",
+    name: "Asel",
+    secondname: "Alymbaeva",
     spatial: `Frontent developer`,
     work1: "Электронный учебник",
     work2: "Список слов",
@@ -47,7 +50,7 @@ class Team {
         <div class="main__team-item">
           <div class="img" style="background-image: url(${el.img});"></div>
           <div class="main__team-info">
-            <h3>${el.name}</h3>
+            <h3>${el.name} ${el.secondname}</h3>
             <p>${el.spatial}</p>
             <p>${el.work1}</p>
             <p>${el.work2}</p>
