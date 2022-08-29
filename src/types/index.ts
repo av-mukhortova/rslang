@@ -22,11 +22,23 @@ export interface iPair {
   audio: string;
   wordTranslate: string;
 }
-
 export interface iArray {
   AudioM: HTMLAudioElement;
   imgMessage: string;
   Arr: string[];
   Word: string;
   wordTrans: string;
+}
+export interface iUser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+}
+export interface iAuthResp {
+  message: string;
+  token: string;
+  refreshToken: string;
+  userId: string;
+  name: string;
 }
