@@ -27,7 +27,7 @@ export const dataTeam = [
     linkGitHub: "https://github.com/alimbaeva",
     name: "Asel",
     secondname: "Alymbaeva",
-    spatial: `Frontent developer`,
+    spatial: `Frontent developer, Designer`,
     work1: "Электронный учебник",
     work2: "Список слов",
     work3: "Главная страница",
