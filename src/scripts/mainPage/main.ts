@@ -3,6 +3,7 @@ import Menu from "./menu";
 import Authorization from "./authorization/authorization";
 import StudiBlockDiv from "./studiBlockDiv";
 import StatisticsText from "./statisticsText";
+import VideoReport from "./videoReport";
 import Team from "./team";
 
 class Main {
@@ -12,26 +13,31 @@ class Main {
     const authorization = new Authorization();
     const studiBlockDiv = new StudiBlockDiv();
     const statisticsText = new StatisticsText();
+    const videoReportBlock = new VideoReport();
     const team = new Team();
 
     const body = document.querySelector("body") as HTMLElement;
     const herro = document.createElement("section") as HTMLElement;
     const studiBlock = document.createElement("section") as HTMLElement;
     const statisticsBlock = document.createElement("section") as HTMLElement;
+    const videoReport = document.createElement("section") as HTMLElement;
     const teamSection = document.createElement("section") as HTMLElement;
 
     herro.setAttribute("class", "herro");
     studiBlock.setAttribute("class", "main__studi-block");
     statisticsBlock.setAttribute("class", "main__statistics-block");
+    videoReport.setAttribute("class", "main__video");
 
     studiBlock.append(studiBlockDiv.create());
     statisticsBlock.append(statisticsText.create());
+    videoReport.append(videoReportBlock.create());
     teamSection.append(team.create());
 
     body.prepend(header.start());
     body.append(herro);
     body.append(studiBlock);
     body.append(statisticsBlock);
+    body.append(videoReport);
     body.append(teamSection);
 
     const menuBurger = document.querySelector(".header__burger");
