@@ -23,6 +23,7 @@ export default class Sprint {
   longSeria: number;
   inRow: number;
   userWords: { [key: string]: string };
+  newWords: { [key: string]: string };
 
   constructor() {
     this.api = new Api();
@@ -43,6 +44,7 @@ export default class Sprint {
     this.longSeria = 0;
     this.inRow = 0;
     this.userWords = {};
+    this.newWords = {};
   }
 
   public start(): void {
@@ -75,18 +77,35 @@ export default class Sprint {
     return res;
   }
   private askLevel(): void {
-    const mainDiv: HTMLDivElement | null = document.querySelector(".main");
     const levelDiv: HTMLDivElement | null = document.querySelector(".level");
     levelDiv?.classList.remove("hidden");
-    mainDiv?.classList.add("hidden");
-
     const levelDlg: HTMLDivElement | null =
       document.querySelector(".level_dlg");
+    levelDlg?.replaceChildren();
+    const btn1 = document.createElement("button");
+    btn1.dataset.level = "1";
+    btn1.innerHTML = "1";
+    const btn2 = document.createElement("button");
+    btn2.dataset.level = "2";
+    btn2.innerHTML = "2";
+    const btn3 = document.createElement("button");
+    btn3.dataset.level = "3";
+    btn3.innerHTML = "3";
+    const btn4 = document.createElement("button");
+    btn4.dataset.level = "4";
+    btn4.innerHTML = "4";
+    const btn5 = document.createElement("button");
+    btn5.dataset.level = "5";
+    btn5.innerHTML = "5";
+    const btn6 = document.createElement("button");
+    btn6.dataset.level = "6";
+    btn6.innerHTML = "6";
+    levelDlg?.append(btn1, btn2, btn3, btn4, btn5, btn6);
     levelDlg?.addEventListener("click", (event: MouseEvent): void => {
       const target: HTMLElement = event.target as HTMLElement;
       if (target.tagName.toLowerCase() === "button" && !this.isPlaying) {
         this.isPlaying = true;
-        const level = target.dataset.level ? +target.dataset.level : 0;
+        const level = target.dataset.level ? +target.dataset.level - 1 : 0;
         this.getAllWordsOfLevel(level).then((words: Array<iWord>) => {
           this.setPairs(words);
           this.shuffle();
@@ -450,7 +469,7 @@ export default class Sprint {
     clearInterval(this.timerId);
     this.isPlaying = false;
     const sprintDiv: HTMLDivElement | null = document.querySelector(".sprint");
-    const main: HTMLDivElement | null = document.querySelector(".main");
+    const main: HTMLDivElement | null = document.querySelector(".mainPage");
     sprintDiv?.classList.add("hidden");
     main?.classList.remove("hidden");
   }
@@ -531,6 +550,13 @@ export default class Sprint {
     );
     const words = Object.keys(this.userWords).join(",");
     localStorage.setItem("words", words);
+
+    const newWords = localStorage.getItem(`sprint_newwords_${date}`);
+    const arrWords = newWords?.split(",");
+    const allWords = arrWords
+      ? arrWords.concat(Object.keys(this.newWords))
+      : Object.keys(this.newWords);
+    localStorage.setItem(`sprint_newwords_${date}`, allWords.join(","));
   }
   private getUserWords(): void {
     const userStr = localStorage.getItem("words");
@@ -547,6 +573,7 @@ export default class Sprint {
     return true;
   }
   private saveNewWord(word: string): void {
+    this.newWords[word] = word;
     this.userWords[word] = word;
   }
 }

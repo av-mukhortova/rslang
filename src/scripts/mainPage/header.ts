@@ -3,12 +3,12 @@ import DivImage from "./divImage";
 class Header {
   start(): HTMLElement {
     const divImage = new DivImage();
-    const header = document.createElement("header") as HTMLElement;
+    const header: HTMLElement | null = document.querySelector(".header");
     const headerDiv = document.createElement("div") as HTMLElement;
     const headerLogo = document.createElement("div") as HTMLElement;
     const headerLogoLink = document.createElement("a") as HTMLAnchorElement;
 
-    headerDiv.setAttribute("class", "container header");
+    headerDiv.setAttribute("class", "header_container container");
     headerLogo.setAttribute("class", "header__Logo");
     headerLogoLink.setAttribute("href", "#");
     headerLogo.append(headerLogoLink);
@@ -27,8 +27,8 @@ class Header {
       className += " isAuth";
     }
     headerDiv.innerHTML += divImage.create(imgSrc, className, "avatar.png");
-    header.append(headerDiv);
-    return header;
+    header?.append(headerDiv);
+    return header as HTMLElement;
   }
 }
 
