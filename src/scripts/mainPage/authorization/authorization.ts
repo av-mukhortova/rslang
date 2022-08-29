@@ -1,7 +1,7 @@
 import "../../../assets/styles/mainPage/authorization.css";
 import { iAuthResp, iUser } from "../../../types/index";
 import Api from "../../api";
-import Main from "../main";
+import App from "../../app";
 
 class Authorization {
   api: Api;
@@ -9,7 +9,8 @@ class Authorization {
   constructor() {
     this.api = new Api();
   }
-  create(main: Main) {
+  create(main: App) {
+    const mainDiv = document.querySelector(".mainPage") as HTMLElement;
     const authorization = document.createElement("section") as HTMLElement;
     authorization.setAttribute("class", "authorization");
     const forma = document.createElement("div") as HTMLDivElement;
@@ -25,7 +26,7 @@ class Authorization {
       <button class="signup_button" type="submit" name="form_auth_submit">Зарегистрироваться</button>
     `;
     authorization.append(forma);
-    document.body.append(authorization);
+    mainDiv?.append(authorization);
     const signupButton = document.querySelector(
       ".signup_button"
     ) as HTMLButtonElement;
@@ -42,7 +43,7 @@ class Authorization {
     authorization: HTMLElement,
     forma: HTMLDivElement,
     title: HTMLElement,
-    main: Main
+    main: App
   ) {
     authorization.innerHTML = "";
     title.innerHTML = "Зарегистрироваться";
@@ -80,7 +81,7 @@ class Authorization {
     };
     return user;
   }
-  public createUser(user: iUser, authorization: HTMLElement, main: Main): void {
+  public createUser(user: iUser, authorization: HTMLElement, main: App): void {
     this.api.createUser(user).then((resp: string) => {
       if (resp === "Успешно") {
         this.signIn(user, authorization, main);
@@ -90,7 +91,7 @@ class Authorization {
       }
     });
   }
-  public signIn(user: iUser, authorization: HTMLElement, main: Main): void {
+  public signIn(user: iUser, authorization: HTMLElement, main: App): void {
     this.api.signIn(user).then((res: iAuthResp) => {
       if (res.message === "Authenticated") {
         localStorage.setItem("userId", res.userId);

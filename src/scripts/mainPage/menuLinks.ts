@@ -1,7 +1,13 @@
 class MenuLinks {
-  create(linkPage: string, linkimg: string, alt: string, text: string): string {
+  create(
+    linkPage: string,
+    linkimg: string,
+    alt: string,
+    text: string,
+    key: string
+  ): string {
     return `
-      <div>
+      <div id="${key}">
         <a href="${linkPage}">
           <img src="${linkimg}" alt="${alt}"/>
           ${text}
