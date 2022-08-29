@@ -20,11 +20,13 @@ class Header {
       "menu_burger.png"
     );
     headerDiv.append(headerLogo);
-    headerDiv.innerHTML += divImage.create(
-      "https://www.imagehousing.com/images/2022/08/27/avatar.png",
-      "header__authorization",
-      "avatar.png"
-    );
+    let className = "header__authorization";
+    let imgSrc = "https://www.imagehousing.com/images/2022/08/27/avatar.png";
+    if (localStorage.getItem("userId")) {
+      imgSrc = "./assets/img/logout.png";
+      className += " isAuth";
+    }
+    headerDiv.innerHTML += divImage.create(imgSrc, className, "avatar.png");
     header.append(headerDiv);
     return header;
   }

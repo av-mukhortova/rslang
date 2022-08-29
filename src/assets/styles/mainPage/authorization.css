@@ -23,14 +23,14 @@
     letter-spacing: 0.015em;
 }
 
-.authorization form {
+.auth_form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.authorization form input {
+.auth_form input {
     width: 350px;
     height: 40px;
     margin-top: 37px;
@@ -51,7 +51,7 @@
     cursor: pointer;
 }
 
-.authorization form button {
+.auth_form button {
     width: 420px;
     height: 40px;
     margin-top: 37px;
@@ -71,6 +71,10 @@
     color: #000000;
 }
 
-.authorization form button:hover {
+.auth_form button:hover {
   box-shadow: inset 0px 0px 13px 10px #44DE1E;
+}
+
+#auth_msg {
+    color: red;
 }
