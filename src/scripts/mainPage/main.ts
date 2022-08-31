@@ -19,17 +19,14 @@ class Main {
   start() {
     const body = document.querySelector("body") as HTMLElement;
     body.prepend(this.header.start());
-    
+
     const header = new Header();
-    const menu = new Menu();
-    const authorization = new Authorization();
     const studiBlockDiv = new StudiBlockDiv();
     const statisticsText = new StatisticsText();
     const videoReportBlock = new VideoReport();
     const team = new Team();
     const footerBlock = new FooterBlock();
 
-    const body = document.querySelector("body") as HTMLElement;
     const herro = document.createElement("section") as HTMLElement;
     const studiBlock = document.createElement("section") as HTMLElement;
     const statisticsBlock = document.createElement("section") as HTMLElement;
