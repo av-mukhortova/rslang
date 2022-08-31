@@ -52,3 +52,16 @@ export interface iStatistics {
     lengthOfTruth: string;
   };
 }
+export interface iUserWord {
+  id: string;
+  difficulty: string;
+  optional: {
+    isLearned: boolean;
+    isNew: boolean;
+  };
+  isLearned?: boolean;
+  isNew?: boolean;
+}
+export type justObject = {
+  [key: string]: string;
+};

@@ -1,6 +1,11 @@
+import UserWords from "../userWords";
 import LocalKeySaveDel from "./localKeySaveDel";
 
 class ChechActivStudi {
+  userWords: UserWords;
+  constructor() {
+    this.userWords = new UserWords();
+  }
   check(
     card: HTMLElement,
     cardStudiBtn: HTMLElement,
@@ -16,7 +21,8 @@ class ChechActivStudi {
     const groupId = Number(group);
     if (cardStudiBtn.classList.contains("activ")) {
       card.style.backgroundColor = "green";
-      localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
+      this.userWords.addLearnedWord(cardID);
+      // localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
     } else {
       card.style.backgroundColor = "";
       localKeySaveDel.remove(
