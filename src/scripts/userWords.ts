@@ -30,9 +30,32 @@ class UserWords {
         return obj;
       });
   }
-  public async addLearnedWord(wordId: string | null) {
+  public async addLearnedWord(wordId: string | null, playName = "book") {
     if (wordId)
-      this.api.createWord(localStorage.getItem("userId"), wordId, "isLearned");
+      this.api.createWord(
+        localStorage.getItem("userId"),
+        wordId,
+        "isLearned",
+        playName
+      );
+  }
+  public async addNewWord(wordId: string | null, playName = "book") {
+    if (wordId)
+      this.api.createWord(
+        localStorage.getItem("userId"),
+        wordId,
+        "isNew",
+        playName
+      );
+  }
+  public async addDifficultWord(wordId: string | null, playName = "book") {
+    if (wordId)
+      this.api.createWord(
+        localStorage.getItem("userId"),
+        wordId,
+        "difficulty",
+        playName
+      );
   }
 }
 
