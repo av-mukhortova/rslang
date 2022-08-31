@@ -1,11 +1,11 @@
 import { iWord } from "../../types/index";
 import constants from "../../constants";
-import "../../assets/styles/bookStyle/ItemPage.css";
+import "../../assets/styles/bookStyle/itemPage.scss";
 
 class ItemPage {
-  create(data: iWord) {
+  create(data: iWord, group: string) {
     return `
-      <div class="item-page" id="${data.id}">
+      <div class="item-page page-${group}" id="${data.id}">
         <div class="item-page__images">
           <img src="${constants.URL}/${data.image}" alt="foto">
         </div>
@@ -21,11 +21,11 @@ class ItemPage {
             <p>${data.textMeaningTranslate}</p>
             <p>${data.textExampleTranslate}</p>
           </div>
-          <button class="item-page__voce" id="${data.audio}-${data.audioExample}-${data.audioMeaning}">Озвучить</button>
+          <button class="item-page__voce" id="${data.audio}-${data.audioExample}-${data.audioMeaning}">Озвучить <img src="https://www.imagehousing.com/images/2022/08/31/volium.png"/></button>
         </div>
         <div class="item-page__authorized">
           <button class="item-page__studi">Изученно</button>
-          <button class="item-page__difficult">Сложные слова +</button>
+          <button class="item-page__difficult">Сложные слова <img src="https://www.imagehousing.com/images/2022/08/31/checked.png"/></button>
           <button class="item-page__difficult-delete" style="display: none;">Сложные слова -</button>
           <button page_audio=${data.page} group_audio=${data.group} class="btn_audiocall_book">Аудиовызов</button>        
         </div>

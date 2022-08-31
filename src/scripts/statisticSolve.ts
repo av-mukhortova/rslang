@@ -187,6 +187,8 @@ export async function CreateStatistic(
 
       await api.transferData(userUid, datas);
     }
+
+    // const dataInside = getStatistic.optional.neWords;
   }
   console.log(await api.takeStatistic(userUid));
 }

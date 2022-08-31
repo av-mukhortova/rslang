@@ -25,7 +25,6 @@ class Pages {
     const words = api.getWords(group, `${this.page}`);
     words.then((data: iWord[]) => this.create(chapters, data, group));
   }
-
   create(chapters: HTMLElement, data: iWord[], group: string): void {
     const paginationItem = new PaginationItem(group, this.page);
     const chechActiv = new ChechActiv();
@@ -33,6 +32,7 @@ class Pages {
     const gameLink = new GameLink();
 
     chapters.innerHTML = "";
+    const heightBook = window.innerHeight;
     const containerWords = document.createElement("div") as HTMLDivElement;
     const prevBtn = document.createElement("button") as HTMLButtonElement;
     const nextBtn = document.createElement("button") as HTMLButtonElement;
@@ -49,6 +49,9 @@ class Pages {
     prevBtn.setAttribute("id", "prev-btn");
     nextBtn.setAttribute("id", "next-btn");
 
+    prevBtn.style.height = `${heightBook}px`;
+    nextBtn.style.height = `${heightBook}px`;
+
     sprintBtn.id = "book-sprint-btn";
     sprintBtn.innerHTML = "Спринт";
     audiocallBtn.id = "book-audiocall-btn";
@@ -57,7 +60,7 @@ class Pages {
     pageNumber.textContent = `${this.page + 1}`;
     const itemPage = new ItemPage();
     data.forEach((el): void => {
-      words.innerHTML += itemPage.create(el);
+      words.innerHTML += itemPage.create(el, group);
     });
 
     for (let i = 0; i <= 29; i++) {

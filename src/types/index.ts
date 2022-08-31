@@ -59,3 +59,16 @@ export interface iStatistics {
     };
   };
 }
+export interface iUserWord {
+  id: string;
+  difficulty: string;
+  optional: {
+    isLearned: boolean;
+    isNew: boolean;
+  };
+  isLearned?: boolean;
+  isNew?: boolean;
+}
+export type justObject = {
+  [key: string]: string;
+};

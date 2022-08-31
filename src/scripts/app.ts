@@ -55,27 +55,6 @@ export default class App {
         }
       }
     });
-    /*
-    const sprint = new Sprint();
-    const sprintBtn: HTMLButtonElement | null =
-      document.querySelector("#btn_sprint");
-    sprintBtn?.addEventListener("click", (): void => {
-      sprint.start();
-    });
-    
-        const textbookBtn: HTMLButtonElement | null =
-          document.querySelector("#btn_textbook");
-        textbookBtn?.addEventListener("click", (): void => {
-          const chapter = new Chapter();
-          chapter.create();
-        });
-    
-        const AudioBtn: HTMLButtonElement | null =
-          document.querySelector("#btn_audiocall");
-        AudioBtn?.addEventListener("click", (): void => {
-          process();
-        });
-        */
   }
   public auth(userName: string) {
     const auth: HTMLDivElement | null = document.querySelector(

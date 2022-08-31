@@ -1,8 +1,12 @@
+import Api from "../api";
+
 class CheckWordsOnload {
+  api: Api;
   studi: string | null;
   cardDifficults: string | null;
 
   constructor() {
+    this.api = new Api();
     this.studi = localStorage.getItem("studi");
     this.cardDifficults = localStorage.getItem("cardDifficults");
   }
