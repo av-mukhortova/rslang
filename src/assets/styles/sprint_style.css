@@ -1,20 +1,35 @@
+.level,
 .sprint {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
+    width: 1400px;
+    margin: 0 auto;
+    height: 90vh;
+    background: linear-gradient(to right, rgba(250, 128, 114, 0.28), rgba(255, 165, 0, 0.28), rgba(255, 255, 0, 0.28), rgba(50, 205, 50, 0.28), rgba(0, 191, 255, 0.28), rgba(0, 0, 255, 0.28), rgba(138, 43, 226, 0.28));
+}
+
+.level_dlg{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 600px;
+    margin: 0 auto;
 }
 
 .sprint_dlg {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 500px;
-    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1400px;
+    margin: 0 auto;
+    font-size: 50px;
+}
+
+.level_dlg button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 30px;
+    margin-top: 40vh;
 }
 
 .sprint span {
@@ -25,19 +40,27 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 1200px;
+    margin-top: 10vh;
 }
 
 .words_sprint {
-  margin: 50px 0;
-  text-align: center;
+    margin: 10vh 0;
+    text-align: center;
 }
 
 .words_sprint span {
-    margin: 20px 0;
+    margin: 50px 0;
 }
 
 .buttons_sprint {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    width: 500px;
+}
+
+.buttons_sprint button {
+    width: 150px;
+    height: 50px;
 }
