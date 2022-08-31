@@ -120,7 +120,7 @@ export default class Api {
     userId: string | null,
     wordId: string | null,
     type: string | null,
-    playName = "book"
+    playName: string | null
   ): Promise<boolean> {
     const body = {
       difficulty: type === "difficulty" ? "hard" : "easy",
