@@ -1,5 +1,7 @@
 import Sprint from "../sprint";
 import MenuLinks from "./menuLinks";
+import { process } from "../audiocall";
+import { StatProcess } from "../statisticSolve";
 
 const links = [
   {
@@ -83,10 +85,16 @@ class Menu {
         switch (id) {
           case "main": {
             mainDiv.classList.remove("hidden");
+
             break;
           }
           case "sprint": {
             sprint.start();
+            break;
+          }
+          case "audiocall": {
+            process();
+            StatProcess();
             break;
           }
         }

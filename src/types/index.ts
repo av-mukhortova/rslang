@@ -42,3 +42,13 @@ export interface iAuthResp {
   userId: string;
   name: string;
 }
+export interface iStatistics {
+  learnedWords: number;
+  optional: {
+    month: string;
+    day: string;
+    neWords: Array<string>;
+    percentOfTruth: string;
+    lengthOfTruth: string;
+  };
+}

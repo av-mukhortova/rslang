@@ -1,5 +1,5 @@
 import constants from "../constants";
-import { iAuthResp, iUser, iWord } from "../types/index";
+import { iAuthResp, iUser, iWord, iStatistics } from "../types/index";
 
 export default class Api {
   public async getWords(group: string, page: string): Promise<iWord[]> {
@@ -15,6 +15,32 @@ export default class Api {
       arr.push(words[key]);
     }
     return arr;
+  }
+  public async takeStatistic(userUid: string | null): Promise<iStatistics> {
+    const res = await fetch(`${constants.URL}/users/${userUid}/statistics`, {
+      method: "GET",
+
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const words = await res.json();
+    return words;
+  }
+  public async transferData(userUid: string | null, datas: iStatistics) {
+    const info = await fetch(`${constants.URL}/users/${userUid}/statistics`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datas),
+    });
+    const result = await info.json();
+    return result;
   }
   public async createUser(user: iUser): Promise<string> {
     const res = await fetch(`${constants.URL}/users`, {
@@ -60,7 +86,7 @@ export default class Api {
     };
     return resp;
   }
-  public async refreshToken(userId: string): Promise<iAuthResp> {
+  public async refreshToken(userId: string | null): Promise<iAuthResp> {
     const res = await fetch(`${constants.URL}/users/${userId}/tokens`, {
       method: "GET",
       headers: {

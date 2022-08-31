@@ -114,3 +114,7 @@ button {
 .press_element_next {
     text-align: center;
 }
+
+#canvas {
+    border: 1px solid black;
+}
