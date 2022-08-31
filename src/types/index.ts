@@ -47,8 +47,15 @@ export interface iStatistics {
   optional: {
     month: string;
     day: string;
-    neWords: Array<string>;
-    percentOfTruth: string;
-    lengthOfTruth: string;
+    sprint: {
+      neWords: unknown[];
+      percentOfTruth: Array<string>;
+      lengthOfTruth: string;
+    };
+    audiocall: {
+      neWords: unknown[];
+      percentOfTruth: Array<string>;
+      lengthOfTruth: string;
+    };
   };
 }

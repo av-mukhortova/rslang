@@ -1,25 +1,47 @@
 import Api from "./api";
 const api = new Api();
 
-async function CreateStatistic(
+export async function CreateStatistic(
   learnedWords = 0,
   month: string,
   day: string,
-  neWords: Array<string>,
-  percentOfTruth: string,
-  lengthOfTruth: string
+  neWords: unknown[],
+  percentOfTruth: Array<string>,
+  lengthOfTruth: string,
+  nameOfGame: string
 ) {
   const userUid = localStorage.getItem("userId");
-  const datas = {
-    learnedWords: learnedWords,
-    optional: {
-      month: month,
-      day: day,
-      neWords: neWords,
-      percentOfTruth: percentOfTruth,
-      lengthOfTruth: lengthOfTruth,
-    },
-  };
+  function createResult(
+    learnedWords: number,
+    month: string,
+    day: string,
+    sprintNeWords: unknown[],
+    sprintPercentOfTruth: Array<string>,
+    sprintLengthOfTruth: string,
+    audiocallNeWords: unknown[],
+    audiocallPercentOfTruth: Array<string>,
+    audiocallLengthOfTruth: string
+  ) {
+    const datas = {
+      learnedWords: learnedWords,
+      optional: {
+        month: month,
+        day: day,
+        sprint: {
+          neWords: sprintNeWords,
+          percentOfTruth: sprintPercentOfTruth,
+          lengthOfTruth: sprintLengthOfTruth,
+        },
+
+        audiocall: {
+          neWords: audiocallNeWords,
+          percentOfTruth: audiocallPercentOfTruth,
+          lengthOfTruth: audiocallLengthOfTruth,
+        },
+      },
+    };
+    return datas;
+  }
   let getStatistic;
   try {
     getStatistic = await api.takeStatistic(userUid);
@@ -33,14 +55,140 @@ async function CreateStatistic(
     day != getStatistic.optional.day
   ) {
     try {
+      const datas =
+        nameOfGame == "audiocall"
+          ? createResult(
+              learnedWords,
+              month,
+              day,
+              [],
+              [],
+              "",
+              neWords,
+              percentOfTruth,
+              lengthOfTruth
+            )
+          : createResult(
+              learnedWords,
+              month,
+              day,
+              neWords,
+              percentOfTruth,
+              lengthOfTruth,
+              [],
+              [],
+              ""
+            );
+
       await api.transferData(userUid, datas);
     } catch (e) {
       await api.refreshToken(userUid);
+      const datas =
+        nameOfGame == "audiocall"
+          ? createResult(
+              learnedWords,
+              month,
+              day,
+              [],
+              [],
+              "",
+              neWords,
+              percentOfTruth,
+              lengthOfTruth
+            )
+          : createResult(
+              learnedWords,
+              month,
+              day,
+              neWords,
+              percentOfTruth,
+              lengthOfTruth,
+              [],
+              [],
+              ""
+            );
+
       await api.transferData(userUid, datas);
+      console.log(await api.takeStatistic(userUid));
     }
   } else {
-    const dataInside = getStatistic.optional.neWords;
+    const dataInside =
+      nameOfGame == "audiocall"
+        ? getStatistic.optional.audiocall.neWords
+        : getStatistic.optional.sprint.neWords;
+    const fullArray = neWords.concat(dataInside);
+    const SetNumberOfNew = new Set();
+    fullArray.forEach((item) => SetNumberOfNew.add(item));
+    const exitFullArrayLengthNewWords = Array.from(SetNumberOfNew);
+    const percentTruthInside =
+      nameOfGame == "audiocall"
+        ? getStatistic.optional.audiocall.percentOfTruth
+        : getStatistic.optional.sprint.percentOfTruth;
+    const percentArray = percentOfTruth.concat(percentTruthInside);
+    const lengthTruthInside =
+      nameOfGame == "audiocall"
+        ? getStatistic.optional.audiocall.lengthOfTruth
+        : getStatistic.optional.sprint.lengthOfTruth;
+    const maxLengthTruthInside =
+      lengthTruthInside > lengthOfTruth ? lengthTruthInside : lengthOfTruth;
+    try {
+      const datas =
+        nameOfGame == "audiocall"
+          ? createResult(
+              learnedWords,
+              month,
+              day,
+              getStatistic.optional.sprint.neWords,
+              getStatistic.optional.sprint.percentOfTruth,
+              getStatistic.optional.sprint.lengthOfTruth,
+              exitFullArrayLengthNewWords,
+              percentArray,
+              maxLengthTruthInside
+            )
+          : createResult(
+              learnedWords,
+              month,
+              day,
+              exitFullArrayLengthNewWords,
+              percentArray,
+              maxLengthTruthInside,
+              [],
+              [],
+              ""
+            );
+
+      await api.transferData(userUid, datas);
+    } catch (e) {
+      await api.refreshToken(userUid);
+      const datas =
+        nameOfGame == "audiocall"
+          ? createResult(
+              learnedWords,
+              month,
+              day,
+              [],
+              [],
+              "",
+              exitFullArrayLengthNewWords,
+              percentArray,
+              maxLengthTruthInside
+            )
+          : createResult(
+              learnedWords,
+              month,
+              day,
+              exitFullArrayLengthNewWords,
+              percentArray,
+              maxLengthTruthInside,
+              [],
+              [],
+              ""
+            );
+
+      await api.transferData(userUid, datas);
+    }
   }
+  console.log(await api.takeStatistic(userUid));
 }
 
 export function StatProcess() {
@@ -65,5 +213,5 @@ export function StatProcess() {
   for (let i = 0; i < labels.length; i++) {
     ctx?.fillText(labels[i], 25 + i * 100, 475);
   }
-  CreateStatistic(1, "1", "1", ["1"], "1", "1");
+  CreateStatistic(1, "2", "1", ["7"], ["4"], "1", "audiocall");
 }
