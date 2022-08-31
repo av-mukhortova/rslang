@@ -18,9 +18,9 @@ class Chapter {
   }
 
   public create() {
-    const book: HTMLDivElement | null = document.querySelector(".book");
+    const book: HTMLDivElement | null = document.querySelector(".bookPage");
     book?.classList.remove("hidden");
-    const main: HTMLDivElement | null = document.querySelector(".main");
+    const main: HTMLDivElement | null = document.querySelector(".mainPage");
     main?.classList.add("hidden");
 
     const chap = document.querySelector(".chapters") as HTMLElement;
@@ -37,21 +37,26 @@ class Chapter {
       this.count(i);
       const chapter = document.createElement("div");
       chapter.setAttribute("id", `chapter-${i}`);
+      const heightBook = window.innerHeight;
 
       if (this.countStudi === 30 && this.countDifficalt === 30) {
         chapter.setAttribute("class", `chapter `);
-        chapter.style.backgroundColor = "green";
-        chapter.style.border = "2px solid red";
+        chapter.style.height = `${heightBook}px`;
+        chapter.style.boxShadow = "0px 0px 7px 7px #43DE1C";
+        chapter.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
       } else if (this.countStudi === 30) {
         chapter.setAttribute("class", `chapter`);
-        chapter.style.backgroundColor = "green";
+        chapter.style.boxShadow = "0px 0px 7px 7px #43DE1C";
+        chapter.style.height = `${heightBook}px`;
         chapter.style.border = "";
       } else if (this.countDifficalt === 30) {
         chapter.setAttribute("class", `chapter`);
         chapter.style.backgroundColor = "";
-        chapter.style.border = "2px solid red";
+        chapter.style.height = `${heightBook}px`;
+        chapter.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
       } else {
         chapter.setAttribute("class", `chapter`);
+        chapter.style.height = `${heightBook}px`;
       }
 
       const number = document.createElement("p");
@@ -65,7 +70,8 @@ class Chapter {
       const idChapter = (e.target as HTMLElement).closest("div") as HTMLElement;
       if (!idChapter?.getAttribute("id")) return;
       const group = idChapter?.getAttribute("id")?.split("-")[1];
-      book?.setAttribute("class", `chapter-${group}`);
+      // book?.setAttribute("class", `bookPage chapter-${group}`);
+      book?.setAttribute("class", `bookPage`);
       const pages = new Pages();
       if (!group) return;
       pages.getWordData(chapters, group);

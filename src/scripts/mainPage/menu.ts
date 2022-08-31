@@ -1,4 +1,5 @@
 import Sprint from "../sprint";
+import Chapter from "../book/chapter";
 import MenuLinks from "./menuLinks";
 import { process } from "../audiocall";
 import { StatProcess } from "../statisticSolve";
@@ -74,10 +75,21 @@ class Menu {
     const main = document.querySelector(".popup") as HTMLElement;
     main?.append(menuSection);
 
+    const chapter = new Chapter();
     const sprint = new Sprint();
     menu.addEventListener("click", (event: MouseEvent) => {
       const target: HTMLElement = event.target as HTMLElement;
       const parent: HTMLElement = target.parentNode as HTMLElement;
+      const book = document.querySelector(".bookPage") as HTMLElement;
+      const sprintPage = document.querySelector(".sprint") as HTMLElement;
+      const levelPage = document.querySelector(".level") as HTMLElement;
+      const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
+      const audocallPage = document.querySelector(
+        ".audocallPage"
+      ) as HTMLElement;
+      const sprintResultsPage = document.querySelector(
+        ".sprint_results"
+      ) as HTMLElement;
       const id = target.id ? target.id : parent.id;
       if (id) {
         const mainDiv = document.querySelector(".mainPage") as HTMLElement;
@@ -85,7 +97,9 @@ class Menu {
         switch (id) {
           case "main": {
             mainDiv.classList.remove("hidden");
-
+            if (book?.classList.contains("hidden") === false) {
+              book?.classList.add("hidden");
+            }
             break;
           }
           case "sprint": {
@@ -95,6 +109,25 @@ class Menu {
           case "audiocall": {
             process();
             StatProcess();
+            break;
+          }
+          case "book": {
+            chapter.create();
+            if (sprintPage?.classList.contains("hidden") === false) {
+              sprintPage?.classList.add("hidden");
+            }
+            if (levelPage?.classList.contains("hidden") === false) {
+              levelPage?.classList.add("hidden");
+            }
+            if (sprintResultsPage?.classList.contains("hidden") === false) {
+              sprintResultsPage?.classList.add("hidden");
+            }
+            if (audocallPage?.classList.contains("hidden") === false) {
+              audocallPage?.classList.add("hidden");
+            }
+            if (wordsPage?.classList.contains("hidden") === false) {
+              wordsPage?.classList.add("hidden");
+            }
             break;
           }
         }
