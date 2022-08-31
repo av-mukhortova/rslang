@@ -1,6 +1,8 @@
 import Sprint from "../sprint";
 import Chapter from "../book/chapter";
 import MenuLinks from "./menuLinks";
+import { process } from "../audiocall";
+import { StatProcess } from "../statisticSolve";
 
 const links = [
   {
@@ -102,6 +104,11 @@ class Menu {
           }
           case "sprint": {
             sprint.start();
+            break;
+          }
+          case "audiocall": {
+            process();
+            StatProcess();
             break;
           }
           case "book": {

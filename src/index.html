@@ -17,10 +17,59 @@
     <div class="mainPage"></div>
     <div class="bookPage"></div>
     <div class="wordsPage"></div>
-    <div class="audocallPage"></div>
+    <div class="audocallPage">
+        <div class="starter_pack hidden ">
+            <button level="0" class="btn_start_level">A1</button>
+            <button level="1" class="btn_start_level">A2</button>
+            <button level="2" class="btn_start_level">B1</button>
+            <button level="3" class="btn_start_level">B2</button>
+            <button level="4" class="btn_start_level">C1</button>
+            <button level="5" class="btn_start_level">C2</button>
+        </div>
+        <div class="audiocall hidden">
+            <div class="finish_element hidden">
+                <div class='finish_element_character'>
+                    <div class="x_change_finish">
+                        <div class="res_element">Результат:</div>
+                        <div class="win_element">
+                            <div class="win_name">Правильные:</div>
+                        </div>
+                        <div class="win_wrong">
+                            <div class="win_name">Неправильные:</div>
+                        </div>
+    
+                    </div>
+                </div>
+                <button id="Exit" class="choise">Выход</button>
+                <button id="Again" class="choise">Снова</button>
+            </div>
+            <div class="press_element"><img width="100px" src='https://i.ibb.co/j55JQNJ/73675.png'></div>
+            <div class='picture_element hidden'><img width="200px" class='picture_parametres' src=''></div>
+            <div class='word_character'>
+                <div class="word_main hidden"></div>
+            </div>
+            <div class="choise_element">
+                <button id="element1" class="choise"></button>
+                <button id="element2" class="choise"></button>
+                <button id="element3" class="choise"></button>
+                <button id="element4" class="choise"></button>
+                <button id="element5" class="choise"></button>
+            </div>
+            <div class="element_character">
+                <div class="hov press_element_alternate">не знаю</div>
+            </div>
+            <div class="element_character">
+                <div class="hov press_element_next hidden">дальше</div>
+            </div>
+            <canvas width="500" height="500" id="canvas"></canvas>
+    
+        </div>
+    </div>
     <div class="sprint hidden"></div>
     <div class="sprint_results hidden"></div>
-    <div class="statPage"></div>
+    <div class="statPage">
+        
+    </div>
     <div class="level hidden">
         <div class="level_dlg"></div>
     </div>
