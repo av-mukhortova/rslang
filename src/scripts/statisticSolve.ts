@@ -39,7 +39,7 @@ async function CreateStatistic(
       await api.transferData(userUid, datas);
     }
   } else {
-    const dataInside = getStatistic.optional.neWords;
+    // const dataInside = getStatistic.optional.neWords;
   }
 }
 

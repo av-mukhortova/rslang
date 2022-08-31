@@ -15,7 +15,7 @@ const links = [
   },
   {
     id: 2,
-    text: "Книга",
+    text: "Учебник",
     linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/book.png",
     alt: "book.png",
@@ -23,14 +23,6 @@ const links = [
   },
   {
     id: 3,
-    text: "Изученные слова",
-    linkPage: "#",
-    linkimg: "https://www.imagehousing.com/images/2022/08/27/book.png",
-    alt: "book.png",
-    key: "words",
-  },
-  {
-    id: 4,
     text: "Мини-игра «Аудиовызов»",
     linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/game.png",
@@ -38,7 +30,7 @@ const links = [
     key: "audiocall",
   },
   {
-    id: 5,
+    id: 4,
     text: "Мини-игра «Спринт»",
     linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/game.png",
@@ -46,7 +38,7 @@ const links = [
     key: "sprint",
   },
   {
-    id: 6,
+    id: 5,
     text: "Статистика",
     linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/statistics.png",

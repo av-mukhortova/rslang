@@ -25,7 +25,6 @@ class Pages {
     const words = api.getWords(group, `${this.page}`);
     words.then((data: iWord[]) => this.create(chapters, data, group));
   }
-
   create(chapters: HTMLElement, data: iWord[], group: string): void {
     const paginationItem = new PaginationItem(group, this.page);
     const chechActiv = new ChechActiv();
