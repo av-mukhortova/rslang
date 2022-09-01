@@ -4,6 +4,7 @@ import StatisticsText from "./statisticsText";
 import VideoReport from "./videoReport";
 import Team from "./team";
 import FooterBlock from "./footerBlock";
+import Menu from "./menu";
 
 class Main {
   header: Header;
@@ -44,6 +45,11 @@ class Main {
     main.append(videoReport);
     main.append(teamSection);
     document.querySelector("body")?.append(footer);
+
+    studiBlock.addEventListener("click", (e: MouseEvent) => {
+      const menu = new Menu();
+      menu.toLink(e);
+    });
   }
 }
 
