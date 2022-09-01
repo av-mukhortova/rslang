@@ -9,8 +9,20 @@ import "../../assets/styles/bookStyle/pages.css";
 import { process } from "../../scripts/audiocall";
 import Sprint from "../sprint";
 
-const gameLinkarr = ["qqqqq", "wwwww"];
-const gameNamearr = ["Аудиовызов", "Спринт"];
+const games = [
+  {
+    link: "qqqqqqq",
+    name: "Аудиовызов",
+    img: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    id: "book-audiocall-btn",
+  },
+  {
+    link: "wwwww",
+    name: "Спринт",
+    img: "https://images.unsplash.com/photo-1608496601160-f86d19a44f9f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1561&q=80",
+    id: "book-sprint-btn",
+  },
+];
 const authorizedCheck = true;
 
 class Pages {
@@ -39,8 +51,6 @@ class Pages {
     const words = document.createElement("div") as HTMLDivElement;
     const pageNumber = document.createElement("div") as HTMLDivElement;
     const pagination = document.createElement("div") as HTMLDivElement;
-    const sprintBtn = document.createElement("button") as HTMLButtonElement;
-    const audiocallBtn = document.createElement("button") as HTMLButtonElement;
 
     containerWords.setAttribute("class", `container-words`);
     pagination.setAttribute("class", `pagination`);
@@ -51,11 +61,6 @@ class Pages {
 
     prevBtn.style.height = `${heightBook}px`;
     nextBtn.style.height = `${heightBook}px`;
-
-    sprintBtn.id = "book-sprint-btn";
-    sprintBtn.innerHTML = "Спринт";
-    audiocallBtn.id = "book-audiocall-btn";
-    audiocallBtn.innerHTML = "Аудиовызов";
 
     pageNumber.textContent = `${this.page + 1}`;
     const itemPage = new ItemPage();
@@ -70,12 +75,14 @@ class Pages {
     const gameBlock = document.createElement("div");
     if (authorizedCheck) {
       gameBlock.setAttribute("class", "game-block");
-      gameLinkarr.forEach((el: string, id: number) => {
+      games.forEach((el) => {
         gameBlock.innerHTML += gameLink.creat(
-          el,
-          gameNamearr[id],
+          el.link,
+          el.name,
           +group,
-          this.page
+          this.page,
+          el.img,
+          el.id
         );
       });
     }
@@ -88,7 +95,6 @@ class Pages {
     containerWords.append(words);
     containerWords.append(pageNumber);
     containerWords.append(pagination);
-    chapters.append(sprintBtn, audiocallBtn, containerWords);
     containerWords.append(gameBlock);
     chapters.append(containerWords);
 
@@ -109,9 +115,12 @@ class Pages {
     });
 
     const sprint = new Sprint();
-    sprintBtn.addEventListener("click", (): void => {
-      sprint.startFromBook(group, this.page);
-    });
+    const sprintBtn = document.querySelector("#book-sprint-btn");
+    if (sprintBtn) {
+      sprintBtn.addEventListener("click", (): void => {
+        sprint.startFromBook(group, this.page);
+      });
+    }
     document.addEventListener("keydown", (event) => {
       if (sprint.isKeyUp && sprint.isPlaying) {
         if (event.code === "ArrowRight") sprint.checkAnswer(true);

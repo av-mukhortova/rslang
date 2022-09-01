@@ -10,7 +10,7 @@ class FooterBlock {
     teamNames.setAttribute("class", "footer-team");
 
     container.innerHTML = `
-      <p>RS LANG 2022</p>
+    <a href="https://github.com/rolling-scopes-school/tasks/blob/master/tasks/stage-2/rs-lang/rslang.md">RS LANG 2022</a>
       <a href="https://rs.school/">
         <img src="https://www.imagehousing.com/images/2022/08/28/rs-school-android.png" alt="rs-school-android.png" border="0" />
       </a>
