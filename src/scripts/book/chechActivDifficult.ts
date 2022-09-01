@@ -18,7 +18,7 @@ class ChechActivDifficult {
     const cardDifficultDel = blockAuthor.childNodes[5] as HTMLElement;
     cardDifficultDel.style.display = "block";
     cardDifficult.style.display = "none";
-    card.style.border = "5px solid red";
+    card.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
     localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
   }
   dell(
@@ -37,7 +37,7 @@ class ChechActivDifficult {
     const cardDifficult = blockAuthor.childNodes[3] as HTMLElement;
     cardDifficult.style.display = "block";
     cardDifficultDell.style.display = "none";
-    card.style.border = "";
+    card.style.boxShadow = "";
     localKeySaveDel.remove(groupId, pageNumber, cardID, wordsNode, pagination);
   }
 }

@@ -65,14 +65,14 @@ class CheckWordsOnload {
     pageNumber: number
   ) {
     if (namePage === "pageStudes" || namePage === "studi") {
-      wordsNode.style.backgroundColor = "rgba(144, 230, 151, 0.85)";
-      wordsNode.style.padding = "10px 0";
+      wordsNode.style.border = "6px solid #43DE1C";
+      wordsNode.style.padding = "100px 0";
       this.addPaginationStyle(pagination, pageNumber, namePage);
     }
 
     if (namePage === "pageDifficults" || namePage === "cardDifficults") {
-      wordsNode.style.border = "5px solid red";
-      wordsNode.style.padding = "10px 0";
+      wordsNode.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
+      wordsNode.style.padding = "100px 0";
       this.addPaginationStyle(pagination, pageNumber, namePage);
     }
   }
@@ -84,12 +84,12 @@ class CheckWordsOnload {
     pageNumber: number
   ) {
     if (namePage === "pageStudes" || namePage === "studi") {
-      wordsNode.style.backgroundColor = "";
+      wordsNode.style.border = "";
       this.removePaginationStyle(pagination, pageNumber, namePage);
     }
 
     if (namePage === "pageDifficults" || namePage === "cardDifficults") {
-      wordsNode.style.border = "";
+      wordsNode.style.boxShadow = "";
       this.removePaginationStyle(pagination, pageNumber, namePage);
     }
   }
@@ -148,7 +148,7 @@ class CheckWordsOnload {
               "none";
             (child.childNodes[5].childNodes[5] as HTMLElement).style.display =
               "block";
-            child.style.border = "5px solid red";
+            child.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
           }
         }
         if (namePage === "pageStudes") {
@@ -156,7 +156,7 @@ class CheckWordsOnload {
             (child.childNodes[5].childNodes[1] as HTMLElement).classList.toggle(
               "activ"
             );
-            child.style.backgroundColor = "green";
+            child.style.border = "6px solid #43DE1C";
           }
         }
       }
