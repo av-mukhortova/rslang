@@ -6,7 +6,14 @@ class GameLink {
     this.studiKeys = localStorage.getItem("studi");
     this.studiKeysLength = 0;
   }
-  creat(link: string, name: string, group: number, page: number) {
+  creat(
+    link: string,
+    name: string,
+    group: number,
+    page: number,
+    img: string,
+    id: string
+  ) {
     if (this.studiKeys) {
       const studiKeys = JSON.parse(this.studiKeys);
       if (studiKeys[group]) {
@@ -17,14 +24,14 @@ class GameLink {
     }
     if (this.studiKeysLength === 20) {
       return `
-        <div class="game">
+        <div class="game" style="background-image: url(${img});">
           <div class="game-none"></div>
           <a href="" target="" rel="noopener noreferrer">${name}</a>
         </div>
       `;
     } else {
       return `
-        <div class="game">
+        <div id="${id}" class="game" style="background-image: url(${img});">
           <a href="${link}" target="" rel="noopener noreferrer">${name}</a>
         </div>
       `;

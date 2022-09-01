@@ -20,11 +20,11 @@ class ChechActivStudi {
     cardStudiBtn.classList.toggle("activ");
     const groupId = Number(group);
     if (cardStudiBtn.classList.contains("activ")) {
-      card.style.backgroundColor = "green";
+      card.style.border = "6px solid #43DE1C";
       this.userWords.addLearnedWord(cardID);
-      // localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
+      localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
     } else {
-      card.style.backgroundColor = "";
+      card.style.border = "";
       localKeySaveDel.remove(
         groupId,
         pageNumber,

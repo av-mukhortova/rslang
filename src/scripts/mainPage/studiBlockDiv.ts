@@ -18,7 +18,7 @@ const studiBlock_data = [
             данное слово добавляется в раздел "Сложные слова",
             и можно отметить как изученное.`,
     place: false,
-    id: "studi_dictionar",
+    id: "studi_book",
   },
   {
     img: "https://images.unsplash.com/photo-1534643960519-11ad79bc19df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
@@ -53,6 +53,7 @@ class StudiBlockDiv {
     studiBlock_data.forEach((el) => {
       const item = document.createElement("div") as HTMLElement;
       item.setAttribute("class", "main__studi-item");
+      item.setAttribute("id", `${el.id}`);
       if (el.place) {
         item.innerHTML = `
             <div class="img" style="background-image: url(${el.img})">
