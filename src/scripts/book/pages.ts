@@ -9,8 +9,20 @@ import "../../assets/styles/bookStyle/pages.css";
 import { process } from "../../scripts/audiocall";
 import Sprint from "../sprint";
 
-const gameLinkarr = ["qqqqq", "wwwww"];
-const gameNamearr = ["Аудиовызов", "Спринт"];
+const games = [
+  {
+    link: "qqqqqqq",
+    name: "Аудиовызов",
+    img: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    id: 1,
+  },
+  {
+    link: "wwwww",
+    name: "Спринт",
+    img: "https://images.unsplash.com/photo-1608496601160-f86d19a44f9f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1561&q=80",
+    id: 1,
+  },
+];
 const authorizedCheck = true;
 
 class Pages {
@@ -70,12 +82,13 @@ class Pages {
     const gameBlock = document.createElement("div");
     if (authorizedCheck) {
       gameBlock.setAttribute("class", "game-block");
-      gameLinkarr.forEach((el: string, id: number) => {
+      games.forEach((el) => {
         gameBlock.innerHTML += gameLink.creat(
-          el,
-          gameNamearr[id],
+          el.link,
+          el.name,
           +group,
-          this.page
+          this.page,
+          el.img
         );
       });
     }
