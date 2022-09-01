@@ -15,19 +15,30 @@ class UserWords {
       .getUserWords(localStorage.getItem("userId"))
       .then((words: Array<iUserWord>) => {
         const obj: justObject = {};
-        // const userWords: Array<iUserWord> = [];
         for (let i = 0; i < words.length; i++) {
           const isLearned = words[i].optional.isLearned;
           const isNew = words[i].optional.isNew;
           const isDifficult = words[i].difficulty === "hard";
-          /* words[i].isLearned = isLearned;
-          words[i].isNew = isNew;
-          userWords.push(words[i]); */
           if (isLearned) obj[words[i].id] = "isLearned";
           else if (isNew) obj[words[i].id] = "isNew";
           else if (isDifficult) obj[words[i].id] = "isDifficult";
         }
         return obj;
+      });
+  }
+  public async getUserWordsLikeArray(): Promise<iUserWord[]> {
+    return await this.api
+      .getUserWords(localStorage.getItem("userId"))
+      .then((words: Array<iUserWord>) => {
+        const userWords: Array<iUserWord> = [];
+        for (let i = 0; i < words.length; i++) {
+          words[i].isLearned = words[i].optional.isLearned;
+          words[i].isNew = words[i].optional.isNew;
+          words[i].date = words[i].optional.date;
+          words[i].playName = words[i].optional.playName;
+          userWords.push(words[i]);
+        }
+        return userWords;
       });
   }
   public async addLearnedWord(wordId: string | null, playName = "book") {
