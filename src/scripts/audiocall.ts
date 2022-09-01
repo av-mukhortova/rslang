@@ -266,7 +266,7 @@ export async function process(groupSet = 9, randPage = 31) {
       winElement.appendChild(foxtrot);
       foxtrot.appendChild(Charlee);
 
-      Charlee.innerHTML = `Количество ${trueAnswersArr.length}/10`;
+      Charlee.innerHTML = `Количество ${trueAnswersArr.length * 10}%`;
       finishElement.classList.remove("hidden");
       trueAnswersArr.forEach((item) => {
         const Eco = document.createElement("div");
@@ -288,7 +288,7 @@ export async function process(groupSet = 9, randPage = 31) {
       winWrong.appendChild(foxtrot1);
       foxtrot1.appendChild(Charlee1);
 
-      Charlee1.innerHTML = `Количество ${falseAnswersArr.length}/10`;
+      Charlee1.innerHTML = `Количество ${falseAnswersArr.length * 10}%`;
       falseAnswersArr.forEach((item) => {
         const Eco = document.createElement("div");
         const Bravo = document.createElement("span");

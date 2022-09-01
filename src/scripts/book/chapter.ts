@@ -1,5 +1,7 @@
 import Pages from "./pages";
 import "../../assets/styles/bookStyle/chapter.css";
+import { justObject } from "../../types/index";
+import UserWords from "../userWords";
 
 interface Key {
   key: string[];
@@ -9,22 +11,37 @@ class Chapter {
   dificaltKeys: string | null;
   countStudi: number;
   countDifficalt: number;
+  userWords: UserWords;
+  words: justObject;
 
   constructor() {
     this.studiKeys = localStorage.getItem("studi");
     this.dificaltKeys = localStorage.getItem("cardDifficults");
     this.countStudi = 0;
     this.countDifficalt = 0;
+    this.userWords = new UserWords();
+    this.words = {};
   }
 
   public create() {
+    const isAuth = localStorage.getItem("userId");
+    if (isAuth) {
+      this.userWords.getUserWords().then((words) => {
+        this.words = words;
+        this.draw();
+      });
+    } else {
+      this.draw();
+    }
+  }
+  public draw() {
+    console.log(this.words);
     const book: HTMLDivElement | null = document.querySelector(".bookPage");
     book?.classList.remove("hidden");
     const main: HTMLDivElement | null = document.querySelector(".mainPage");
     main?.classList.add("hidden");
 
     const chap = document.querySelector(".chapters") as HTMLElement;
-    // const body = document.querySelector("body") as HTMLElement;
     if (chap) {
       const bod = chap?.parentNode;
       bod?.removeChild(chap);

@@ -42,3 +42,33 @@ export interface iAuthResp {
   userId: string;
   name: string;
 }
+export interface iStatistics {
+  learnedWords: number;
+  optional: {
+    month: string;
+    day: string;
+    sprint: {
+      neWords: unknown[];
+      percentOfTruth: Array<string>;
+      lengthOfTruth: string;
+    };
+    audiocall: {
+      neWords: unknown[];
+      percentOfTruth: Array<string>;
+      lengthOfTruth: string;
+    };
+  };
+}
+export interface iUserWord {
+  id: string;
+  difficulty: string;
+  optional: {
+    isLearned: boolean;
+    isNew: boolean;
+  };
+  isLearned?: boolean;
+  isNew?: boolean;
+}
+export type justObject = {
+  [key: string]: string;
+};
