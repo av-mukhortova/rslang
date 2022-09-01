@@ -1,8 +1,9 @@
 import Api from "./api";
 const api = new Api();
+import UserWords from "./userWords";
+const userWords = new UserWords();
 
 export async function CreateStatistic(
-  learnedWords = 0,
   month: string,
   day: string,
   neWords: unknown[],
@@ -43,15 +44,46 @@ export async function CreateStatistic(
     return datas;
   }
   let getStatistic;
+  const learnedArray = await userWords.getUserWordsLikeArray();
+  const learnedWord = learnedArray.filter(
+    (item) => item.date == `${day}.${month}`
+  );
+  const learnedWord1 = learnedWord.filter((item) => item.isLearned == true);
+
+  const learnedWords = learnedWord1.length;
   try {
-    getStatistic = await api.takeStatistic(userUid);
-  } catch (e) {
     await api.refreshToken(userUid);
     getStatistic = await api.takeStatistic(userUid);
+  } catch (e) {
+    const datas =
+      nameOfGame == "audiocall"
+        ? createResult(
+            learnedWords,
+            month,
+            day,
+            [],
+            [],
+            "",
+            neWords,
+            percentOfTruth,
+            lengthOfTruth
+          )
+        : createResult(
+            learnedWords,
+            month,
+            day,
+            neWords,
+            percentOfTruth,
+            lengthOfTruth,
+            [],
+            [],
+            ""
+          );
+
+    await api.transferData(userUid, datas);
   }
   if (
-    !getStatistic ||
-    month != getStatistic.optional.month ||
+    month != getStatistic?.optional.month ||
     day != getStatistic.optional.day
   ) {
     try {
@@ -109,7 +141,6 @@ export async function CreateStatistic(
             );
 
       await api.transferData(userUid, datas);
-      console.log(await api.takeStatistic(userUid));
     }
   } else {
     const dataInside =
@@ -130,7 +161,9 @@ export async function CreateStatistic(
         ? getStatistic.optional.audiocall.lengthOfTruth
         : getStatistic.optional.sprint.lengthOfTruth;
     const maxLengthTruthInside =
-      lengthTruthInside > lengthOfTruth ? lengthTruthInside : lengthOfTruth;
+      Number(lengthTruthInside) > Number(lengthOfTruth)
+        ? lengthTruthInside
+        : lengthOfTruth;
     try {
       const datas =
         nameOfGame == "audiocall"
@@ -191,15 +224,23 @@ export async function CreateStatistic(
     // const dataInside = getStatistic.optional.neWords;
   }
   console.log(await api.takeStatistic(userUid));
+  console.log(await userWords.getUserWordsLikeArray());
 }
 
-export function StatProcess() {
+export async function StatProcess() {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-
+  const userUid = localStorage.getItem("userId");
+  const statistic = await api.takeStatistic(userUid);
   const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D | null;
-  const data = [10, 53];
-  const color = ["#B8EDFF", "green"];
 
+  const color = ["#B8EDFF", "green", "yellow"];
+  const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
+    (a, b) => a + b
+  );
+  const data = [
+    Number(statistic.optional.audiocall.neWords.length),
+    Number(trueAnswers),
+  ];
   for (let i = 0; i < data.length; i++) {
     if (ctx) {
       ctx.fillStyle = color[i];
@@ -207,7 +248,11 @@ export function StatProcess() {
     const dp = data[i];
     ctx?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
   }
-  const labels = ["Новые слова", "Правильные ответы"];
+  const labels = [
+    `Новые слова ${statistic.optional.audiocall.neWords.length}`,
+    `Правильные ответы${Number(trueAnswers) * 10}`,
+    "Линия ответов",
+  ];
 
   if (ctx) {
     ctx.fillStyle = "black";
@@ -215,5 +260,4 @@ export function StatProcess() {
   for (let i = 0; i < labels.length; i++) {
     ctx?.fillText(labels[i], 25 + i * 100, 475);
   }
-  CreateStatistic(1, "2", "1", ["7"], ["4"], "1", "audiocall");
 }
