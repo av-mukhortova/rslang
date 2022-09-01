@@ -10,6 +10,14 @@ export async function CreateStatistic(
   lengthOfTruth: string,
   nameOfGame: string
 ) {
+  console.log(learnedWords);
+  console.log(month);
+  console.log(day);
+  console.log(neWords);
+  console.log(percentOfTruth);
+  console.log(lengthOfTruth);
+  console.log(nameOfGame);
+
   const userUid = localStorage.getItem("userId");
   function createResult(
     learnedWords: number,
