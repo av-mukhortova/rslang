@@ -10,8 +10,13 @@ class Authorization {
     this.api = new Api();
   }
   create(main: App) {
-    const mainDiv = document.querySelector(".mainPage") as HTMLElement;
-    const authorization = document.createElement("section") as HTMLElement;
+    let authorization = document.querySelector(".authorization") as HTMLElement;
+    if (authorization) {
+      authorization.replaceChildren();
+      authorization.style.display = "flex";
+    } else {
+      authorization = document.createElement("section") as HTMLElement;
+    }
     authorization.setAttribute("class", "authorization");
     const forma = document.createElement("div") as HTMLDivElement;
     forma.className = "auth_form";
@@ -26,7 +31,6 @@ class Authorization {
       <button class="signup_button" type="submit" name="form_auth_submit">Зарегистрироваться</button>
     `;
     authorization.append(forma);
-    mainDiv?.append(authorization);
     const signupButton = document.querySelector(
       ".signup_button"
     ) as HTMLButtonElement;
@@ -49,8 +53,8 @@ class Authorization {
     authorization.innerHTML = "";
     title.innerHTML = "Зарегистрироваться";
     forma.innerHTML = `
+      <input id="auth_name" type="text" placeholder="Введите имя" required>
       <input id="auth_email" type="email" placeholder="Введите Ваш Email" required>
-      <input id="auth_name" type="name" placeholder="Введите имя" required>
       <input id="auth_pass" type="password" placeholder="Введите пароль" min-size="8" required>
       <span id="auth_msg"></span>
       <button class="signup_button" type="submit" name="form_auth_submit">Зарегистрироваться</button>
@@ -63,7 +67,6 @@ class Authorization {
     signupButton.addEventListener("click", () => {
       const user = this.readData();
       this.createUser(user, authorization, main);
-      authorization.style.display = "none";
     });
   }
   private readData(): iUser {
@@ -82,9 +85,15 @@ class Authorization {
     };
     return user;
   }
-  public createUser(user: iUser, authorization: HTMLElement, main: App): void {
-    this.api.createUser(user).then((resp: string) => {
-      if (resp === "Успешно") {
+  public async createUser(
+    user: iUser,
+    authorization: HTMLElement,
+    main: App
+  ): Promise<void> {
+    await this.api.createUser(user).then((resp: string) => {
+      console.log(resp);
+      if (resp === "Успешно!") {
+        authorization.style.display = "none";
         this.signIn(user, authorization, main);
       } else {
         const msg: HTMLSpanElement | null = document.querySelector("#auth_msg");

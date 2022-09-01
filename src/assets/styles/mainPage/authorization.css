@@ -11,6 +11,7 @@
     left: 50%;
     transform: translate(-50%);
     top: 20%;
+    z-index: 1000;
 }
 
 .authorization p {

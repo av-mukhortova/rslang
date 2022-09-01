@@ -1,7 +1,8 @@
 import constants from "../constants";
-import { iPair, iWord } from "../types/index";
+import { iPair, iWord, justObject } from "../types/index";
 import Api from "./api";
 import Chapter from "./book/chapter";
+import UserWords from "./userWords";
 
 export default class Sprint {
   api: Api;
@@ -25,6 +26,10 @@ export default class Sprint {
   userWords: { [key: string]: string };
   newWords: { [key: string]: string };
 
+  userWordsUI: UserWords;
+  words: justObject;
+  wordsInProgress: justObject;
+
   constructor() {
     this.api = new Api();
     this.currentPair = 0;
@@ -45,11 +50,26 @@ export default class Sprint {
     this.inRow = 0;
     this.userWords = {};
     this.newWords = {};
+    this.userWordsUI = new UserWords();
+    this.words = {};
+    this.wordsInProgress = {};
   }
 
   public start(): void {
-    this.resetAll();
-    this.askLevel();
+    const isAuth = localStorage.getItem("userId");
+    if (isAuth) {
+      this.userWordsUI.getUserWords().then((words) => {
+        this.words = words;
+        this.userWordsUI.getUserWordsInProgress().then((wordsInProgress) => {
+          this.wordsInProgress = wordsInProgress;
+          this.resetAll();
+          this.askLevel();
+        });
+      });
+    } else {
+      this.resetAll();
+      this.askLevel();
+    }
   }
   private resetAll() {
     this.currentPair = 0;
