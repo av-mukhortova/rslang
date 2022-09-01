@@ -120,7 +120,8 @@ export default class Api {
     userId: string | null,
     wordId: string | null,
     type: string | null,
-    playName: string | null
+    playName: string | null,
+    inProgress = 0
   ): Promise<boolean> {
     const now = new Date();
     const date = now.getDate() + "." + now.getMonth();
@@ -131,6 +132,7 @@ export default class Api {
         isNew: type === "isNew",
         playName: playName,
         date: date,
+        inProgress: inProgress,
       },
     };
     const res = await fetch(
@@ -185,5 +187,16 @@ export default class Api {
     );
     const word = await res.json();
     return word;
+  }
+  public async getWord(id: string): Promise<iWord> {
+    const res = await fetch(`${constants.URL}/words/${id}`, {
+      method: "GET",
+    });
+    const words = await res.json();
+    const arr: Array<iWord> = [];
+    for (const key in words) {
+      arr.push(words[key]);
+    }
+    return arr[0];
   }
 }
