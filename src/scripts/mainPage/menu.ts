@@ -48,6 +48,10 @@ const links = [
 ];
 
 class Menu {
+  sprint: Sprint;
+  constructor() {
+    this.sprint = new Sprint();
+  }
   create() {
     const menuLinks = new MenuLinks();
     const menu = document.createElement("div") as HTMLElement;
@@ -67,72 +71,14 @@ class Menu {
     const main = document.querySelector(".popup") as HTMLElement;
     main?.append(menuSection);
 
-    // const chapter = new Chapter();
-    // const sprint = new Sprint();
     menu.addEventListener("click", (event: MouseEvent) => {
       this.toLink(event);
       menuSection.style.display = "none";
-      // const target: HTMLElement = event.target as HTMLElement;
-      // const parent: HTMLElement = target.parentNode as HTMLElement;
-      // const book = document.querySelector(".bookPage") as HTMLElement;
-      // const sprintPage = document.querySelector(".sprint") as HTMLElement;
-      // const levelPage = document.querySelector(".level") as HTMLElement;
-      // const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
-      // const audocallPage = document.querySelector(
-      //   ".audocallPage"
-      // ) as HTMLElement;
-      // const sprintResultsPage = document.querySelector(
-      //   ".sprint_results"
-      // ) as HTMLElement;
-      // const id = target.id ? target.id : parent.id;
-      // if (id) {
-      //   const mainDiv = document.querySelector(".mainPage") as HTMLElement;
-      //   mainDiv.classList.add("hidden");
-      //   switch (id) {
-      //     case "main": {
-      //       mainDiv.classList.remove("hidden");
-      //       if (book?.classList.contains("hidden") === false) {
-      //         book?.classList.add("hidden");
-      //       }
-      //       break;
-      //     }
-      //     case "sprint": {
-      //       sprint.start();
-      //       break;
-      //     }
-      //     case "audiocall": {
-      //       process();
-      //       StatProcess();
-      //       break;
-      //     }
-      //     case "book": {
-      //       chapter.create();
-      //       if (sprintPage?.classList.contains("hidden") === false) {
-      //         sprintPage?.classList.add("hidden");
-      //       }
-      //       if (levelPage?.classList.contains("hidden") === false) {
-      //         levelPage?.classList.add("hidden");
-      //       }
-      //       if (sprintResultsPage?.classList.contains("hidden") === false) {
-      //         sprintResultsPage?.classList.add("hidden");
-      //       }
-      //       if (audocallPage?.classList.contains("hidden") === false) {
-      //         audocallPage?.classList.add("hidden");
-      //       }
-      //       if (wordsPage?.classList.contains("hidden") === false) {
-      //         wordsPage?.classList.add("hidden");
-      //       }
-      //       break;
-      //     }
-      //   }
-      //   menuSection.style.display = "none";
-      // }
     });
   }
 
   toLink(event: MouseEvent) {
     const chapter = new Chapter();
-    const sprint = new Sprint();
     const target: HTMLElement = event.target as HTMLElement;
     const parent: HTMLElement = target.parentNode as HTMLElement;
     const book = document.querySelector(".bookPage") as HTMLElement;
@@ -157,7 +103,7 @@ class Menu {
         }
         case "sprint":
         case "studi_game-sprint": {
-          sprint.start();
+          this.sprint.start();
           break;
         }
         case "audiocall":
