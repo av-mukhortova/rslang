@@ -20,6 +20,7 @@ button {
 }
 
 .audiocall {
+    padding-top:200px;
     width: 1000px;
     background-color: blue;
     position: relative;
@@ -117,4 +118,10 @@ button {
 
 #canvas {
     border: 1px solid black;
+}
+
+
+.starter_pack{
+    width:100px;
+    padding-top: 200px;
 }

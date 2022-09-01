@@ -1,6 +1,7 @@
 import Api from "./api";
 import { iArray } from "../types/index";
 const api = new Api();
+import { CreateStatistic } from "./statisticSolve";
 
 async function search(group: string, page: string, wordChange: number) {
   const resultArr = await api.getWords(group, page);
@@ -129,7 +130,8 @@ export async function process(groupSet = 9, randPage = 31) {
       wordChange++;
     });
   });
-
+  let seriesArray: Array<number> = [];
+  let seriesNumber = 0;
   document.querySelector(".press_element")?.addEventListener("click", () => {
     fullDatas.AudioM.play();
   });
@@ -148,8 +150,11 @@ export async function process(groupSet = 9, randPage = 31) {
       });
       if (item.innerHTML.split(".")[1] == fullDatas.wordTrans) {
         trueAnswersArr.push(fullDatas);
+        seriesNumber++;
       } else {
         falseAnswersArr.push(fullDatas);
+        seriesArray.push(seriesNumber);
+        seriesNumber = 0;
       }
 
       pressElementNext.classList.remove("hidden");
@@ -161,9 +166,14 @@ export async function process(groupSet = 9, randPage = 31) {
   document.addEventListener("keydown", function (event) {
     if (event.code == "Digit1") {
       event.preventDefault();
-      element1.innerHTML.split(".")[1] == fullDatas.wordTrans
-        ? trueAnswersArr.push(fullDatas)
-        : falseAnswersArr.push(fullDatas);
+      if (element1.innerHTML.split(".")[1] == fullDatas.wordTrans) {
+        trueAnswersArr.push(fullDatas);
+        seriesNumber++;
+      } else {
+        falseAnswersArr.push(fullDatas);
+        seriesArray.push(seriesNumber);
+        seriesNumber = 0;
+      }
       pressElementNext.classList.remove("hidden");
       pressElementAlternate.classList.add("hidden");
       wordMain.classList.remove("hidden");
@@ -174,9 +184,14 @@ export async function process(groupSet = 9, randPage = 31) {
     }
     if (event.code == "Digit2") {
       event.preventDefault();
-      element2.innerHTML.split(".")[1] == fullDatas.wordTrans
-        ? trueAnswersArr.push(fullDatas)
-        : falseAnswersArr.push(fullDatas);
+      if (element2.innerHTML.split(".")[1] == fullDatas.wordTrans) {
+        trueAnswersArr.push(fullDatas);
+        seriesNumber++;
+      } else {
+        falseAnswersArr.push(fullDatas);
+        seriesArray.push(seriesNumber);
+        seriesNumber = 0;
+      }
       pressElementNext.classList.remove("hidden");
       pressElementAlternate.classList.add("hidden");
       wordMain.classList.remove("hidden");
@@ -187,9 +202,14 @@ export async function process(groupSet = 9, randPage = 31) {
     }
     if (event.code == "Digit3") {
       event.preventDefault();
-      element3.innerHTML.split(".")[1] == fullDatas.wordTrans
-        ? trueAnswersArr.push(fullDatas)
-        : falseAnswersArr.push(fullDatas);
+      if (element3.innerHTML.split(".")[1] == fullDatas.wordTrans) {
+        trueAnswersArr.push(fullDatas);
+        seriesNumber++;
+      } else {
+        falseAnswersArr.push(fullDatas);
+        seriesArray.push(seriesNumber);
+        seriesNumber = 0;
+      }
       pressElementNext.classList.remove("hidden");
       pressElementAlternate.classList.add("hidden");
       wordMain.classList.remove("hidden");
@@ -200,9 +220,14 @@ export async function process(groupSet = 9, randPage = 31) {
     }
     if (event.code == "Digit4") {
       event.preventDefault();
-      element4.innerHTML.split(".")[1] == fullDatas.wordTrans
-        ? trueAnswersArr.push(fullDatas)
-        : falseAnswersArr.push(fullDatas);
+      if (element4.innerHTML.split(".")[1] == fullDatas.wordTrans) {
+        trueAnswersArr.push(fullDatas);
+        seriesNumber++;
+      } else {
+        falseAnswersArr.push(fullDatas);
+        seriesArray.push(seriesNumber);
+        seriesNumber = 0;
+      }
       pressElementNext.classList.remove("hidden");
       pressElementAlternate.classList.add("hidden");
       wordMain.classList.remove("hidden");
@@ -213,9 +238,14 @@ export async function process(groupSet = 9, randPage = 31) {
     }
     if (event.code == "Digit5") {
       event.preventDefault();
-      element5.innerHTML.split(".")[1] == fullDatas.wordTrans
-        ? trueAnswersArr.push(fullDatas)
-        : falseAnswersArr.push(fullDatas);
+      if (element5.innerHTML.split(".")[1] == fullDatas.wordTrans) {
+        trueAnswersArr.push(fullDatas);
+        seriesNumber++;
+      } else {
+        falseAnswersArr.push(fullDatas);
+        seriesArray.push(seriesNumber);
+        seriesNumber = 0;
+      }
       pressElementNext.classList.remove("hidden");
       pressElementAlternate.classList.add("hidden");
       wordMain.classList.remove("hidden");
@@ -229,6 +259,8 @@ export async function process(groupSet = 9, randPage = 31) {
       pressElementAlternate.innerHTML.split(".")[1] == fullDatas.wordTrans
         ? trueAnswersArr.push(fullDatas)
         : falseAnswersArr.push(fullDatas);
+      seriesArray.push(seriesNumber);
+      seriesNumber = 0;
       pressElementNext.classList.remove("hidden");
       pressElementAlternate.classList.add("hidden");
       wordMain.classList.remove("hidden");
@@ -260,6 +292,28 @@ export async function process(groupSet = 9, randPage = 31) {
     if (array3.length < 10) {
       wordChange++;
     } else {
+      seriesArray.push(seriesNumber);
+      const newWordArray = [];
+      for (let i = 0; i < array3.length; i++) {
+        newWordArray.push(array3[i].Word);
+      }
+
+      seriesNumber = 0;
+      const date = new Date();
+      const percArray = [String(trueAnswersArr.length)];
+      const maxSize = Math.max.apply(null, seriesArray);
+      const day = String(date.getDate());
+      const month = String(date.getMonth());
+
+      CreateStatistic(
+        month,
+        day,
+        newWordArray,
+        percArray,
+        String(maxSize),
+        "audiocall"
+      );
+
       const Charlee = document.createElement("div");
       const foxtrot = document.createElement("div");
       foxtrot.classList.add("remove_item");
@@ -327,6 +381,7 @@ export async function process(groupSet = 9, randPage = 31) {
     window.location.reload();
   });
   again?.addEventListener("click", async () => {
+    seriesArray = [];
     randWord = getRandom(11);
     randPage = getRandom(31);
     pageList = randPage;
