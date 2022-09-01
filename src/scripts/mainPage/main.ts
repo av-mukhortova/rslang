@@ -24,7 +24,7 @@ class Main {
     const statisticsBlock = document.createElement("section") as HTMLElement;
     const videoReport = document.createElement("section") as HTMLElement;
     const teamSection = document.createElement("section") as HTMLElement;
-    const footer = document.createElement("footer") as HTMLElement;
+    const footer = document.querySelector("footer") as HTMLElement;
 
     herro.setAttribute("class", "herro");
     studiBlock.setAttribute("class", "main__studi-block");
@@ -43,7 +43,7 @@ class Main {
     main.append(statisticsBlock);
     main.append(videoReport);
     main.append(teamSection);
-    main.append(footer);
+    document.querySelector("body")?.append(footer);
   }
 }
 
