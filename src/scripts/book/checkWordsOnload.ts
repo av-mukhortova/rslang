@@ -105,10 +105,10 @@ class CheckWordsOnload {
         const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
         if (pagin_elNum === String(pageNumber + 1)) {
           if (namePage === "pageDifficults" || namePage === "cardDifficults") {
-            pagin_el.style.border = "";
+            pagin_el.style.boxShadow = "";
           }
           if (namePage === "pageStudes" || namePage === "studi") {
-            pagin_el.style.backgroundColor = "";
+            pagin_el.style.border = "";
           }
         }
       }
@@ -126,10 +126,10 @@ class CheckWordsOnload {
         const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
         if (pagin_elNum === String(pageNumber + 1)) {
           if (namePage === "pageDifficults" || namePage === "cardDifficults") {
-            pagin_el.style.border = "2px solid red";
+            pagin_el.style.boxShadow = "inset 0px 0px 3px 3px #F06C5D";
           }
           if (namePage === "pageStudes" || namePage === "studi") {
-            pagin_el.style.backgroundColor = "green";
+            pagin_el.style.border = "3px solid #43DE1C";
           }
         }
       }

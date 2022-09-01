@@ -63,7 +63,7 @@ class PaginationItem {
       `;
     } else if (this.dificaltKeysBtn === "yes") {
       return `
-        <button class="pagination-btn pagination-btn-dif"  id="paginnateBtn-${num}" style="border = "2px solid red"; background-color = "" ">${num}</button>
+        <button class="pagination-btn pagination-btn-dif"  id="paginnateBtn-${num}" style="border = ""; background-color = "" ">${num}</button>
       `;
     } else {
       return `
