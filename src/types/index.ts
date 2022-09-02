@@ -67,11 +67,13 @@ export interface iUserWord {
     isNew: boolean;
     date: string;
     playName: string;
+    inProgress: number;
   };
   isLearned?: boolean;
   isNew?: boolean;
   date?: string;
   playName?: string;
+  inProgress?: number;
 }
 export type justObject = {
   [key: string]: string;

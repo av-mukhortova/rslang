@@ -48,6 +48,10 @@ const links = [
 ];
 
 class Menu {
+  sprint: Sprint;
+  constructor() {
+    this.sprint = new Sprint();
+  }
   create() {
     const menuLinks = new MenuLinks();
     const menu = document.createElement("div") as HTMLElement;
@@ -67,8 +71,6 @@ class Menu {
     const main = document.querySelector(".popup") as HTMLElement;
     main?.append(menuSection);
 
-    // const chapter = new Chapter();
-    // const sprint = new Sprint();
     menu.addEventListener("click", (event: MouseEvent) => {
       this.toLink(event);
       menuSection.style.display = "none";
@@ -77,7 +79,6 @@ class Menu {
 
   toLink(event: MouseEvent) {
     const chapter = new Chapter();
-    const sprint = new Sprint();
     const target: HTMLElement = event.target as HTMLElement;
     const parent: HTMLElement = target.parentNode as HTMLElement;
     const book = document.querySelector(".bookPage") as HTMLElement;
@@ -102,7 +103,7 @@ class Menu {
         }
         case "sprint":
         case "studi_game-sprint": {
-          sprint.start();
+          this.sprint.start();
           break;
         }
         case "audiocall":

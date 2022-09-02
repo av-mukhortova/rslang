@@ -41,6 +41,18 @@ class UserWords {
         return userWords;
       });
   }
+  public async getUserWordsInProgress(): Promise<justObject> {
+    return await this.api
+      .getUserWords(localStorage.getItem("userId"))
+      .then((words: Array<iUserWord>) => {
+        const obj: justObject = {};
+        for (let i = 0; i < words.length; i++) {
+          const isNew = words[i].optional.isNew;
+          if (isNew) obj[words[i].id] = words[i].optional.inProgress.toString();
+        }
+        return obj;
+      });
+  }
   public async addLearnedWord(wordId: string | null, playName = "book") {
     if (wordId)
       this.api.createWord(

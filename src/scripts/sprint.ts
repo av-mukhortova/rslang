@@ -1,7 +1,9 @@
 import constants from "../constants";
-import { iPair, iWord } from "../types/index";
+import { iPair, iWord, justObject } from "../types/index";
 import Api from "./api";
 import Chapter from "./book/chapter";
+import { CreateStatistic } from "./statisticSolve";
+import UserWords from "./userWords";
 
 export default class Sprint {
   api: Api;
@@ -22,8 +24,11 @@ export default class Sprint {
   countIncorrect: number;
   longSeria: number;
   inRow: number;
-  userWords: { [key: string]: string };
-  newWords: { [key: string]: string };
+  gameWords: Array<string>;
+
+  userWordsUI: UserWords;
+  words: justObject;
+  wordsInProgress: justObject;
 
   constructor() {
     this.api = new Api();
@@ -43,13 +48,27 @@ export default class Sprint {
     this.countIncorrect = 0;
     this.longSeria = 0;
     this.inRow = 0;
-    this.userWords = {};
-    this.newWords = {};
+    this.userWordsUI = new UserWords();
+    this.words = {};
+    this.wordsInProgress = {};
+    this.gameWords = [];
   }
 
   public start(): void {
-    this.resetAll();
-    this.askLevel();
+    const isAuth = localStorage.getItem("userId");
+    if (isAuth) {
+      this.userWordsUI.getUserWords().then((words) => {
+        this.words = words;
+        this.userWordsUI.getUserWordsInProgress().then((wordsInProgress) => {
+          this.wordsInProgress = wordsInProgress;
+          this.resetAll();
+          this.askLevel();
+        });
+      });
+    } else {
+      this.resetAll();
+      this.askLevel();
+    }
   }
   private resetAll() {
     this.currentPair = 0;
@@ -101,6 +120,15 @@ export default class Sprint {
     btn6.dataset.level = "6";
     btn6.innerHTML = "6";
     levelDlg?.append(btn1, btn2, btn3, btn4, btn5, btn6);
+
+    let close_btn: HTMLButtonElement | null =
+      document.querySelector("#level_close");
+    if (!close_btn) {
+      close_btn = document.createElement("button");
+      close_btn.innerHTML = "Выход";
+      close_btn.id = "level_close";
+      levelDiv?.append(close_btn);
+    }
     levelDlg?.addEventListener("click", (event: MouseEvent): void => {
       const target: HTMLElement = event.target as HTMLElement;
       if (target.tagName.toLowerCase() === "button" && !this.isPlaying) {
@@ -113,6 +141,13 @@ export default class Sprint {
           this.play();
         });
       }
+    });
+    close_btn?.addEventListener("click", (): void => {
+      const levelDiv: HTMLDivElement | null = document.querySelector(".level");
+      levelDiv?.classList.add("hidden");
+      const mainPage: HTMLDivElement | null =
+        document.querySelector(".mainPage");
+      mainPage?.classList.remove("hidden");
     });
   }
   private setPairs(words: Array<iWord>): void {
@@ -156,14 +191,9 @@ export default class Sprint {
 
     sprintDiv?.replaceChildren();
 
-    const close_btn: HTMLButtonElement | null =
-      document.createElement("button");
-    close_btn.innerHTML = "Close";
-    close_btn.id = "sprint_close";
-
     const sprint_dlg: HTMLDivElement = document.createElement("div");
     sprint_dlg.className = "sprint_dlg";
-    sprintDiv?.append(close_btn, sprint_dlg);
+    sprintDiv?.append(sprint_dlg);
 
     const header_sprint: HTMLDivElement = document.createElement("div");
     header_sprint.className = "header_sprint";
@@ -171,8 +201,15 @@ export default class Sprint {
     words_sprint.className = "words_sprint";
     const buttons_sprint: HTMLDivElement = document.createElement("div");
     buttons_sprint.className = "buttons_sprint";
+    const footer_sprint: HTMLDivElement = document.createElement("div");
+    footer_sprint.className = "footer_sprint";
 
-    sprint_dlg.append(header_sprint, words_sprint, buttons_sprint);
+    sprint_dlg.append(
+      header_sprint,
+      words_sprint,
+      buttons_sprint,
+      footer_sprint
+    );
 
     const sprintTimer: HTMLSpanElement = document.createElement("span");
     sprintTimer.innerHTML = constants.timerValue.toString();
@@ -214,10 +251,15 @@ export default class Sprint {
     sprintTrueBtn.innerHTML = "Верно ►";
 
     buttons_sprint.append(sprintFalseBtn, sprintTrueBtn);
+
+    const close_btn: HTMLButtonElement | null =
+      document.createElement("button");
+    close_btn.innerHTML = "Выход";
+    close_btn.id = "sprint_close";
+    footer_sprint.append(close_btn);
   }
   private play(): void {
     this.currentPair = 0;
-    this.getUserWords();
     this.changeWord();
 
     const timer: HTMLSpanElement | null =
@@ -270,6 +312,7 @@ export default class Sprint {
     if (word && translate) {
       word.innerHTML = this.pairs[this.currentPair].word;
       translate.innerHTML = this.pairs[this.currentPair].translate;
+      this.gameWords.push(this.pairs[this.currentPair].word);
     }
   }
   public checkAnswer(answer: boolean): void {
@@ -302,8 +345,6 @@ export default class Sprint {
       this.koef = 1;
       this.removeChecks();
     }
-    if (this.isNewWord(this.pairs[this.currentPair].word))
-      this.saveNewWord(this.pairs[this.currentPair].word);
     this.currentPair += 1;
     if (this.currentPair === this.pairs.length) {
       clearInterval(this.timerId);
@@ -530,50 +571,23 @@ export default class Sprint {
   private saveStatistics(): void {
     const now = new Date();
     const date = now.getDate();
-    const countCorrectAll = localStorage.getItem(`sprint_correct_${date}`);
-    const countIncorrectAll = localStorage.getItem(`sprint_incorrect_${date}`);
-    const longest = localStorage.getItem(`sprint_longest_${date}`);
-    if ((longest && +longest < this.longSeria) || !longest) {
-      localStorage.setItem(`sprint_longest_${date}`, this.longSeria.toString());
-    }
-    localStorage.setItem(
-      `sprint_correct_${date}`,
-      countCorrectAll
-        ? (+countCorrectAll + this.countCorrect).toString()
-        : this.countCorrect.toString()
-    );
-    localStorage.setItem(
-      `sprint_incorrect_${date}`,
-      countIncorrectAll
-        ? (+countIncorrectAll + this.countIncorrect).toString()
-        : this.countIncorrect.toString()
-    );
-    const words = Object.keys(this.userWords).join(",");
-    localStorage.setItem("words", words);
+    const month = now.getMonth();
 
-    const newWords = localStorage.getItem(`sprint_newwords_${date}`);
-    const arrWords = newWords?.split(",");
-    const allWords = arrWords
-      ? arrWords.concat(Object.keys(this.newWords))
-      : Object.keys(this.newWords);
-    localStorage.setItem(`sprint_newwords_${date}`, allWords.join(","));
-  }
-  private getUserWords(): void {
-    const userStr = localStorage.getItem("words");
-    const arr = userStr?.split(",");
-    if (arr) {
-      for (let i = 0; i < arr?.length; i += 1) {
-        const key = arr[i].toString();
-        this.userWords[key] = arr[i];
-      }
-    }
-  }
-  private isNewWord(word: string): boolean {
-    if (this.userWords[word]) return false;
-    return true;
-  }
-  private saveNewWord(word: string): void {
-    this.newWords[word] = word;
-    this.userWords[word] = word;
+    const percent = [];
+    percent.push(
+      (
+        (this.countCorrect / (this.countCorrect + this.countIncorrect)) *
+        100
+      ).toString()
+    );
+
+    CreateStatistic(
+      month.toString(),
+      date.toString(),
+      this.gameWords,
+      percent,
+      this.longSeria.toString(),
+      "sprint"
+    );
   }
 }

@@ -127,7 +127,8 @@ export default class Api {
     userId: string | null,
     wordId: string | null,
     type: string | null,
-    playName: string | null
+    playName: string | null,
+    inProgress = 0
   ): Promise<boolean> {
     const now = new Date();
     const date = now.getDate() + "." + now.getMonth();
@@ -138,6 +139,7 @@ export default class Api {
         isNew: type === "isNew",
         playName: playName,
         date: date,
+        inProgress: inProgress,
       },
     };
     const res = await fetch(

@@ -4,9 +4,10 @@
     margin: 0 auto;
     height: 90vh;
     background: linear-gradient(to right, rgba(250, 128, 114, 0.28), rgba(255, 165, 0, 0.28), rgba(255, 255, 0, 0.28), rgba(50, 205, 50, 0.28), rgba(0, 191, 255, 0.28), rgba(0, 0, 255, 0.28), rgba(138, 43, 226, 0.28));
+    text-align: center;
 }
 
-.level_dlg{
+.level_dlg {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -61,6 +62,43 @@
 }
 
 .buttons_sprint button {
+    width: 150px;
+    height: 50px;
+}
+
+.footer_sprint button {
+    width: 150px;
+    height: 50px;
+}
+
+#level_close {
+    width: 150px;
+    height: 50px;
+    margin-top: 100px;
+}
+.sprint_results {
+    padding-top: 12vh;
+    padding-bottom: 5vh ;
+}
+
+.sprint_results thead {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.sprint_results table {
+    width: 50vh;
+}
+
+.res_btns {
+    display: flex;
+    width: 50vh;
+    justify-content: space-around;
+    padding-top: 5vh;
+}
+
+.res_btns button {
     width: 150px;
     height: 50px;
 }
