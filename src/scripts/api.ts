@@ -129,12 +129,15 @@ export default class Api {
     type: string | null,
     playName: string | null
   ): Promise<boolean> {
+    const now = new Date();
+    const date = now.getDate() + "." + now.getMonth();
     const body = {
       difficulty: type === "difficulty" ? "hard" : "easy",
       optional: {
         isLearned: type === "isLearned",
         isNew: type === "isNew",
         playName: playName,
+        date: date,
       },
     };
     const res = await fetch(
