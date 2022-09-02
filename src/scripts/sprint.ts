@@ -582,7 +582,6 @@ export default class Sprint {
     );
 
     CreateStatistic(
-      0,
       month.toString(),
       date.toString(),
       this.gameWords,
