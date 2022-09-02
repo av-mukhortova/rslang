@@ -91,7 +91,6 @@ class Authorization {
     main: App
   ): Promise<void> {
     await this.api.createUser(user).then((resp: string) => {
-      console.log(resp);
       if (resp === "Успешно!") {
         authorization.style.display = "none";
         this.signIn(user, authorization, main);
@@ -105,10 +104,13 @@ class Authorization {
     this.api.signIn(user).then((res: iAuthResp) => {
       if (res.message === "Authenticated") {
         localStorage.setItem("userId", res.userId);
+        localStorage.setItem("name", user.name);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("password", user.password);
         localStorage.setItem("token", res.token);
         localStorage.setItem("refreshToken", res.refreshToken);
         authorization.style.display = "none";
-        main.auth(res.name);
+        main.auth();
       } else {
         const msg: HTMLSpanElement | null = document.querySelector("#auth_msg");
         if (msg) msg.innerHTML = res.message;
