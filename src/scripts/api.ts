@@ -22,6 +22,13 @@ export default class Api {
     }
     return arr;
   }
+  public async getWordId(id: string): Promise<iWord> {
+    const res = await fetch(`${constants.URL}/words/${id}`, {
+      method: "GET",
+    });
+    const words = await res.json();
+    return words;
+  }
   public async takeStatistic(userUid: string | null): Promise<iStatistics> {
     const res = await fetch(`${constants.URL}/users/${userUid}/statistics`, {
       method: "GET",
@@ -165,6 +172,18 @@ export default class Api {
     }
     return arr;
   }
+  public async getUserWordsDifSt(userId: string | null): Promise<string[]> {
+    const res = await fetch(`${constants.URL}/users/${userId}/words`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const words = await res.json();
+    return words;
+  }
   public async getUserWordById(
     userId: string | null,
     wordId: string | null
@@ -182,5 +201,18 @@ export default class Api {
     );
     const word = await res.json();
     return word;
+  }
+  public async removeUserWordById(
+    userId: string | null,
+    wordId: string | null
+  ) {
+    await fetch(`${constants.URL}/users/${userId}/words/${wordId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
   }
 }

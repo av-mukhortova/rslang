@@ -35,7 +35,6 @@ class Chapter {
     }
   }
   public draw() {
-    console.log(this.words);
     const book: HTMLDivElement | null = document.querySelector(".bookPage");
     book?.classList.remove("hidden");
     const main: HTMLDivElement | null = document.querySelector(".mainPage");
