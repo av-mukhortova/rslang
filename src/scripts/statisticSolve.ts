@@ -234,30 +234,32 @@ export async function StatProcess() {
   const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D | null;
 
   const color = ["#B8EDFF", "green", "yellow"];
-  const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
-    (a, b) => a + b
-  );
-  const data = [
-    Number(statistic.optional.audiocall.neWords.length),
-    Number(trueAnswers),
-  ];
-  for (let i = 0; i < data.length; i++) {
-    if (ctx) {
-      ctx.fillStyle = color[i];
+  if (statistic) {
+    const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
+      (a, b) => a + b
+    );
+    const data = [
+      Number(statistic.optional.audiocall.neWords.length),
+      Number(trueAnswers),
+    ];
+    for (let i = 0; i < data.length; i++) {
+      if (ctx) {
+        ctx.fillStyle = color[i];
+      }
+      const dp = data[i];
+      ctx?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
     }
-    const dp = data[i];
-    ctx?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
-  }
-  const labels = [
-    `Новые слова ${statistic.optional.audiocall.neWords.length}`,
-    `Правильные ответы${Number(trueAnswers) * 10}`,
-    "Линия ответов",
-  ];
+    const labels = [
+      `Новые слова ${statistic.optional.audiocall.neWords.length}`,
+      `Правильные ответы${Number(trueAnswers) * 10}`,
+      "Линия ответов",
+    ];
 
-  if (ctx) {
-    ctx.fillStyle = "black";
-  }
-  for (let i = 0; i < labels.length; i++) {
-    ctx?.fillText(labels[i], 25 + i * 100, 475);
+    if (ctx) {
+      ctx.fillStyle = "black";
+    }
+    for (let i = 0; i < labels.length; i++) {
+      ctx?.fillText(labels[i], 25 + i * 100, 475);
+    }
   }
 }
