@@ -2,7 +2,7 @@
 .sprint {
     width: 1400px;
     margin: 0 auto;
-    height: 90vh;
+    height: 100vh;
     background: linear-gradient(to right, rgba(250, 128, 114, 0.28), rgba(255, 165, 0, 0.28), rgba(255, 255, 0, 0.28), rgba(50, 205, 50, 0.28), rgba(0, 191, 255, 0.28), rgba(0, 0, 255, 0.28), rgba(138, 43, 226, 0.28));
     text-align: center;
 }

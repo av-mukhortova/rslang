@@ -1,5 +1,5 @@
 export interface iWord {
-  id: number;
+  id: string;
   group: number;
   page: number;
   word: string;
@@ -15,6 +15,7 @@ export interface iWord {
   textExampleTranslate: string;
 }
 export interface iPair {
+  wordId: string;
   word: string;
   translate: string;
   isCorrect: boolean;

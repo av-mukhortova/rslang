@@ -80,6 +80,15 @@ class UserWords {
         playName
       );
   }
+  public addProgress(wordId: string, isCorrect: boolean): void {
+    console.log(isCorrect);
+    console.log(wordId);
+    this.api
+      .getUserWordById(localStorage.getItem("userId"), wordId)
+      .then((res) => {
+        console.log(res);
+      });
+  }
 }
 
 export default UserWords;
