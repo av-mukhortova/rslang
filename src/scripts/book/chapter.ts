@@ -1,7 +1,5 @@
 import Pages from "./pages";
 import "../../assets/styles/bookStyle/chapter.css";
-import { justObject } from "../../types/index";
-import UserWords from "../userWords";
 
 interface Key {
   key: string[];
@@ -11,8 +9,6 @@ class Chapter {
   dificaltKeys: string | null;
   countStudi: number;
   countDifficalt: number;
-  userWords: UserWords;
-  words: justObject;
   authorization: boolean;
 
   constructor() {
@@ -20,21 +16,11 @@ class Chapter {
     this.dificaltKeys = localStorage.getItem("cardDifficults");
     this.countStudi = 0;
     this.countDifficalt = 0;
-    this.userWords = new UserWords();
-    this.words = {};
     this.authorization = localStorage.getItem("userId") ? true : false;
   }
 
   public create() {
-    const isAuth = localStorage.getItem("userId");
-    if (isAuth) {
-      this.userWords.getUserWords().then((words) => {
-        this.words = words;
-        this.draw();
-      });
-    } else {
-      this.draw();
-    }
+    this.draw();
   }
   public draw() {
     const book: HTMLDivElement | null = document.querySelector(".bookPage");
@@ -95,7 +81,7 @@ class Chapter {
       const idChapter = (e.target as HTMLElement).closest("div") as HTMLElement;
       if (!idChapter?.getAttribute("id")) return;
       const group = idChapter?.getAttribute("id")?.split("-")[1];
-      // book?.setAttribute("class", `bookPage chapter-${group}`);
+      //  book?.setAttribute("class", `bookPage chapter-${group}`);
       book?.setAttribute("class", `bookPage`);
       const pages = new Pages();
       if (!group) return;

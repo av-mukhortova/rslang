@@ -249,7 +249,7 @@ export default class Api {
   public async getUserWordById(
     userId: string | null,
     wordId: string | null
-  ): Promise<iWord | null> {
+  ): Promise<iUserWord | null> {
     const res = await fetch(
       `${constants.URL}/users/${userId}/words/${wordId}`,
       {

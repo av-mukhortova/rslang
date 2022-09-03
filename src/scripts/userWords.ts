@@ -19,9 +19,9 @@ class UserWords {
           const isLearned = words[i].optional.isLearned;
           const isNew = words[i].optional.isNew;
           const isDifficult = words[i].difficulty === "hard";
-          if (isLearned) obj[words[i].id] = "isLearned";
-          else if (isNew) obj[words[i].id] = "isNew";
-          else if (isDifficult) obj[words[i].id] = "isDifficult";
+          if (isLearned) obj[words[i].wordId] = "isLearned";
+          else if (isNew) obj[words[i].wordId] = "isNew";
+          else if (isDifficult) obj[words[i].wordId] = "isDifficult";
         }
         return obj;
       });
@@ -48,7 +48,8 @@ class UserWords {
         const obj: justObject = {};
         for (let i = 0; i < words.length; i++) {
           const isNew = words[i].optional.isNew;
-          if (isNew) obj[words[i].id] = words[i].optional.inProgress.toString();
+          if (isNew)
+            obj[words[i].wordId] = words[i].optional.inProgress.toString();
         }
         return obj;
       });
@@ -80,13 +81,55 @@ class UserWords {
         playName
       );
   }
-  public addProgress(wordId: string, isCorrect: boolean): void {
-    console.log(isCorrect);
-    console.log(wordId);
+  public addProgress(
+    wordId: string,
+    isCorrect: boolean,
+    playName: string
+  ): void {
     this.api
       .getUserWordById(localStorage.getItem("userId"), wordId)
-      .then((res) => {
-        console.log(res);
+      .then((res: iUserWord | null) => {
+        if (res) {
+          const isLearned = res.optional.isLearned;
+          const progress = +res.optional.inProgress;
+          if (isCorrect) {
+            if (!isLearned) {
+              if (progress === 2) {
+                this.api.updateWord(
+                  localStorage.getItem("userId"),
+                  wordId,
+                  "isLearned",
+                  playName,
+                  0
+                );
+              } else {
+                this.api.updateWord(
+                  localStorage.getItem("userId"),
+                  wordId,
+                  "isNew",
+                  playName,
+                  progress + 1
+                );
+              }
+            }
+          } else if (isLearned && !isCorrect) {
+            this.api.updateWord(
+              localStorage.getItem("userId"),
+              wordId,
+              "isNew",
+              playName,
+              0
+            );
+          }
+        } else if (isCorrect) {
+          this.api.createWord(
+            localStorage.getItem("userId"),
+            wordId,
+            "isNew",
+            playName,
+            1
+          );
+        }
       });
   }
 }
