@@ -82,7 +82,7 @@ class Chapter {
         if (!this.authorization) {
           chapter.style.display = "none";
         }
-        number.textContent = `dificalt ${i + 1}`;
+        number.textContent = `Dificalt`;
       } else {
         number.textContent = `chapter ${i + 1}`;
       }
