@@ -79,6 +79,7 @@ export default class App {
               "https://www.imagehousing.com/images/2022/08/27/avatar.png";
           }
         }
+        window.location.reload();
       }
     });
   }

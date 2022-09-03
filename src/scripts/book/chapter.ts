@@ -13,6 +13,7 @@ class Chapter {
   countDifficalt: number;
   userWords: UserWords;
   words: justObject;
+  authorization: boolean;
 
   constructor() {
     this.studiKeys = localStorage.getItem("studi");
@@ -21,6 +22,7 @@ class Chapter {
     this.countDifficalt = 0;
     this.userWords = new UserWords();
     this.words = {};
+    this.authorization = localStorage.getItem("userId") ? true : false;
   }
 
   public create() {
@@ -58,11 +60,11 @@ class Chapter {
       if (this.countStudi === 30 && this.countDifficalt === 30) {
         chapter.setAttribute("class", `chapter `);
         chapter.style.height = `${heightBook}px`;
-        chapter.style.boxShadow = "0px 0px 7px 7px #43DE1C";
+        chapter.style.border = "6px solid #43DE1C";
         chapter.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
       } else if (this.countStudi === 30) {
         chapter.setAttribute("class", `chapter`);
-        chapter.style.boxShadow = "0px 0px 7px 7px #43DE1C";
+        chapter.style.border = "6px solid #43DE1C";
         chapter.style.height = `${heightBook}px`;
         chapter.style.border = "";
       } else if (this.countDifficalt === 30) {
@@ -76,7 +78,14 @@ class Chapter {
       }
 
       const number = document.createElement("p");
-      number.textContent = `chapter ${i + 1}`;
+      if (i === 6) {
+        if (!this.authorization) {
+          chapter.style.display = "none";
+        }
+        number.textContent = `dificalt ${i + 1}`;
+      } else {
+        number.textContent = `chapter ${i + 1}`;
+      }
       chapter.append(number);
       chapters.append(chapter);
     }

@@ -24,7 +24,7 @@ const games = [
     id: "book-sprint-btn",
   },
 ];
-const authorizedCheck = true;
+const authorizedCheck = localStorage.getItem("userId") ? true : false;
 
 class Pages {
   page: number;
@@ -125,7 +125,8 @@ class Pages {
       const sprintBtn = document.querySelector("#book-sprint-btn");
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
-          this.sprint.startFromBook(group, this.page);
+          chapters.innerHTML = "";
+          sprint.startFromBook(group, this.page);
         });
       }
       document.addEventListener("keydown", (event) => {
