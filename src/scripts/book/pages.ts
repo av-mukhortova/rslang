@@ -29,10 +29,12 @@ const authorizedCheck = localStorage.getItem("userId") ? true : false;
 class Pages {
   page: number;
   dificaltBook: DificaltBook;
+  sprint: Sprint;
 
   constructor() {
     this.page = 0;
     this.dificaltBook = new DificaltBook();
+    this.sprint = new Sprint();
   }
 
   getWordData(chapters: HTMLElement, group: string) {
@@ -120,7 +122,6 @@ class Pages {
         }
       });
 
-      const sprint = new Sprint();
       const sprintBtn = document.querySelector("#book-sprint-btn");
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
@@ -129,15 +130,15 @@ class Pages {
         });
       }
       document.addEventListener("keydown", (event) => {
-        if (sprint.isKeyUp && sprint.isPlaying) {
-          if (event.code === "ArrowRight") sprint.checkAnswer(true);
-          if (event.code === "ArrowLeft") sprint.checkAnswer(false);
-          sprint.isKeyUp = false;
+        if (this.sprint.isKeyUp && this.sprint.isPlaying) {
+          if (event.code === "ArrowRight") this.sprint.checkAnswer(true);
+          if (event.code === "ArrowLeft") this.sprint.checkAnswer(false);
+          this.sprint.isKeyUp = false;
         }
       });
       document.addEventListener("keyup", (event) => {
         if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
-          sprint.isKeyUp = true;
+          this.sprint.isKeyUp = true;
         }
       });
 
