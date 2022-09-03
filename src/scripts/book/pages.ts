@@ -126,7 +126,7 @@ class Pages {
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
           chapters.innerHTML = "";
-          sprint.startFromBook(group, this.page);
+          this.sprint.startFromBook(group, this.page);
         });
       }
       document.addEventListener("keydown", (event) => {
