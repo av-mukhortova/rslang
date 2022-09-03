@@ -63,6 +63,9 @@ export default class App {
         localStorage.removeItem("userId");
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("name");
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
         const auth: HTMLDivElement | null = document.querySelector(
           ".header__authorization"
         );
