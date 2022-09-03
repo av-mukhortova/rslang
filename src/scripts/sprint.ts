@@ -438,6 +438,7 @@ export default class Sprint {
       const soundImg: HTMLImageElement | null = document.createElement("img");
       soundImg.src = "./assets/img/volume.png";
       soundImg.alt = "sound";
+      soundImg.style.backgroundColor = "inherit";
       tdSound.append(soundBtn, soundLabel);
       soundLabel.append(soundImg);
       const tdWord: HTMLTableCellElement | null = document.createElement("td");
