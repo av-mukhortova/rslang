@@ -124,6 +124,7 @@ class Pages {
       const sprintBtn = document.querySelector("#book-sprint-btn");
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
+          chapters.innerHTML = "";
           sprint.startFromBook(group, this.page);
         });
       }

@@ -104,6 +104,21 @@ class Menu {
         case "sprint":
         case "studi_game-sprint": {
           this.sprint.start();
+          if (book?.classList.contains("hidden") === false) {
+            book?.classList.add("hidden");
+          }
+          if (levelPage?.classList.contains("hidden") === false) {
+            levelPage?.classList.add("hidden");
+          }
+          if (sprintResultsPage?.classList.contains("hidden") === false) {
+            sprintResultsPage?.classList.add("hidden");
+          }
+          if (audocallPage?.classList.contains("hidden") === false) {
+            audocallPage?.classList.add("hidden");
+          }
+          if (wordsPage?.classList.contains("hidden") === false) {
+            wordsPage?.classList.add("hidden");
+          }
           break;
         }
         case "audiocall":
