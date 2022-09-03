@@ -24,7 +24,7 @@ const games = [
     id: "book-sprint-btn",
   },
 ];
-const authorizedCheck = true;
+const authorizedCheck = localStorage.getItem("userId") ? true : false;
 
 class Pages {
   page: number;

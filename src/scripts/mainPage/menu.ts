@@ -125,6 +125,18 @@ class Menu {
         case "studi_game-audio": {
           process();
           StatProcess();
+          if (sprintPage?.classList.contains("hidden") === false) {
+            sprintPage?.classList.add("hidden");
+          }
+          if (levelPage?.classList.contains("hidden") === false) {
+            levelPage?.classList.add("hidden");
+          }
+          if (sprintResultsPage?.classList.contains("hidden") === false) {
+            sprintResultsPage?.classList.add("hidden");
+          }
+          if (wordsPage?.classList.contains("hidden") === false) {
+            wordsPage?.classList.add("hidden");
+          }
           break;
         }
         case "book":
