@@ -320,7 +320,11 @@ export default class Sprint {
   }
   public checkAnswer(answer: boolean): void {
     if (answer === this.pairs[this.currentPair].isCorrect) {
-      this.userWordsUI.addProgress(this.pairs[this.currentPair].wordId, true);
+      this.userWordsUI.addProgress(
+        this.pairs[this.currentPair].wordId,
+        true,
+        "sprint"
+      );
       const res: iPair = {
         wordId: this.pairs[this.currentPair].wordId,
         word: this.pairs[this.currentPair].word,
@@ -333,7 +337,11 @@ export default class Sprint {
       this.results.push(res);
       this.addPoints();
     } else {
-      this.userWordsUI.addProgress(this.pairs[this.currentPair].wordId, false);
+      this.userWordsUI.addProgress(
+        this.pairs[this.currentPair].wordId,
+        false,
+        "sprint"
+      );
       const res: iPair = {
         wordId: this.pairs[this.currentPair].wordId,
         word: this.pairs[this.currentPair].word,
