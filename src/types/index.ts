@@ -52,6 +52,7 @@ export interface iStatistics {
       neWords: unknown[];
       percentOfTruth: Array<string>;
       lengthOfTruth: string;
+      per: unknown[] | undefined;
     };
     audiocall: {
       neWords: unknown[];
