@@ -162,7 +162,8 @@ class UserWords {
                   res.difficulty === "hard",
                   "isLearned",
                   playName,
-                  0
+                  0,
+                  res.optional.errors ? res.optional.errors : 0
                 );
               } else {
                 this.api.updateWord(
@@ -171,28 +172,32 @@ class UserWords {
                   res.difficulty === "hard",
                   "isNew",
                   playName,
-                  progress + 1
+                  progress + 1,
+                  res.optional.errors ? res.optional.errors : 0
                 );
               }
             }
-          } else if (isLearned && !isCorrect) {
+          } else if (!isCorrect) {
+            alert("тут");
             this.api.updateWord(
               localStorage.getItem("userId"),
               wordId,
               res.difficulty === "hard",
               "isNew",
               playName,
-              0
+              0,
+              res.optional.errors ? res.optional.errors + 1 : 1
             );
           }
-        } else if (isCorrect) {
+        } else {
           this.api.createWord(
             localStorage.getItem("userId"),
             wordId,
             false,
             "isNew",
             playName,
-            1
+            isCorrect ? 1 : 0,
+            isCorrect ? 0 : 1
           );
         }
       });

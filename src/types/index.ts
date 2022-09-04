@@ -13,6 +13,8 @@ export interface iWord {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  progress?: string;
+  errors?: string;
 }
 export interface iPair {
   wordId: string;
@@ -70,6 +72,7 @@ export interface iUserWord {
     date: string;
     playName: string;
     inProgress: number;
+    errors: number;
   };
   isLearned?: boolean;
   isNew?: boolean;

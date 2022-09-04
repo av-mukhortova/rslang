@@ -533,7 +533,7 @@ export default class Sprint {
   private closeResults() {
     const resDiv: HTMLDivElement | null =
       document.querySelector(".sprint_results");
-    const main: HTMLDivElement | null = document.querySelector(".main");
+    const main: HTMLDivElement | null = document.querySelector(".mainPage");
     resDiv?.classList.add("hidden");
     main?.classList.remove("hidden");
   }
@@ -544,19 +544,37 @@ export default class Sprint {
     this.bookPage = page;
     this.isPlaying = true;
     this.getWordsOfPage(+group, page).then((words: Array<iWord>) => {
-      this.setPairs(words);
-      if (page > 0) {
-        this.getWordsOfPreviousPages(+group, page - 1).then(
-          (words: Array<iWord>) => {
-            this.setPairs(words);
-            this.drawPlay();
-            this.play();
+      this.userWordsUI.getUserWords().then((userWords: justObject) => {
+        const newWords: Array<iWord> = [];
+        for (let i = 0; i < words.length; i++) {
+          const id = words[i].id;
+          if (!(userWords[id] === "isLearned")) {
+            newWords.push(words[i]);
           }
-        );
-      } else {
-        this.drawPlay();
-        this.play();
-      }
+        }
+        this.setPairs(newWords);
+        if (page > 0) {
+          this.getWordsOfPreviousPages(+group, page - 1).then(
+            (words: Array<iWord>) => {
+              this.userWordsUI.getUserWords().then((userWords: justObject) => {
+                const newWords: Array<iWord> = [];
+                for (let i = 0; i < words.length; i++) {
+                  const id = words[i].id;
+                  if (!(userWords[id] === "isLearned")) {
+                    newWords.push(words[i]);
+                  }
+                }
+                this.setPairs(newWords);
+                this.drawPlay();
+                this.play();
+              });
+            }
+          );
+        } else {
+          this.drawPlay();
+          this.play();
+        }
+      });
     });
   }
   private async getWordsOfPage(group: number, page: number): Promise<iWord[]> {
