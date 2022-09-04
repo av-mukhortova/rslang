@@ -18,10 +18,20 @@ class StatisticsText {
     Статистика возрастает,
     когда Вы  показываете хорошие результаты.
     И это вас мотивирует на следующие шагу.`;
+    const statLink = document.createElement("button");
+    if (statLink) {
+      statLink.innerHTML = "Перейти к статистике";
+      statLink.classList.add("stat_link");
+    }
 
     statisticsTextDiv.append(statisticsTitle);
     statisticsTextDiv.append(statisticsText);
+    statisticsTextDiv.append(statLink);
     statisticsContainet.append(statisticsTextDiv);
+
+    statLink?.addEventListener("click", (): void => {
+      alert("запустить статистику");
+    });
     return statisticsContainet;
   }
 }

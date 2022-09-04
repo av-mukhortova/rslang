@@ -179,7 +179,6 @@ class UserWords {
               }
             }
           } else if (!isCorrect) {
-            alert("тут");
             this.api.updateWord(
               localStorage.getItem("userId"),
               wordId,

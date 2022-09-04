@@ -108,6 +108,21 @@
     height: 669px;
     padding-top: 15%;
     margin-left: 50%;
+    text-align: center;
+}
+
+.stat_link {
+    background: inherit;
+    border-radius: 100px;
+    border: 1px solid rgb(68, 66, 66);
+    font-weight: 600;
+    width: 200px;
+    height: 50px;
+}
+
+.stat_link:hover {
+    box-shadow: inset 0px 0px 8px 6px #44DE1E;
+    border: 1px solid #44DE1E;
 }
 
 .main__statistics-block h2 {

@@ -146,7 +146,7 @@ class Pages {
       const sprintBtn = document.querySelector("#book-sprint-btn");
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
-          chapters.innerHTML = "";
+          location.hash = "booksprint";
           this.sprint.startFromBook(group, this.page);
         });
       }
@@ -198,7 +198,7 @@ class Pages {
     const containerWordsClass = document.querySelector(
       ".container-words"
     ) as HTMLElement;
-    containerWordsClass.addEventListener("click", (e: Event): void => {
+    containerWordsClass?.addEventListener("click", (e: Event): void => {
       // const wordsNode = document.querySelector(".words") as HTMLElement;
       chechActiv.check(e); //, this.page, group, wordsNode, pagination);
     });
