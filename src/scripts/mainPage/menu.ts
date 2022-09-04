@@ -86,7 +86,7 @@ class Menu {
     const levelPage = document.querySelector(".level") as HTMLElement;
     const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
     const audocallPage = document.querySelector(".audocallPage") as HTMLElement;
-    const statPage = document.querySelector(".statPage") as HTMLElement;
+    // const statPage = document.querySelector(".statPage") as HTMLElement;
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
