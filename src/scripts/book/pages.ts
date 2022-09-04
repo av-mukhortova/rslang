@@ -113,6 +113,10 @@ class Pages {
         this.getWordData(chapters, group);
       }
     });
+    const audiocallBtn = document.querySelector("#book-audiocall-btn");
+    audiocallBtn?.addEventListener("click", (): void => {
+      process(Number(group), this.page);
+    });
 
     const sprint = new Sprint();
     const sprintBtn = document.querySelector("#book-sprint-btn");

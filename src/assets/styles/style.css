@@ -1,9 +1,3 @@
-*,
-*::after,
-*::before {
-    box-sizing: border-box;
-    margin: 0;
-}
 
 .hidden {
     display: none;
@@ -15,53 +9,87 @@ button {
 
 
 .choise_element {
+    margin-top:300px;
     display: flex;
     justify-content: space-around;
 }
-
+.statPage,
+.starter_pack,
 .audiocall {
-    padding-top:200px;
-    width: 1000px;
-    background-color: blue;
-    position: relative;
+    width: 1400px;
+    margin: 0 auto;
+    height: 90vh;
+    background: linear-gradient(to right, rgba(250, 128, 114, 0.28), rgba(255, 165, 0, 0.28), rgba(255, 255, 0, 0.28), rgba(50, 205, 50, 0.28), rgba(0, 191, 255, 0.28), rgba(0, 0, 255, 0.28), rgba(138, 43, 226, 0.28));
+    text-align: center;
 }
+.notice_btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 600px;
+    margin: 0 auto;
+}
+.notice_btn button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 30px;
+    margin-top: 40vh;
+}
+#StartExit {
+    width: 150px;
+    height: 50px;
+    margin-top: 100px;
+}
+
 
 .finish_element {
     position: absolute;
-    width: 100%;
+    width: 1400px;
     height: 100%;
-    background-color: transparent;
+    background-color: white;
     z-index: 10;
 }
 
 .finish_element_character {
     position: absolute;
-    width: 200px;
-    height: 200px;
-    background-color: yellow;
-    left: calc(50% - 100px);
+    width: 400px;
+    height: 400px;
+    background-color: white;
+    margin-left:500px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 15;
     overflow: scroll;
+    border: 4px double black; 
+    
+    padding: 10px;
 }
+
 
 .small_img_size {
     width: 20px;
+}
+.small_img_size:hover{
+    cursor:pointer;
 }
 
 .picture_element {
     margin-top: 20px;
     width: 200px;
-    margin: 0 auto;
+    
+    position: absolute;
+    margin-top:40px;
+    margin-left:600px;
 
 }
 
 .press_element {
-    margin-top: 100px;
-
-    width: 100px;
+    
     margin: 0 auto;
+    width: 100px;
+    padding-top: 300px;
     cursor: pointer;
 }
 
@@ -73,24 +101,36 @@ button {
 }
 
 .word_character {
-    margin-top: 20px;
+    
     text-align: center;
     width: 200px;
-    margin: 0 auto;
+    position: absolute;
+    margin-top:0px;
+    margin-left:600px;
+    
 }
 
 .choise {
-    border: 4px double black;
-    background: #fc3;
+   
+   
     padding: 10px;
     cursor: pointer;
-    width: 100px;
+    width: 200px;
     text-align: center;
-    margin-top: 50px;
+    
+}
+.choise11 {
+   
+   
+    margin-top: 200px;
+    cursor: pointer;
+    width: 300px;
+    text-align: center;
+    
 }
 
 .choise:hover {
-    background: rgb(210, 186, 114);
+    cursor:pointer;
 }
 
 .hov {
@@ -105,7 +145,7 @@ button {
     width: 300px;
     margin: 0 auto;
     cursor: pointer;
-    background: #fc3;
+    background: grey;
 }
 
 .press_element_alternate {
@@ -120,8 +160,3 @@ button {
     border: 1px solid black;
 }
 
-
-.starter_pack{
-    width:100px;
-    padding-top: 200px;
-}
