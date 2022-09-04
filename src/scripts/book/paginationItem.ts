@@ -44,7 +44,6 @@ class PaginationItem {
             this.dificaltKeysBtn += 1;
           }
         }
-        this.create(page);
       });
     });
   }
