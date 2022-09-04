@@ -54,6 +54,7 @@ class UserWords {
       });
   }
   public async addLearnedWord(wordId: string | null, playName = "book") {
+    console.log("+++++++");
     if (wordId)
       this.api.createWord(
         localStorage.getItem("userId"),

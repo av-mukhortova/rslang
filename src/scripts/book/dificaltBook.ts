@@ -21,14 +21,19 @@ class DificaltBook {
     group: string
   ) {
     const word = this.api.getUserWordsDifSt(localStorage.getItem("userId"));
+    console.log(word);
 
     word
       .then((el) => {
         const keyDificults: string[] = [];
+        // const keyDificultsStades: string[] = [];
         el.forEach((iem) => {
           const elem = JSON.parse(JSON.stringify(iem));
           if (elem.difficulty === "hard") {
             keyDificults.push(elem.wordId);
+            // keyDificultsStades.push(elem.wordId);
+          } else {
+            // keyDificultsStades.push(elem.wordId);
           }
         });
         return keyDificults;
@@ -49,16 +54,19 @@ class DificaltBook {
           const path = e.target as HTMLElement;
           this.voses.start(path);
         });
+        return keyDificults;
       });
-    //   .then((keyDificults) => {
-    //     //  УДАЛИТЬ все
-    //     console.log("keyDificults_+_+", keyDificults);
-    //     keyDificults.forEach((id: string) => {
-    //       console.log(keyDificults.length);
-    //       console.log("removeUserWordById==", id);
-    //       this.api.removeUserWordById(localStorage.getItem("userId"), id);
-    //     });
+    // .then((keyDificults) => {
+    //   //  УДАЛИТЬ все
+    //   console.log("keyDificults_+_+", keyDificults);
+    //   localStorage.removeItem("cardDifficults");
+    //   localStorage.removeItem("studi");
+    //   keyDificults.forEach((id: string) => {
+    //     console.log(keyDificults.length);
+    //     console.log("removeUserWordById==", id);
+    //     this.api.removeUserWordById(localStorage.getItem("userId"), id);
     //   });
+    // });
   }
   delete(id: string | null) {
     this.api.removeUserWordById(localStorage.getItem("userId"), id);

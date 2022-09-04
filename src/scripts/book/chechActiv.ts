@@ -4,11 +4,11 @@ import Voses from "./voses";
 
 class ChechActiv {
   check(
-    eventEl: Event,
-    pageNumber: number,
-    group: string,
-    wordsNode: HTMLElement,
-    pagination: HTMLElement
+    eventEl: Event
+    // pageNumber: number,
+    // group: string,
+    // wordsNode: HTMLElement,
+    // pagination: HTMLElement
   ) {
     const chechActivStudi = new ChechActivStudi();
     const chechActivDifficult = new ChechActivDifficult();
@@ -32,21 +32,21 @@ class ChechActiv {
       chechActivStudi.check(
         card,
         cardStudiBtn,
-        cardID,
-        pageNumber,
-        group,
-        wordsNode,
-        pagination
+        cardID
+        // pageNumber,
+        // group,
+        // wordsNode,
+        // pagination
       );
     } else if (cardDifficult.classList.contains("item-page__difficult")) {
       chechActivDifficult.add(
         card,
         cardDifficult,
-        cardID,
-        pageNumber,
-        group,
-        wordsNode,
-        pagination
+        cardID
+        // pageNumber,
+        // group,
+        // wordsNode,
+        // pagination
       );
     } else if (
       cardDifficultDell.classList.contains("item-page__difficult-delete")
@@ -54,11 +54,11 @@ class ChechActiv {
       chechActivDifficult.dell(
         card,
         cardDifficultDell,
-        cardID,
-        pageNumber,
-        group,
-        wordsNode,
-        pagination
+        cardID
+        // pageNumber,
+        // group,
+        // wordsNode,
+        // pagination
       );
     }
   }

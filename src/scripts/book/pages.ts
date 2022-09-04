@@ -126,7 +126,7 @@ class Pages {
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
           chapters.innerHTML = "";
-          sprint.startFromBook(group, this.page);
+          this.sprint.startFromBook(group, this.page);
         });
       }
       document.addEventListener("keydown", (event) => {
@@ -169,7 +169,7 @@ class Pages {
         ".container-words"
       ) as HTMLElement;
       containerWordsClass.addEventListener("click", (e: Event): void => {
-        chechActiv.check(e, this.page, group, wordsNode, pagination);
+        chechActiv.check(e); //, this.page, group, wordsNode, pagination);
       });
 
       this.check();

@@ -1,4 +1,5 @@
 import CheckWordsOnload from "./checkWordsOnload";
+import UserWords from "../userWords";
 
 interface Key {
   key: string[];
@@ -8,11 +9,13 @@ class LocalKeySaveDel {
   localKey: string | null;
   keysArr: [Key[]];
   key: string;
+  userWords: UserWords;
 
   constructor(key: string) {
     this.key = key;
     this.localKey = localStorage.getItem(`${this.key}`);
     this.keysArr = this.localKey === null ? [] : JSON.parse(this.localKey);
+    this.userWords = new UserWords();
   }
   save(
     groupId: number,
