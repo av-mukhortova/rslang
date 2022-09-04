@@ -85,9 +85,14 @@ export default class App {
     document.addEventListener("DOMContentLoaded", () => {
       const page = location.hash.replace("#", "");
       const attr = page.split("/");
-      console.log(attr);
       this.menu.toLink(attr[0]);
     });
+    window.onhashchange = () => {
+      const page = location.hash.replace("#", "");
+      console.log(page);
+      const attr = page.split("/");
+      this.menu.toLink(attr[0]);
+    };
   }
   public auth() {
     const auth: HTMLDivElement | null = document.querySelector(

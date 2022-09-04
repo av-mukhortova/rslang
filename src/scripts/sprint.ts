@@ -149,6 +149,7 @@ export default class Sprint {
       mainPage?.classList.remove("hidden");
       const footer: HTMLElement | null = document.querySelector("footer");
       footer?.classList.remove("hidden");
+      location.hash = "#main";
     });
   }
   private setPairs(words: Array<iWord>): void {
@@ -499,7 +500,7 @@ export default class Sprint {
     const book_res: HTMLButtonElement | null =
       document.querySelector("#result_book");
     book_res?.addEventListener("click", (): void => {
-      const book: HTMLDivElement | null = document.querySelector(".book");
+      const book: HTMLDivElement | null = document.querySelector(".bookPage");
       book?.classList.remove("hidden");
       const main: HTMLDivElement | null =
         document.querySelector(".sprint_results");
@@ -530,6 +531,7 @@ export default class Sprint {
     main?.classList.remove("hidden");
     const footer: HTMLElement | null = document.querySelector("footer");
     footer?.classList.remove("hidden");
+    location.hash = "#main";
   }
   private closeResults() {
     const resDiv: HTMLDivElement | null =
@@ -539,8 +541,13 @@ export default class Sprint {
     main?.classList.remove("hidden");
     const footer: HTMLElement | null = document.querySelector("footer");
     footer?.classList.remove("hidden");
+    location.hash = "#main";
   }
   public startFromBook(group: string, page: number) {
+    const book: HTMLDivElement | null = document.querySelector(".bookPage");
+    book?.classList.add("hidden");
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.add("hidden");
     this.resetAll();
     this.isBook = true;
     this.bookGroup = group;

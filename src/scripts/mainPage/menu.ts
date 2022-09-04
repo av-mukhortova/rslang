@@ -75,7 +75,7 @@ class Menu {
       const target: HTMLElement = event.target as HTMLElement;
       const parent: HTMLElement = target.parentNode as HTMLElement;
       const id = target.id ? target.id : parent.id;
-      console.log(id);
+      location.hash = "#" + id;
       this.toLink(id);
       menuSection.style.display = "none";
     });
@@ -88,8 +88,6 @@ class Menu {
     const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
     const audocallPage = document.querySelector(".audocallPage") as HTMLElement;
     // const statPage = document.querySelector(".statPage") as HTMLElement;
-    const footer: HTMLElement | null = document.querySelector("footer");
-    footer?.classList.remove("hidden");
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
@@ -127,21 +125,27 @@ class Menu {
         case "studi_game-audio": {
           const footer: HTMLElement | null = document.querySelector("footer");
           footer?.classList.add("hidden");
+          const bookPage: HTMLElement | null =
+            document.querySelector(".bookPage");
+          bookPage?.classList.add("hidden");
+          const sprintPage: HTMLElement | null =
+            document.querySelector(".sprintPage");
+          sprintPage?.classList.add("hidden");
           process();
 
           break;
         }
         case "stat": {
-          StatProcess();
-          if (sprintPage?.classList.contains("hidden") === false) {
-            sprintPage?.classList.add("hidden");
-          }
+          const sprintPage: HTMLElement | null =
+            document.querySelector(".sprintPage");
+          sprintPage?.classList.add("hidden");
           if (sprintResultsPage?.classList.contains("hidden") === false) {
             sprintResultsPage?.classList.add("hidden");
           }
           if (wordsPage?.classList.contains("hidden") === false) {
             wordsPage?.classList.add("hidden");
           }
+          StatProcess();
           break;
         }
         case "book":
