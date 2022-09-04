@@ -263,31 +263,32 @@ export async function StatProcess() {
   statPage.addEventListener("click", () => {
     statPage.classList.remove("hidden");
   });
-
-  const color = ["#B8EDFF", "green", "yellow"];
-  const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
-    (a, b) => a + b,
-    "0"
-  );
-  const data = [
-    Number(statistic.optional.audiocall.neWords.length),
-    Number(trueAnswers),
-  ];
-  for (let i = 0; i < data.length; i++) {
-    if (ctx) {
-      ctx.fillStyle = color[i];
-    }
-    const labels = [
-      `Новые слова ${statistic.optional.audiocall.neWords.length}`,
-      `Правильные ответы${Number(trueAnswers) * 10}`,
-      "Линия ответов",
+  if (statistic) {
+    const color = ["#B8EDFF", "green", "yellow"];
+    const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
+      (a, b) => a + b,
+      "0"
+    );
+    const data = [
+      Number(statistic.optional.audiocall.neWords.length),
+      Number(trueAnswers),
     ];
+    for (let i = 0; i < data.length; i++) {
+      if (ctx) {
+        ctx.fillStyle = color[i];
+      }
+      const labels = [
+        `Новые слова ${statistic.optional.audiocall.neWords.length}`,
+        `Правильные ответы${Number(trueAnswers) * 10}`,
+        "Линия ответов",
+      ];
 
-    if (ctx) {
-      ctx.fillStyle = "black";
-    }
-    for (let i = 0; i < labels.length; i++) {
-      ctx?.fillText(labels[i], 25 + i * 100, 475);
+      if (ctx) {
+        ctx.fillStyle = "black";
+      }
+      for (let i = 0; i < labels.length; i++) {
+        ctx?.fillText(labels[i], 25 + i * 100, 475);
+      }
     }
   }
 }

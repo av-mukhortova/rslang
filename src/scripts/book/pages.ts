@@ -129,7 +129,7 @@ class Pages {
           this.sprint.startFromBook(group, this.page);
         });
       }
-    });
+    }
     nextBtn.addEventListener("click", (): void => {
       if (this.page < 29) {
         this.page += 1;
@@ -140,53 +140,48 @@ class Pages {
     audiocallBtn?.addEventListener("click", (): void => {
       process(Number(group), this.page);
     });
-      document.addEventListener("keydown", (event) => {
-        if (this.sprint.isKeyUp && this.sprint.isPlaying) {
-          if (event.code === "ArrowRight") this.sprint.checkAnswer(true);
-          if (event.code === "ArrowLeft") this.sprint.checkAnswer(false);
-          this.sprint.isKeyUp = false;
-        }
-      });
-      document.addEventListener("keyup", (event) => {
-        if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
-          this.sprint.isKeyUp = true;
-        }
-      });
+    document.addEventListener("keydown", (event) => {
+      if (this.sprint.isKeyUp && this.sprint.isPlaying) {
+        if (event.code === "ArrowRight") this.sprint.checkAnswer(true);
+        if (event.code === "ArrowLeft") this.sprint.checkAnswer(false);
+        this.sprint.isKeyUp = false;
+      }
+    });
+    document.addEventListener("keyup", (event) => {
+      if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
+        this.sprint.isKeyUp = true;
+      }
+    });
 
-      pagination.addEventListener("click", (e: Event): void => {
-        const idButton = (e.target as HTMLElement).closest(
-          "button"
-        ) as HTMLElement;
-        if (!idButton?.getAttribute("id")) return;
-        const page = idButton?.getAttribute("id")?.split("-")[1];
-        if (!page) return;
-        this.page = +page - 1;
-        this.getWordData(chapters, group);
-      });
-      document.querySelectorAll(".btn_audiocall_book")?.forEach((item) => {
-        item.addEventListener("click", async () => {
-          const btnAudiocallBook = document.querySelector(
-            ".btn_audiocall_book"
-          );
-          const groupList = Number(
-            btnAudiocallBook?.getAttribute("group_audio")
-          );
-          const pageList = Number(btnAudiocallBook?.getAttribute("page_audio"));
-          process(groupList, pageList);
-        });
-      });
-
-      const containerWordsClass = document.querySelector(
-        ".container-words"
+    pagination.addEventListener("click", (e: Event): void => {
+      const idButton = (e.target as HTMLElement).closest(
+        "button"
       ) as HTMLElement;
-      containerWordsClass.addEventListener("click", (e: Event): void => {
-        chechActiv.check(e, this.page, group, wordsNode, pagination);
+      if (!idButton?.getAttribute("id")) return;
+      const page = idButton?.getAttribute("id")?.split("-")[1];
+      if (!page) return;
+      this.page = +page - 1;
+      this.getWordData(chapters, group);
+    });
+    document.querySelectorAll(".btn_audiocall_book")?.forEach((item) => {
+      item.addEventListener("click", async () => {
+        const btnAudiocallBook = document.querySelector(".btn_audiocall_book");
+        const groupList = Number(btnAudiocallBook?.getAttribute("group_audio"));
+        const pageList = Number(btnAudiocallBook?.getAttribute("page_audio"));
+        process(groupList, pageList);
       });
+    });
 
-      this.check();
-    }
+    const containerWordsClass = document.querySelector(
+      ".container-words"
+    ) as HTMLElement;
+    containerWordsClass.addEventListener("click", (e: Event): void => {
+      const wordsNode = document.querySelector(".words") as HTMLElement;
+      chechActiv.check(e, this.page, group, wordsNode, pagination);
+    });
+
+    this.check();
   }
-
   check(): void {
     // const authorizedCheck = true;
     const authorizedBlock: NodeListOf<HTMLElement> = document.querySelectorAll(
