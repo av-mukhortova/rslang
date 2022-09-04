@@ -31,12 +31,12 @@ class ChechActiv {
     } else if (cardStudiBtn.classList.contains("item-page__studi")) {
       chechActivStudi.check(
         card,
-        cardStudiBtn,
+        cardStudiBtn /* ,
         cardID,
         pageNumber,
         group,
         wordsNode,
-        pagination
+        pagination */
       );
     } else if (cardDifficult.classList.contains("item-page__difficult")) {
       chechActivDifficult.add(

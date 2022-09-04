@@ -61,7 +61,7 @@ export interface iStatistics {
   };
 }
 export interface iUserWord {
-  id: string;
+  wordId: string;
   difficulty: string;
   optional: {
     isLearned: boolean;
