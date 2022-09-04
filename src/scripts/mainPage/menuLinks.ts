@@ -8,8 +8,8 @@ class MenuLinks {
   ): string {
     return `
       <div id="${key}">
-        <a href="${linkPage}">
-          <img src="${linkimg}" alt="${alt}"/>
+        <a id="${key}" href="${linkPage}">
+          <img id="${key}" src="${linkimg}" alt="${alt}"/>
           ${text}
         </a>
       </div>

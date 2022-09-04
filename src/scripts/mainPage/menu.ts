@@ -72,15 +72,17 @@ class Menu {
     main?.append(menuSection);
 
     menu.addEventListener("click", (event: MouseEvent) => {
-      this.toLink(event);
+      const target: HTMLElement = event.target as HTMLElement;
+      const parent: HTMLElement = target.parentNode as HTMLElement;
+      const id = target.id ? target.id : parent.id;
+      console.log(id);
+      this.toLink(id);
       menuSection.style.display = "none";
     });
   }
 
-  toLink(event: MouseEvent) {
+  toLink(id: string) {
     const chapter = new Chapter();
-    const target: HTMLElement = event.target as HTMLElement;
-    const parent: HTMLElement = target.parentNode as HTMLElement;
     const book = document.querySelector(".bookPage") as HTMLElement;
     const sprintPage = document.querySelector(".sprint") as HTMLElement;
     const levelPage = document.querySelector(".level") as HTMLElement;
@@ -90,7 +92,6 @@ class Menu {
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
-    const id = target.id ? target.id : parent.id;
     if (id) {
       const mainDiv = document.querySelector(".mainPage") as HTMLElement;
       mainDiv.classList.add("hidden");
