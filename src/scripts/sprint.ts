@@ -96,8 +96,6 @@ export default class Sprint {
     return res;
   }
   private askLevel(): void {
-    const footer: HTMLElement | null = document.querySelector("footer");
-    footer?.classList.add("hidden");
     const levelDiv: HTMLDivElement | null = document.querySelector(".level");
     levelDiv?.classList.remove("hidden");
     const levelDlg: HTMLDivElement | null =
@@ -150,6 +148,8 @@ export default class Sprint {
       const mainPage: HTMLDivElement | null =
         document.querySelector(".mainPage");
       mainPage?.classList.remove("hidden");
+      const footer: HTMLElement | null = document.querySelector("footer");
+      footer?.classList.remove("hidden");
     });
   }
   private setPairs(words: Array<iWord>): void {
@@ -529,6 +529,8 @@ export default class Sprint {
     const main: HTMLDivElement | null = document.querySelector(".mainPage");
     sprintDiv?.classList.add("hidden");
     main?.classList.remove("hidden");
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.remove("hidden");
   }
   private closeResults() {
     const resDiv: HTMLDivElement | null =
@@ -536,6 +538,8 @@ export default class Sprint {
     const main: HTMLDivElement | null = document.querySelector(".mainPage");
     resDiv?.classList.add("hidden");
     main?.classList.remove("hidden");
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.remove("hidden");
   }
   public startFromBook(group: string, page: number) {
     this.resetAll();

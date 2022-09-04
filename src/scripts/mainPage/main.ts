@@ -52,6 +52,7 @@ class Main {
       const target: HTMLElement = e.target as HTMLElement;
       const parent: HTMLElement = target.parentNode as HTMLElement;
       const id = target.id ? target.id : parent.id;
+      console.log(id);
       menu.toLink(id);
     });
 
