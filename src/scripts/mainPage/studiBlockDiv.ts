@@ -58,14 +58,14 @@ class StudiBlockDiv {
         item.innerHTML = `
             <div class="img" style="background-image: url(${el.img})">
             </div>
-            <div class="text">
-              <p>${el.text}</p>
+            <div class="text" id="${el.id}">
+              <p id="${el.id}">${el.text}</p>
             </div>
         `;
       } else {
         item.innerHTML = `
-          <div class="text">
-            <p>${el.text}</p>
+          <div class="text" id="${el.id}">
+            <p id="${el.id}">${el.text}</p>
           </div>
           <div class="img" style="background-image: url(${el.img})">
           </div>

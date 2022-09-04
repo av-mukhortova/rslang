@@ -1,14 +1,14 @@
 import "../../assets/styles/mainPage/team.scss";
 export const dataTeam = [
   {
-    img: "https://www.imagehousing.com/images/2022/08/28/photo_2022-02-22_12-38-14.jpg",
+    img: "./assets/img/alina.jpg",
     linkGitHub: "https://github.com/rrroeva",
     name: "Alina",
     secondname: "Mukhortova",
     spatial: `Team lead, Frontent developer`,
-    work1: "Авторизация ",
-    work2: "Игра Спринт",
-    work3: "статистики",
+    work1: "Авторизация",
+    work2: "Спринт",
+    work3: "Прогресс изучения, изученные слова",
     id: "alina",
   },
   {
@@ -17,8 +17,8 @@ export const dataTeam = [
     name: "Aliaksandr",
     secondname: "Sakalouski",
     spatial: `Frontent developer`,
-    work1: "Игра Аудиовызов",
-    work2: "статистики",
+    work1: "Аудиовызов",
+    work2: "Статистика",
     work3: "",
     id: "aliaksandr",
   },

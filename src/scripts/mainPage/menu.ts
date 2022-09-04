@@ -89,6 +89,8 @@ class Menu {
     const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
     const audocallPage = document.querySelector(".audocallPage") as HTMLElement;
     // const statPage = document.querySelector(".statPage") as HTMLElement;
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.remove("hidden");
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
@@ -105,6 +107,8 @@ class Menu {
         }
         case "sprint":
         case "studi_game-sprint": {
+          const footer: HTMLElement | null = document.querySelector("footer");
+          footer?.classList.add("hidden");
           this.sprint.start();
           if (book?.classList.contains("hidden") === false) {
             book?.classList.add("hidden");
@@ -125,6 +129,8 @@ class Menu {
         }
         case "audiocall":
         case "studi_game-audio": {
+          const footer: HTMLElement | null = document.querySelector("footer");
+          footer?.classList.add("hidden");
           process();
 
           break;
