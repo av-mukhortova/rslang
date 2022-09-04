@@ -49,7 +49,10 @@ class Main {
 
     studiBlock.addEventListener("click", (e: MouseEvent) => {
       const menu = new Menu();
-      menu.toLink(e);
+      const target: HTMLElement = e.target as HTMLElement;
+      const parent: HTMLElement = target.parentNode as HTMLElement;
+      const id = target.id ? target.id : parent.id;
+      menu.toLink(id);
     });
 
     body.addEventListener("click", () => {
