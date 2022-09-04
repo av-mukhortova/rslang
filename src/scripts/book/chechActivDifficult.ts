@@ -1,9 +1,7 @@
-// import LocalKeySaveDel from "./localKeySaveDel";
 import UserWords from "../userWords";
 import DificaltBook from "./dificaltBook";
 import CheckUserWord from "../checkUserWord/checkUserWord";
 
-// const localKeySaveDel = new LocalKeySaveDel("cardDifficults");
 class ChechActivDifficult {
   userWords: UserWords;
   dificaltBook: DificaltBook;
@@ -11,16 +9,7 @@ class ChechActivDifficult {
     this.userWords = new UserWords();
     this.dificaltBook = new DificaltBook();
   }
-  add(
-    card: HTMLElement,
-    cardDifficult: HTMLElement
-    // cardID: string | null
-    // pageNumber: number,
-    // group: string,
-    // wordsNode: HTMLElement,
-    // pagination: HTMLElement
-  ) {
-    // const groupId = Number(group);
+  add(card: HTMLElement, cardDifficult: HTMLElement) {
     const blockAuthor = cardDifficult.closest(
       ".item-page__authorized"
     ) as HTMLElement;
@@ -29,18 +18,12 @@ class ChechActivDifficult {
     cardDifficult.style.display = "none";
     card.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
     this.userWords.addDifficultWord(card.id);
-    // localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
   }
   dell(
     card: HTMLElement,
     cardDifficultDell: HTMLElement,
     cardID: string | null
-    // pageNumber: number,
-    // group: string
-    // wordsNode: HTMLElement,
-    // pagination: HTMLElement
   ) {
-    // const groupId = Number(group);
     const blockAuthor = cardDifficultDell.closest(
       ".item-page__authorized"
     ) as HTMLElement;
@@ -51,9 +34,6 @@ class ChechActivDifficult {
 
     const checkUserWord = new CheckUserWord();
     checkUserWord.checkDiff(cardID);
-
-    // this.dificaltBook.delete(cardID);
-    // localKeySaveDel.remove(groupId, pageNumber, cardID, wordsNode, pagination);
   }
 }
 

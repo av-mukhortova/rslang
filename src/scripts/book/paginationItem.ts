@@ -11,6 +11,8 @@ class PaginationItem {
   page: number;
   studiKeysBtn: number;
   dificaltKeysBtn: number;
+  paginationArr: number[];
+  getGroupPage: GetGroupPage;
 
   constructor(group: string, page: number) {
     this.learnedWords = {};
@@ -20,18 +22,25 @@ class PaginationItem {
     this.page = page;
     this.studiKeysBtn = 0;
     this.dificaltKeysBtn = 0;
+    this.paginationArr = [];
+    this.getGroupPage = new GetGroupPage();
   }
 
-  async getWordData(page: number): Promise<string> {
+  async getWordData() {
     const isAuth = localStorage.getItem("userId");
     if (isAuth) {
       this.learnedWords = await this.userWords.getUserWords();
       this.difficultWords = await this.userWords.getDifficultWords();
     }
 
-    const getGroupPage = new GetGroupPage();
-    getGroupPage.getData(this.group, page).then((words) => {
-      words.forEach((el) => {
+    for (let i = 0; i <= 29; i++) {
+      this.coutnPage(i);
+    }
+  }
+
+  coutnPage(page: number) {
+    this.getGroupPage.getData(this.group, page).then((words) => {
+      words.forEach((el, id) => {
         for (const key in this.learnedWords) {
           if (el.id === key) {
             if (this.learnedWords[key] === "isLearned") {
@@ -44,41 +53,65 @@ class PaginationItem {
             this.dificaltKeysBtn += 1;
           }
         }
+        if (id === 19) {
+          if (this.dificaltKeysBtn == 20 && this.studiKeysBtn == 20) {
+            this.studiKeysBtn = 0;
+            this.dificaltKeysBtn = 0;
+            this.paginationArr.push(12);
+          } else if (this.dificaltKeysBtn == 20) {
+            this.studiKeysBtn = 0;
+            this.dificaltKeysBtn = 0;
+            this.paginationArr.push(2);
+          } else if (this.studiKeysBtn == 20) {
+            this.studiKeysBtn = 0;
+            this.dificaltKeysBtn = 0;
+            this.paginationArr.push(1);
+          } else {
+            this.studiKeysBtn = 0;
+            this.dificaltKeysBtn = 0;
+            this.paginationArr.push(0);
+          }
+        }
+        if (this.paginationArr.length === 30) {
+          console.log("_+_+_+_+_+_+_+");
+          this.create();
+        }
       });
-      return this.create(page);
     });
-    return "";
   }
 
-  create(num: number): string {
-    let studiDificaltKeys = "";
+  create(): HTMLElement {
+    const pagination = document.querySelector(".pagination") as HTMLDivElement;
+    pagination.innerHTML = "";
 
-    studiDificaltKeys =
-      this.studiKeysBtn === 20 && this.dificaltKeysBtn === 20 ? "yes" : "none";
-
-    if (studiDificaltKeys === "yes") {
-      this.studiKeysBtn = 0;
-      this.dificaltKeysBtn = 0;
-      return `
-        <button class="pagination-btn pagination-btn-all "  id="paginnateBtn-${num}" >${num}</button>
-      `;
-    } else if (this.studiKeysBtn === 20) {
-      this.studiKeysBtn = 0;
-      this.dificaltKeysBtn = 0;
-      return `
-        <button class="pagination-btn pagination-btn-studi"  id="paginnateBtn-${num}">${num}</button>
-      `;
-    } else if (this.dificaltKeysBtn === 20) {
-      this.studiKeysBtn = 0;
-      this.dificaltKeysBtn = 0;
-      return `
-        <button class="pagination-btn pagination-btn-dif"  id="paginnateBtn-${num}" style="border = ""; background-color = "" ">${num}</button>
-      `;
-    } else {
-      return `
-        <button class="pagination-btn" id="paginnateBtn-${num}" style="border = ""; background-color = "" ">${num}</button>
-      `;
+    for (let num = 0; num <= 29; num++) {
+      if (this.paginationArr[num] === 1) {
+        pagination.innerHTML += `
+          <button class="pagination-btn pagination-btn-studi"  id="paginnateBtn-${num}">${
+          num + 1
+        }</button>
+        `;
+      } else if (this.paginationArr[num] === 2) {
+        pagination.innerHTML += `
+          <button class="pagination-btn pagination-btn-dif"  id="paginnateBtn-${num}" style="border = ""; background-color = "" ">${
+          num + 1
+        }</button>
+        `;
+      } else if (this.paginationArr[num] === 12) {
+        pagination.innerHTML += `
+        <button class="pagination-btn pagination-btn-all "  id="paginnateBtn-${num}" >${
+          num + 1
+        }</button>
+        `;
+      } else {
+        pagination.innerHTML += `
+          <button class="pagination-btn" id="paginnateBtn-${num}" style="border = ""; background-color = "" ">${
+          num + 1
+        }</button>
+        `;
+      }
     }
+    return pagination;
   }
 }
 

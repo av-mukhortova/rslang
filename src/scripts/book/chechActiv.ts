@@ -3,13 +3,7 @@ import ChechActivDifficult from "./chechActivDifficult";
 import Voses from "./voses";
 
 class ChechActiv {
-  check(
-    eventEl: Event
-    // pageNumber: number,
-    // group: string,
-    // wordsNode: HTMLElement,
-    // pagination: HTMLElement
-  ) {
+  check(eventEl: Event) {
     const chechActivStudi = new ChechActivStudi();
     const chechActivDifficult = new ChechActivDifficult();
     const voses = new Voses();
@@ -29,37 +23,13 @@ class ChechActiv {
     } else if (textsVoce.classList.contains("item-page__voce")) {
       voses.start(textsVoce);
     } else if (cardStudiBtn.classList.contains("item-page__studi")) {
-      chechActivStudi.check(
-        card,
-        cardStudiBtn /* ,
-        cardID,
-        pageNumber,
-        group,
-        wordsNode,
-        pagination */
-      );
+      chechActivStudi.check(card, cardStudiBtn);
     } else if (cardDifficult.classList.contains("item-page__difficult")) {
-      chechActivDifficult.add(
-        card,
-        cardDifficult
-        // cardID
-        // pageNumber,
-        // group,
-        // wordsNode,
-        // pagination
-      );
+      chechActivDifficult.add(card, cardDifficult);
     } else if (
       cardDifficultDell.classList.contains("item-page__difficult-delete")
     ) {
-      chechActivDifficult.dell(
-        card,
-        cardDifficultDell,
-        cardID
-        // pageNumber,
-        // group,
-        // wordsNode,
-        // pagination
-      );
+      chechActivDifficult.dell(card, cardDifficultDell, cardID);
     }
   }
 }
