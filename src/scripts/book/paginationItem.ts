@@ -22,7 +22,7 @@ class PaginationItem {
     this.dificaltKeysBtn = 0;
   }
 
-  async getWordData(page: number) {
+  async getWordData(page: number): Promise<string> {
     const isAuth = localStorage.getItem("userId");
     if (isAuth) {
       this.learnedWords = await this.userWords.getUserWords();
@@ -44,13 +44,13 @@ class PaginationItem {
             this.dificaltKeysBtn += 1;
           }
         }
-        this.create(page);
       });
+      return this.create(page);
     });
+    return "";
   }
 
   create(num: number): string {
-    console.log(this.studiKeysBtn, this.dificaltKeysBtn);
     let studiDificaltKeys = "";
 
     studiDificaltKeys =
