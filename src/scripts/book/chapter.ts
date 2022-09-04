@@ -81,6 +81,8 @@ class Chapter {
       const idChapter = (e.target as HTMLElement).closest("div") as HTMLElement;
       if (!idChapter?.getAttribute("id")) return;
       const group = idChapter?.getAttribute("id")?.split("-")[1];
+      location.hash += "/group/" + group + "/page/0";
+      console.log(location);
       //  book?.setAttribute("class", `bookPage chapter-${group}`);
       book?.setAttribute("class", `bookPage`);
       const pages = new Pages();

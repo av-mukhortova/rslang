@@ -96,8 +96,6 @@ export default class Sprint {
     return res;
   }
   private askLevel(): void {
-    const footer: HTMLElement | null = document.querySelector("footer");
-    footer?.classList.add("hidden");
     const levelDiv: HTMLDivElement | null = document.querySelector(".level");
     levelDiv?.classList.remove("hidden");
     const levelDlg: HTMLDivElement | null =
@@ -122,7 +120,6 @@ export default class Sprint {
     btn6.dataset.level = "6";
     btn6.innerHTML = "6";
     levelDlg?.append(btn1, btn2, btn3, btn4, btn5, btn6);
-
     let close_btn: HTMLButtonElement | null =
       document.querySelector("#level_close");
     if (!close_btn) {
@@ -150,6 +147,8 @@ export default class Sprint {
       const mainPage: HTMLDivElement | null =
         document.querySelector(".mainPage");
       mainPage?.classList.remove("hidden");
+      const footer: HTMLElement | null = document.querySelector("footer");
+      footer?.classList.remove("hidden");
     });
   }
   private setPairs(words: Array<iWord>): void {
@@ -529,13 +528,17 @@ export default class Sprint {
     const main: HTMLDivElement | null = document.querySelector(".mainPage");
     sprintDiv?.classList.add("hidden");
     main?.classList.remove("hidden");
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.remove("hidden");
   }
   private closeResults() {
     const resDiv: HTMLDivElement | null =
       document.querySelector(".sprint_results");
-    const main: HTMLDivElement | null = document.querySelector(".main");
+    const main: HTMLDivElement | null = document.querySelector(".mainPage");
     resDiv?.classList.add("hidden");
     main?.classList.remove("hidden");
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.remove("hidden");
   }
   public startFromBook(group: string, page: number) {
     this.resetAll();
@@ -544,19 +547,37 @@ export default class Sprint {
     this.bookPage = page;
     this.isPlaying = true;
     this.getWordsOfPage(+group, page).then((words: Array<iWord>) => {
-      this.setPairs(words);
-      if (page > 0) {
-        this.getWordsOfPreviousPages(+group, page - 1).then(
-          (words: Array<iWord>) => {
-            this.setPairs(words);
-            this.drawPlay();
-            this.play();
+      this.userWordsUI.getUserWords().then((userWords: justObject) => {
+        const newWords: Array<iWord> = [];
+        for (let i = 0; i < words.length; i++) {
+          const id = words[i].id;
+          if (!(userWords[id] === "isLearned")) {
+            newWords.push(words[i]);
           }
-        );
-      } else {
-        this.drawPlay();
-        this.play();
-      }
+        }
+        this.setPairs(newWords);
+        if (page > 0) {
+          this.getWordsOfPreviousPages(+group, page - 1).then(
+            (words: Array<iWord>) => {
+              this.userWordsUI.getUserWords().then((userWords: justObject) => {
+                const newWords: Array<iWord> = [];
+                for (let i = 0; i < words.length; i++) {
+                  const id = words[i].id;
+                  if (!(userWords[id] === "isLearned")) {
+                    newWords.push(words[i]);
+                  }
+                }
+                this.setPairs(newWords);
+                this.drawPlay();
+                this.play();
+              });
+            }
+          );
+        } else {
+          this.drawPlay();
+          this.play();
+        }
+      });
     });
   }
   private async getWordsOfPage(group: number, page: number): Promise<iWord[]> {

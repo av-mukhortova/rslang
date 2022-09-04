@@ -72,25 +72,27 @@ class Menu {
     main?.append(menuSection);
 
     menu.addEventListener("click", (event: MouseEvent) => {
-      this.toLink(event);
+      const target: HTMLElement = event.target as HTMLElement;
+      const parent: HTMLElement = target.parentNode as HTMLElement;
+      const id = target.id ? target.id : parent.id;
+      console.log(id);
+      this.toLink(id);
       menuSection.style.display = "none";
     });
   }
 
-  toLink(event: MouseEvent) {
+  toLink(id: string) {
     const chapter = new Chapter();
-    const target: HTMLElement = event.target as HTMLElement;
-    const parent: HTMLElement = target.parentNode as HTMLElement;
     const book = document.querySelector(".bookPage") as HTMLElement;
     const sprintPage = document.querySelector(".sprint") as HTMLElement;
-    const levelPage = document.querySelector(".level") as HTMLElement;
     const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
     const audocallPage = document.querySelector(".audocallPage") as HTMLElement;
     // const statPage = document.querySelector(".statPage") as HTMLElement;
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.remove("hidden");
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
-    const id = target.id ? target.id : parent.id;
     if (id) {
       const mainDiv = document.querySelector(".mainPage") as HTMLElement;
       mainDiv.classList.add("hidden");
@@ -104,12 +106,11 @@ class Menu {
         }
         case "sprint":
         case "studi_game-sprint": {
+          const footer: HTMLElement | null = document.querySelector("footer");
+          footer?.classList.add("hidden");
           this.sprint.start();
           if (book?.classList.contains("hidden") === false) {
             book?.classList.add("hidden");
-          }
-          if (levelPage?.classList.contains("hidden") === false) {
-            levelPage?.classList.add("hidden");
           }
           if (sprintResultsPage?.classList.contains("hidden") === false) {
             sprintResultsPage?.classList.add("hidden");
@@ -124,6 +125,8 @@ class Menu {
         }
         case "audiocall":
         case "studi_game-audio": {
+          const footer: HTMLElement | null = document.querySelector("footer");
+          footer?.classList.add("hidden");
           process();
 
           break;
@@ -132,9 +135,6 @@ class Menu {
           StatProcess();
           if (sprintPage?.classList.contains("hidden") === false) {
             sprintPage?.classList.add("hidden");
-          }
-          if (levelPage?.classList.contains("hidden") === false) {
-            levelPage?.classList.add("hidden");
           }
           if (sprintResultsPage?.classList.contains("hidden") === false) {
             sprintResultsPage?.classList.add("hidden");
@@ -149,9 +149,6 @@ class Menu {
           chapter.create();
           if (sprintPage?.classList.contains("hidden") === false) {
             sprintPage?.classList.add("hidden");
-          }
-          if (levelPage?.classList.contains("hidden") === false) {
-            levelPage?.classList.add("hidden");
           }
           if (sprintResultsPage?.classList.contains("hidden") === false) {
             sprintResultsPage?.classList.add("hidden");
