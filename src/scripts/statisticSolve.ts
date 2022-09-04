@@ -257,38 +257,70 @@ export async function CreateStatistic(
 export async function StatProcess() {
   const statPage = document.querySelector(".statPage") as HTMLElement;
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  const canvas2 = document.getElementById("canvas2") as HTMLCanvasElement;
   const userUid = localStorage.getItem("userId");
   const statistic = await api.takeStatistic(userUid);
   const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D | null;
-  statPage.addEventListener("click", () => {
-    statPage.classList.remove("hidden");
-  });
+  const ctx2 = canvas2?.getContext("2d") as CanvasRenderingContext2D | null;
+  const infoInside = document.querySelector(".info_inside") as HTMLElement;
+  const infoInside2 = document.querySelector(".info_inside2") as HTMLElement;
+
+  statPage.classList.remove("hidden");
+
   if (statistic) {
-    const color = ["#B8EDFF", "green", "yellow"];
+    const color = ["red", "green", "yellow"];
     const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
-      (a, b) => a + b,
-      "0"
+      (a, b) => Number(a) + Number(b),
+      Number("0")
     );
     const data = [
       Number(statistic.optional.audiocall.neWords.length),
       Number(trueAnswers),
+      Number(statistic.optional.audiocall.lengthOfTruth) * 10,
     ];
     for (let i = 0; i < data.length; i++) {
       if (ctx) {
         ctx.fillStyle = color[i];
       }
-      const labels = [
-        `Новые слова ${statistic.optional.audiocall.neWords.length}`,
-        `Правильные ответы${Number(trueAnswers) * 10}`,
-        "Линия ответов",
-      ];
-
-      if (ctx) {
-        ctx.fillStyle = "black";
-      }
-      for (let i = 0; i < labels.length; i++) {
-        ctx?.fillText(labels[i], 25 + i * 100, 475);
-      }
+      const dp = data[i];
+      ctx?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
     }
+    const labels = [
+      `${statistic.optional.audiocall.neWords.length}`,
+      `${Number(trueAnswers)}`,
+      `${Number(statistic.optional.audiocall.lengthOfTruth)}`,
+    ];
+
+    infoInside.innerHTML = `<div class="inside_color_first">количество новых слов за день:${labels[0]}</div>
+    <div class="inside_color_second">процент правильных ответов:${labels[1]}</div>
+    <div class="inside_color_third">самая длинная серия правильных ответов:${labels[2]}</div>`;
+  }
+  if (statistic) {
+    const color = ["red", "green", "yellow"];
+    const trueAnswers = statistic.optional.sprint.percentOfTruth.reduce(
+      (a, b) => Number(a) + Number(b),
+      Number("0")
+    );
+    const data = [
+      Number(statistic.optional.sprint.neWords.length),
+      Number(trueAnswers) * 3,
+      Number(statistic.optional.sprint.lengthOfTruth) * 10,
+    ];
+    for (let i = 0; i < data.length; i++) {
+      if (ctx2) {
+        ctx2.fillStyle = color[i];
+      }
+      const dp = data[i];
+      ctx2?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
+    }
+    const labels = [
+      `${statistic.optional.sprint.neWords.length}`,
+      `${Number(trueAnswers)}`,
+      `${Number(statistic.optional.sprint.lengthOfTruth)}`,
+    ];
+
+    infoInside2.innerHTML = `<div class="inside_color_first">количество новых слов за день:${labels[0]}</div>
+    <div class="inside_color_second">процент правильных ответов:${labels[1]}</div>
+    <div class="inside_color_third">самая длинная серия правильных ответов:${labels[2]}</div>`;
   }
 }
