@@ -1,10 +1,14 @@
 import UserWords from "../userWords";
+// import DificaltBook from "./dificaltBook";
 // import LocalKeySaveDel from "./localKeySaveDel";
-
+import CheckUserWord from "../checkUserWord/checkUserWord";
+// import LocalKeySaveDel from "./localKeySaveDel";
 class ChechActivStudi {
   userWords: UserWords;
+  // dificaltBook: DificaltBook;
   constructor() {
     this.userWords = new UserWords();
+    // this.dificaltBook = new DificaltBook();
   }
   check(
     card: HTMLElement,
@@ -24,6 +28,8 @@ class ChechActivStudi {
       this.userWords.addLearnedWord(card.id);
       // localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
     } else {
+      const checkUserWord = new CheckUserWord();
+      checkUserWord.checkStudi(card.id);
       card.style.border = "";
       /* localKeySaveDel.remove(
         groupId,

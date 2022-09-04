@@ -98,7 +98,7 @@ class Pages {
       });
 
       for (let i = 0; i <= 29; i++) {
-        pagination.innerHTML += paginationItem.create(i + 1);
+        pagination.innerHTML += paginationItem.getWordData(i + 1);
       }
 
       const gameBlock = document.createElement("div");
@@ -178,6 +178,8 @@ class Pages {
       const idButton = (e.target as HTMLElement).closest(
         "button"
       ) as HTMLElement;
+      // containerWordsClass.addEventListener("click", (e: Event): void => {
+      // chechActiv.check(e); //, this.page, group, wordsNode, pagination);
       if (!idButton?.getAttribute("id")) return;
       const page = idButton?.getAttribute("id")?.split("-")[1];
       if (!page) return;
@@ -197,8 +199,8 @@ class Pages {
       ".container-words"
     ) as HTMLElement;
     containerWordsClass.addEventListener("click", (e: Event): void => {
-      const wordsNode = document.querySelector(".words") as HTMLElement;
-      chechActiv.check(e, this.page, group, wordsNode, pagination);
+      // const wordsNode = document.querySelector(".words") as HTMLElement;
+      chechActiv.check(e); //, this.page, group, wordsNode, pagination);
     });
 
     this.check();

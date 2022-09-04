@@ -4,8 +4,8 @@ import UserWords from "../userWords";
 
 class CheckWordsOnload {
   api: Api;
-  studi: string | null;
-  cardDifficults: string | null;
+  // studi: string | null;
+  // cardDifficults: string | null;
   learnedWords: justObject;
   difficultWords: justObject;
   userWords: UserWords;
@@ -14,8 +14,8 @@ class CheckWordsOnload {
 
   constructor() {
     this.api = new Api();
-    this.studi = localStorage.getItem("studi");
-    this.cardDifficults = localStorage.getItem("cardDifficults");
+    // this.studi = localStorage.getItem("studi");
+    // this.cardDifficults = localStorage.getItem("cardDifficults");
     this.learnedWords = {};
     this.userWords = new UserWords();
     this.countDifficult = 0;
