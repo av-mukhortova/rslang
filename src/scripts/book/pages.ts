@@ -74,7 +74,7 @@ class Pages {
 
       pageNumber.textContent = `${this.page + 1}`;
       const itemPage = new ItemPage();
-      data.forEach((el): void => {
+      data.forEach((el: iWord): void => {
         if (localStorage.getItem("userId")) {
           this.api
             .getUserWordById(localStorage.getItem("userId"), el.id)
