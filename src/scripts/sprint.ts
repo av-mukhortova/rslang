@@ -55,6 +55,7 @@ export default class Sprint {
   }
 
   public start(): void {
+    console.log("sprint");
     const isAuth = localStorage.getItem("userId");
     if (isAuth) {
       this.userWordsUI.getUserWords().then((words) => {

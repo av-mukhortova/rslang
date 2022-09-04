@@ -31,6 +31,7 @@ export interface iArray {
   Arr: string[];
   Word: string;
   wordTrans: string;
+  wordId: string;
 }
 export interface iUser {
   id: string;
