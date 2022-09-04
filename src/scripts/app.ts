@@ -95,6 +95,7 @@ export default class App {
       if (img) {
         img.src = "./assets/img/logout.png";
       }
+      location.reload();
     }
   }
 }

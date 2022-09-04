@@ -8,7 +8,7 @@ const links = [
   {
     id: 1,
     text: "Главная страница",
-    linkPage: "#",
+    linkPage: "#main",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/home.png",
     alt: "home.png",
     key: "main",
@@ -16,7 +16,7 @@ const links = [
   {
     id: 2,
     text: "Учебник",
-    linkPage: "#",
+    linkPage: "#book",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/book.png",
     alt: "book.png",
     key: "book",
@@ -24,7 +24,7 @@ const links = [
   {
     id: 3,
     text: "Мини-игра «Аудиовызов»",
-    linkPage: "#",
+    linkPage: "#audiocall",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/game.png",
     alt: "game.png",
     key: "audiocall",
@@ -32,7 +32,7 @@ const links = [
   {
     id: 4,
     text: "Мини-игра «Спринт»",
-    linkPage: "#",
+    linkPage: "#sprint",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/game.png",
     alt: "game.png",
     key: "sprint",
@@ -40,7 +40,7 @@ const links = [
   {
     id: 5,
     text: "Статистика",
-    linkPage: "#",
+    linkPage: "#stat",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/statistics.png",
     alt: "statistics.png",
     key: "stat",
@@ -86,6 +86,7 @@ class Menu {
     const levelPage = document.querySelector(".level") as HTMLElement;
     const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
     const audocallPage = document.querySelector(".audocallPage") as HTMLElement;
+    // const statPage = document.querySelector(".statPage") as HTMLElement;
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
@@ -124,6 +125,10 @@ class Menu {
         case "audiocall":
         case "studi_game-audio": {
           process();
+
+          break;
+        }
+        case "stat": {
           StatProcess();
           if (sprintPage?.classList.contains("hidden") === false) {
             sprintPage?.classList.add("hidden");

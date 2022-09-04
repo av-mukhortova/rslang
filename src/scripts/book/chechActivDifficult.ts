@@ -13,8 +13,8 @@ class ChechActivDifficult {
   }
   add(
     card: HTMLElement,
-    cardDifficult: HTMLElement,
-    cardID: string | null
+    cardDifficult: HTMLElement
+    // cardID: string | null
     // pageNumber: number,
     // group: string,
     // wordsNode: HTMLElement,
@@ -28,7 +28,7 @@ class ChechActivDifficult {
     cardDifficultDel.style.display = "block";
     cardDifficult.style.display = "none";
     card.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
-    this.userWords.addDifficultWord(cardID);
+    this.userWords.addDifficultWord(card.id);
     // localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
   }
   dell(

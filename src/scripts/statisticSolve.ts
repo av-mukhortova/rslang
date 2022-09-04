@@ -16,6 +16,7 @@ export async function CreateStatistic(
     learnedWords: number,
     month: string,
     day: string,
+    per: unknown[] | undefined,
     sprintNeWords: unknown[],
     sprintPercentOfTruth: Array<string>,
     sprintLengthOfTruth: string,
@@ -32,6 +33,7 @@ export async function CreateStatistic(
           neWords: sprintNeWords,
           percentOfTruth: sprintPercentOfTruth,
           lengthOfTruth: sprintLengthOfTruth,
+          per: per,
         },
 
         audiocall: {
@@ -41,6 +43,7 @@ export async function CreateStatistic(
         },
       },
     };
+    console.log(datas.optional.sprint.per);
     return datas;
   }
   let getStatistic;
@@ -63,6 +66,7 @@ export async function CreateStatistic(
             day,
             [],
             [],
+            [],
             "",
             neWords,
             percentOfTruth,
@@ -72,6 +76,7 @@ export async function CreateStatistic(
             learnedWords,
             month,
             day,
+            [],
             neWords,
             percentOfTruth,
             lengthOfTruth,
@@ -81,11 +86,17 @@ export async function CreateStatistic(
           );
 
     await api.transferData(userUid, datas);
+    console.log("hi");
   }
   if (
     month != getStatistic?.optional.month ||
     day != getStatistic.optional.day
   ) {
+    let count = getStatistic?.optional.sprint.per;
+    if (count) {
+      count?.push([neWords]);
+    } else count = [[neWords]];
+
     try {
       const datas =
         nameOfGame == "audiocall"
@@ -93,6 +104,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              count,
               [],
               [],
               "",
@@ -104,6 +116,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              count,
               neWords,
               percentOfTruth,
               lengthOfTruth,
@@ -121,6 +134,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              count,
               [],
               [],
               "",
@@ -132,6 +146,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              count,
               neWords,
               percentOfTruth,
               lengthOfTruth,
@@ -147,6 +162,14 @@ export async function CreateStatistic(
       nameOfGame == "audiocall"
         ? getStatistic.optional.audiocall.neWords
         : getStatistic.optional.sprint.neWords;
+    const count = getStatistic.optional.sprint.per;
+
+    const charlie = neWords.concat(count);
+    const delta = [];
+    delta.push(charlie);
+    console.log(delta);
+    count?.pop();
+    count?.push(delta);
     const fullArray = neWords.concat(dataInside);
     const SetNumberOfNew = new Set();
     fullArray.forEach((item) => SetNumberOfNew.add(item));
@@ -171,6 +194,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              delta,
               getStatistic.optional.sprint.neWords,
               getStatistic.optional.sprint.percentOfTruth,
               getStatistic.optional.sprint.lengthOfTruth,
@@ -182,6 +206,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              delta,
               exitFullArrayLengthNewWords,
               percentArray,
               maxLengthTruthInside,
@@ -199,6 +224,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              count,
               [],
               [],
               "",
@@ -210,6 +236,7 @@ export async function CreateStatistic(
               learnedWords,
               month,
               day,
+              count,
               exitFullArrayLengthNewWords,
               percentArray,
               maxLengthTruthInside,
@@ -228,15 +255,19 @@ export async function CreateStatistic(
 }
 
 export async function StatProcess() {
+  const statPage = document.querySelector(".statPage") as HTMLElement;
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   const userUid = localStorage.getItem("userId");
   const statistic = await api.takeStatistic(userUid);
   const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D | null;
-
-  const color = ["#B8EDFF", "green", "yellow"];
+  statPage.addEventListener("click", () => {
+    statPage.classList.remove("hidden");
+  });
   if (statistic) {
+    const color = ["#B8EDFF", "green", "yellow"];
     const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
-      (a, b) => a + b
+      (a, b) => a + b,
+      "0"
     );
     const data = [
       Number(statistic.optional.audiocall.neWords.length),
@@ -246,20 +277,18 @@ export async function StatProcess() {
       if (ctx) {
         ctx.fillStyle = color[i];
       }
-      const dp = data[i];
-      ctx?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
-    }
-    const labels = [
-      `Новые слова ${statistic.optional.audiocall.neWords.length}`,
-      `Правильные ответы${Number(trueAnswers) * 10}`,
-      "Линия ответов",
-    ];
+      const labels = [
+        `Новые слова ${statistic.optional.audiocall.neWords.length}`,
+        `Правильные ответы${Number(trueAnswers) * 10}`,
+        "Линия ответов",
+      ];
 
-    if (ctx) {
-      ctx.fillStyle = "black";
-    }
-    for (let i = 0; i < labels.length; i++) {
-      ctx?.fillText(labels[i], 25 + i * 100, 475);
+      if (ctx) {
+        ctx.fillStyle = "black";
+      }
+      for (let i = 0; i < labels.length; i++) {
+        ctx?.fillText(labels[i], 25 + i * 100, 475);
+      }
     }
   }
 }

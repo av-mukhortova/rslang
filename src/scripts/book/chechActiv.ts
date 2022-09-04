@@ -31,18 +31,18 @@ class ChechActiv {
     } else if (cardStudiBtn.classList.contains("item-page__studi")) {
       chechActivStudi.check(
         card,
-        cardStudiBtn,
-        cardID
-        // pageNumber,
-        // group,
-        // wordsNode,
-        // pagination
+        cardStudiBtn /* ,
+        cardID,
+        pageNumber,
+        group,
+        wordsNode,
+        pagination */
       );
     } else if (cardDifficult.classList.contains("item-page__difficult")) {
       chechActivDifficult.add(
         card,
-        cardDifficult,
-        cardID
+        cardDifficult
+        // cardID
         // pageNumber,
         // group,
         // wordsNode,
