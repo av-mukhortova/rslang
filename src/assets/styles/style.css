@@ -160,3 +160,16 @@ button {
     border: 1px solid black;
 }
 
+.item-page__progress_marks {
+    text-align: left;
+    width: 100px;
+    margin: 0 auto;
+}
+
+.item-page__progress {
+    color: green;
+}
+
+.item-page__errors {
+    color: red;
+}

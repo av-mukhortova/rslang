@@ -133,7 +133,8 @@ export default class Api {
     difficulty: boolean,
     type: string | null,
     playName: string | null,
-    inProgress = 0
+    inProgress = 0,
+    errors = 0
   ): Promise<boolean> {
     const now = new Date();
     const date = now.getDate() + "." + now.getMonth();
@@ -145,6 +146,7 @@ export default class Api {
         playName: playName,
         date: date,
         inProgress: inProgress,
+        errors: errors,
       },
     };
     const res = await fetch(
@@ -163,10 +165,26 @@ export default class Api {
       return true;
     } else if (res.status === 401) {
       this.refreshToken(userId).then(() =>
-        this.createWord(userId, wordId, difficulty, type, playName, inProgress)
+        this.createWord(
+          userId,
+          wordId,
+          difficulty,
+          type,
+          playName,
+          inProgress,
+          errors
+        )
       );
     } else if (res.status == 417) {
-      this.updateWord(userId, wordId, difficulty, type, playName, inProgress);
+      this.updateWord(
+        userId,
+        wordId,
+        difficulty,
+        type,
+        playName,
+        inProgress,
+        errors
+      );
     }
     return false;
   }
@@ -176,7 +194,8 @@ export default class Api {
     difficulty: boolean,
     type: string | null,
     playName: string | null,
-    inProgress = 0
+    inProgress = 0,
+    errors = 0
   ): Promise<boolean> {
     const now = new Date();
     const date = now.getDate() + "." + now.getMonth();
@@ -188,6 +207,7 @@ export default class Api {
         playName: playName,
         date: date,
         inProgress: inProgress,
+        errors: errors,
       },
     };
     const res = await fetch(
@@ -206,7 +226,15 @@ export default class Api {
       return true;
     } else if (res.status === 401) {
       this.refreshToken(userId).then(() =>
-        this.updateWord(userId, wordId, difficulty, type, playName, inProgress)
+        this.updateWord(
+          userId,
+          wordId,
+          difficulty,
+          type,
+          playName,
+          inProgress,
+          errors
+        )
       );
     }
     return false;

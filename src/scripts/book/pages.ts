@@ -1,4 +1,4 @@
-import { iWord } from "../../types/index";
+import { iUserWord, iWord } from "../../types/index";
 import Api from "../api";
 import ItemPage from "./itemPage";
 import PaginationItem from "./paginationItem";
@@ -30,11 +30,13 @@ class Pages {
   page: number;
   dificaltBook: DificaltBook;
   sprint: Sprint;
+  api: Api;
 
   constructor() {
     this.page = 0;
     this.dificaltBook = new DificaltBook();
     this.sprint = new Sprint();
+    this.api = new Api();
   }
 
   getWordData(chapters: HTMLElement, group: string) {
@@ -73,7 +75,22 @@ class Pages {
       pageNumber.textContent = `${this.page + 1}`;
       const itemPage = new ItemPage();
       data.forEach((el): void => {
-        words.innerHTML += itemPage.create(el, group);
+        this.api
+          .getUserWordById(localStorage.getItem("userId"), el.id)
+          .then((res: iUserWord | null) => {
+            if (res) {
+              el.progress = res.optional.inProgress
+                ? `${res.optional.inProgress} из 3`
+                : "0 из 3";
+              el.errors = !res.optional.errors
+                ? "0"
+                : res.optional.errors.toString();
+            } else {
+              el.progress = "0 из 3";
+              el.errors = "0";
+            }
+            words.innerHTML += itemPage.create(el, group);
+          });
       });
 
       for (let i = 0; i <= 29; i++) {
