@@ -6,7 +6,8 @@ class CheckWordsOnload {
   api: Api;
   studi: string | null;
   cardDifficults: string | null;
-  words: justObject;
+  learnedWords: justObject;
+  difficultWords: justObject;
   userWords: UserWords;
   countLearned: number;
   countDifficult: number;
@@ -15,10 +16,11 @@ class CheckWordsOnload {
     this.api = new Api();
     this.studi = localStorage.getItem("studi");
     this.cardDifficults = localStorage.getItem("cardDifficults");
-    this.words = {};
+    this.learnedWords = {};
     this.userWords = new UserWords();
     this.countDifficult = 0;
     this.countLearned = 0;
+    this.difficultWords = {};
   }
   async check(
     wordsNode: HTMLElement,
@@ -32,19 +34,20 @@ class CheckWordsOnload {
     //---------------------------------------------НОВЫЙ БЛОК БЕЗ ЛОКАЛА
     const isAuth = localStorage.getItem("userId");
     if (isAuth) {
-      this.words = await this.userWords.getUserWords();
+      this.learnedWords = await this.userWords.getUserWords();
+      this.difficultWords = await this.userWords.getDifficultWords();
     }
     for (let i = 0; i < wordsNode.childNodes.length; i++) {
       const child = wordsNode.childNodes[i] as HTMLElement;
       if (child.nodeName !== "#text") {
         const id = child.getAttribute("id");
         if (!id) return;
-        if (this.words[id] === "isLearned") {
+        if (this.learnedWords[id] === "isLearned") {
           this.countLearned += 1; // считаем количество изученных слов на странице
           // добавила стиль на карточку
           this.addCardStyle(child, "learned");
         }
-        if (this.words[id] === "isDifficult") {
+        if (this.difficultWords[id] === "isDifficult") {
           this.countDifficult += 1; // считаем количество сложных слов на странице
           //добавила стиль на карточку
           this.addCardStyle(child, "difficult");

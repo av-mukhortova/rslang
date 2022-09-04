@@ -130,6 +130,7 @@ export default class Api {
   public async createWord(
     userId: string | null,
     wordId: string | null,
+    difficulty: boolean,
     type: string | null,
     playName: string | null,
     inProgress = 0
@@ -137,7 +138,7 @@ export default class Api {
     const now = new Date();
     const date = now.getDate() + "." + now.getMonth();
     const body = {
-      difficulty: type === "difficulty" ? "hard" : "easy",
+      difficulty: difficulty ? "hard" : "easy",
       optional: {
         isLearned: type === "isLearned",
         isNew: type === "isNew",
@@ -162,16 +163,17 @@ export default class Api {
       return true;
     } else if (res.status === 401) {
       this.refreshToken(userId).then(() =>
-        this.createWord(userId, wordId, type, playName, inProgress)
+        this.createWord(userId, wordId, difficulty, type, playName, inProgress)
       );
     } else if (res.status == 417) {
-      this.updateWord(userId, wordId, type, playName, inProgress);
+      this.updateWord(userId, wordId, difficulty, type, playName, inProgress);
     }
     return false;
   }
   public async updateWord(
     userId: string | null,
     wordId: string | null,
+    difficulty: boolean,
     type: string | null,
     playName: string | null,
     inProgress = 0
@@ -179,7 +181,7 @@ export default class Api {
     const now = new Date();
     const date = now.getDate() + "." + now.getMonth();
     const body = {
-      difficulty: type === "difficulty" ? "hard" : "easy",
+      difficulty: difficulty ? "hard" : "easy",
       optional: {
         isLearned: type === "isLearned",
         isNew: type === "isNew",
@@ -204,7 +206,7 @@ export default class Api {
       return true;
     } else if (res.status === 401) {
       this.refreshToken(userId).then(() =>
-        this.updateWord(userId, wordId, type, playName, inProgress)
+        this.updateWord(userId, wordId, difficulty, type, playName, inProgress)
       );
     }
     return false;
