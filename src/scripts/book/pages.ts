@@ -45,11 +45,13 @@ class Pages {
     const words = api.getWords(group, `${this.page}`);
     words.then((data: iWord[]) => this.create(chapters, data, group));
   }
-  create(chapters: HTMLElement, data: iWord[], group: string): void {
+  create(chapters: HTMLElement, data: iWord[], group: string) {
     const paginationItem = new PaginationItem(group, this.page);
     const chechActiv = new ChechActiv();
     const checkWordsOnload = new CheckWordsOnload();
     const gameLink = new GameLink();
+
+    paginationItem.getWordData();
 
     chapters.innerHTML = "";
     const heightBook = window.innerHeight;
@@ -58,10 +60,9 @@ class Pages {
     const nextBtn = document.createElement("button") as HTMLButtonElement;
     const words = document.createElement("div") as HTMLDivElement;
     const pageNumber = document.createElement("div") as HTMLDivElement;
-    const pagination = document.createElement("div") as HTMLDivElement;
+    const pagination = document.querySelector(".pagination") as HTMLDivElement;
 
     containerWords.setAttribute("class", `container-words`);
-    pagination.setAttribute("class", `pagination`);
     words.setAttribute("class", `words group__${group}`);
     pageNumber.setAttribute("class", "pageNumber");
     prevBtn.setAttribute("id", "prev-btn");
@@ -75,7 +76,7 @@ class Pages {
 
       pageNumber.textContent = `${this.page + 1}`;
       const itemPage = new ItemPage();
-      data.forEach((el): void => {
+      data.forEach((el: iWord): void => {
         if (localStorage.getItem("userId")) {
           this.api
             .getUserWordById(localStorage.getItem("userId"), el.id)
@@ -98,13 +99,6 @@ class Pages {
         }
       });
 
-      for (let i = 0; i <= 29; i++) {
-        paginationItem.getWordData(i + 1).then((res) => {
-          // pagination.innerHTML = res;
-          console.log(res);
-        });
-      }
-
       const gameBlock = document.createElement("div");
       gameBlock.setAttribute("class", "game-block");
       games.forEach((el) => {
@@ -125,7 +119,6 @@ class Pages {
       containerWords.append(nextBtn);
       containerWords.append(words);
       containerWords.append(pageNumber);
-      containerWords.append(pagination);
       containerWords.append(gameBlock);
       chapters.append(containerWords);
 
