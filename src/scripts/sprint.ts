@@ -120,7 +120,6 @@ export default class Sprint {
     btn6.dataset.level = "6";
     btn6.innerHTML = "6";
     levelDlg?.append(btn1, btn2, btn3, btn4, btn5, btn6);
-
     let close_btn: HTMLButtonElement | null =
       document.querySelector("#level_close");
     if (!close_btn) {

@@ -36,7 +36,6 @@ class Authorization {
       ".signup_button"
     ) as HTMLButtonElement;
     signupButton.addEventListener("click", () => {
-      alert("надали");
       this.signup(authorization, forma, title, main);
     });
     const logBtn = document.querySelector(".login_button") as HTMLButtonElement;
