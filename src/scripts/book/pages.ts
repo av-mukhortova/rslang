@@ -24,7 +24,6 @@ const games = [
     id: "book-sprint-btn",
   },
 ];
-const authorizedCheck = localStorage.getItem("userId") ? true : false;
 
 class Pages {
   page: number;
@@ -98,23 +97,24 @@ class Pages {
       });
 
       for (let i = 0; i <= 29; i++) {
-        pagination.innerHTML += paginationItem.getWordData(i + 1);
+        paginationItem.getWordData(i + 1).then((res) => {
+          // pagination.innerHTML = res;
+          console.log(res);
+        });
       }
 
       const gameBlock = document.createElement("div");
-      if (authorizedCheck) {
-        gameBlock.setAttribute("class", "game-block");
-        games.forEach((el) => {
-          gameBlock.innerHTML += gameLink.creat(
-            el.link,
-            el.name,
-            +group,
-            this.page,
-            el.img,
-            el.id
-          );
-        });
-      }
+      gameBlock.setAttribute("class", "game-block");
+      games.forEach((el) => {
+        gameBlock.innerHTML += gameLink.creat(
+          el.link,
+          el.name,
+          +group,
+          this.page,
+          el.img,
+          el.id
+        );
+      });
 
       prevBtn.innerHTML = "<";
       nextBtn.innerHTML = ">";
@@ -209,7 +209,6 @@ class Pages {
     // const authorizedCheck = true;
     const authorizedBlock: NodeListOf<HTMLElement> | null =
       document.querySelectorAll(".item-page__authorized");
-    console.log(authorizedBlock);
     if (localStorage.getItem("userId")) {
       authorizedBlock.forEach((el) => {
         el?.classList.remove("hidden");
