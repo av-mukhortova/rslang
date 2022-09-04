@@ -18,10 +18,20 @@ class UserWords {
         for (let i = 0; i < words.length; i++) {
           const isLearned = words[i].optional.isLearned;
           const isNew = words[i].optional.isNew;
-          const isDifficult = words[i].difficulty === "hard";
           if (isLearned) obj[words[i].wordId] = "isLearned";
           else if (isNew) obj[words[i].wordId] = "isNew";
-          else if (isDifficult) obj[words[i].wordId] = "isDifficult";
+        }
+        return obj;
+      });
+  }
+  public async getDifficultWords(): Promise<justObject> {
+    return await this.api
+      .getUserWords(localStorage.getItem("userId"))
+      .then((words: Array<iUserWord>) => {
+        const obj: justObject = {};
+        for (let i = 0; i < words.length; i++) {
+          const isDifficult = words[i].difficulty === "hard";
+          if (isDifficult) obj[words[i].wordId] = "isDifficult";
         }
         return obj;
       });
@@ -56,30 +66,56 @@ class UserWords {
   }
   public async addLearnedWord(wordId: string | null, playName = "book") {
     if (wordId)
-      this.api.createWord(
-        localStorage.getItem("userId"),
-        wordId,
-        "isLearned",
-        playName
-      );
+      this.api
+        .getUserWordById(localStorage.getItem("userId"), wordId)
+        .then((res: iUserWord | null) => {
+          if (res) {
+            this.api.createWord(
+              localStorage.getItem("userId"),
+              wordId,
+              res.difficulty === "hard",
+              "isLearned",
+              playName
+            );
+          }
+        });
   }
   public async addNewWord(wordId: string | null, playName = "book") {
     if (wordId)
-      this.api.createWord(
-        localStorage.getItem("userId"),
-        wordId,
-        "isNew",
-        playName
-      );
+      this.api
+        .getUserWordById(localStorage.getItem("userId"), wordId)
+        .then((res: iUserWord | null) => {
+          if (res) {
+            this.api.createWord(
+              localStorage.getItem("userId"),
+              wordId,
+              res.difficulty === "hard",
+              "isNew",
+              playName
+            );
+          }
+        });
   }
   public async addDifficultWord(wordId: string | null, playName = "book") {
     if (wordId)
-      this.api.createWord(
-        localStorage.getItem("userId"),
-        wordId,
-        "difficulty",
-        playName
-      );
+      this.api
+        .getUserWordById(localStorage.getItem("userId"), wordId)
+        .then((res: iUserWord | null) => {
+          if (res) {
+            this.api.createWord(
+              localStorage.getItem("userId"),
+              wordId,
+              true,
+              res.optional.isLearned === true
+                ? "isLearned"
+                : res.optional.isNew
+                ? "isNew"
+                : "",
+              playName,
+              res.optional.inProgress
+            );
+          }
+        });
   }
   public addProgress(
     wordId: string,
@@ -98,6 +134,7 @@ class UserWords {
                 this.api.updateWord(
                   localStorage.getItem("userId"),
                   wordId,
+                  res.difficulty === "hard",
                   "isLearned",
                   playName,
                   0
@@ -106,6 +143,7 @@ class UserWords {
                 this.api.updateWord(
                   localStorage.getItem("userId"),
                   wordId,
+                  res.difficulty === "hard",
                   "isNew",
                   playName,
                   progress + 1
@@ -116,6 +154,7 @@ class UserWords {
             this.api.updateWord(
               localStorage.getItem("userId"),
               wordId,
+              res.difficulty === "hard",
               "isNew",
               playName,
               0
@@ -125,6 +164,7 @@ class UserWords {
           this.api.createWord(
             localStorage.getItem("userId"),
             wordId,
+            false,
             "isNew",
             playName,
             1
