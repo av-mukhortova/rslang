@@ -77,7 +77,7 @@ class Pages {
       });
 
       for (let i = 0; i <= 29; i++) {
-        pagination.innerHTML += paginationItem.create(i + 1);
+        pagination.innerHTML += paginationItem.getWordData(i + 1);
       }
 
       const gameBlock = document.createElement("div");
