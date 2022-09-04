@@ -78,16 +78,22 @@ class Chapter {
 
     book?.append(chapters);
     chapters.addEventListener("click", (e: Event): void => {
-      const idChapter = (e.target as HTMLElement).closest("div") as HTMLElement;
-      if (!idChapter?.getAttribute("id")) return;
-      const group = idChapter?.getAttribute("id")?.split("-")[1];
-      location.hash += "/group/" + group + "/page/0";
-      console.log(location);
-      //  book?.setAttribute("class", `bookPage chapter-${group}`);
-      book?.setAttribute("class", `bookPage`);
-      const pages = new Pages();
-      if (!group) return;
-      pages.getWordData(chapters, group);
+      const target = e.target as HTMLElement;
+      if (
+        target.id !== "book-audiocall-btn" &&
+        target.id !== "book-sprint-btn"
+      ) {
+        const idChapter = (e.target as HTMLElement).closest(
+          "div"
+        ) as HTMLElement;
+        if (!idChapter?.getAttribute("id")) return;
+        const group = idChapter?.getAttribute("id")?.split("-")[1];
+        //  book?.setAttribute("class", `bookPage chapter-${group}`);
+        book?.setAttribute("class", `bookPage`);
+        const pages = new Pages();
+        if (!group) return;
+        pages.getWordData(chapters, group);
+      }
     });
   }
 

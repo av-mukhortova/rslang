@@ -1,3 +1,5 @@
+import { StatProcess } from "../statisticSolve";
+
 class StatisticsText {
   create(): HTMLElement {
     const statisticsContainet = document.createElement("div") as HTMLElement;
@@ -18,10 +20,22 @@ class StatisticsText {
     Статистика возрастает,
     когда Вы  показываете хорошие результаты.
     И это вас мотивирует на следующие шагу.`;
+    const statLink = document.createElement("button");
+    if (statLink) {
+      statLink.innerHTML = "Перейти к статистике";
+      statLink.classList.add("stat_link");
+    }
 
     statisticsTextDiv.append(statisticsTitle);
     statisticsTextDiv.append(statisticsText);
+    statisticsTextDiv.append(statLink);
     statisticsContainet.append(statisticsTextDiv);
+
+    statLink?.addEventListener("click", (): void => {
+      const mainDiv = document.querySelector(".mainPage") as HTMLElement;
+      mainDiv.classList.add("hidden");
+      StatProcess();
+    });
     return statisticsContainet;
   }
 }
