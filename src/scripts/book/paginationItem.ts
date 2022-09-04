@@ -30,10 +30,8 @@ class PaginationItem {
     }
 
     const getGroupPage = new GetGroupPage();
-    const words = getGroupPage.getData(this.group, page);
-    console.log("===================", words);
-    words.then((objWord) => {
-      objWord.forEach((el) => {
+    getGroupPage.getData(this.group, page).then((words) => {
+      words.forEach((el) => {
         for (const key in this.learnedWords) {
           if (el.id === key) {
             if (this.learnedWords[key] === "isLearned") {
@@ -46,9 +44,9 @@ class PaginationItem {
             this.dificaltKeysBtn += 1;
           }
         }
+        this.create(page);
       });
     });
-    this.create(page);
   }
 
   create(num: number): string {
