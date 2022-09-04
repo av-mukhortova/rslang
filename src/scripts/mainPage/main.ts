@@ -19,6 +19,7 @@ class Main {
     const team = new Team();
     const footerBlock = new FooterBlock();
 
+    const body = document.querySelector("body") as HTMLElement;
     const main = document.querySelector(".mainPage") as HTMLElement;
     const herro = document.createElement("section") as HTMLElement;
     const studiBlock = document.createElement("section") as HTMLElement;
@@ -44,11 +45,22 @@ class Main {
     main.append(statisticsBlock);
     main.append(videoReport);
     main.append(teamSection);
-    document.querySelector("body")?.append(footer);
+    body.append(footer);
 
     studiBlock.addEventListener("click", (e: MouseEvent) => {
       const menu = new Menu();
       menu.toLink(e);
+    });
+
+    body.addEventListener("click", () => {
+      const menuClass = document.querySelector(".menu") as HTMLElement;
+
+      if (menuClass && menuClass.classList.contains("active")) {
+        menuClass.style.display = "none";
+        menuClass.classList.remove("active");
+      } else if (menuClass) {
+        menuClass.classList.add("active");
+      }
     });
   }
 }

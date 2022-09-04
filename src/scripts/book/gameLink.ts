@@ -26,13 +26,13 @@ class GameLink {
       return `
         <div class="game" style="background-image: url(${img});">
           <div class="game-none"></div>
-          <a href="" target="" rel="noopener noreferrer">${name}</a>
+          <p>${name}</p>
         </div>
       `;
     } else {
       return `
         <div id="${id}" class="game" style="background-image: url(${img});">
-          <a href="${link}" target="" rel="noopener noreferrer">${name}</a>
+          <p>${name}</p>
         </div>
       `;
     }

@@ -22,6 +22,7 @@ class Authorization {
     forma.className = "auth_form";
     const title = document.createElement("p") as HTMLElement;
     title.innerHTML = "Войти";
+    this.addCloseBtn(authorization);
     authorization.append(title);
     forma.innerHTML = `
       <input id="auth_email" type="email" placeholder="Введите Ваш Email" required>
@@ -43,6 +44,11 @@ class Authorization {
       const user = this.readData();
       this.signIn(user, authorization, main);
     });
+
+    const closeButton = document.querySelector(".close-forma");
+    closeButton?.addEventListener("click", () => {
+      authorization.style.display = "none";
+    });
   }
   signup(
     authorization: HTMLElement,
@@ -51,6 +57,7 @@ class Authorization {
     main: App
   ) {
     authorization.innerHTML = "";
+    this.addCloseBtn(authorization);
     title.innerHTML = "Зарегистрироваться";
     forma.innerHTML = `
       <input id="auth_name" type="text" placeholder="Введите имя" required>
@@ -67,6 +74,11 @@ class Authorization {
     signupButton.addEventListener("click", () => {
       const user = this.readData();
       this.createUser(user, authorization, main);
+    });
+
+    const closeButton = document.querySelector(".close-forma");
+    closeButton?.addEventListener("click", () => {
+      authorization.style.display = "none";
     });
   }
   private readData(): iUser {
@@ -91,7 +103,6 @@ class Authorization {
     main: App
   ): Promise<void> {
     await this.api.createUser(user).then((resp: string) => {
-      console.log(resp);
       if (resp === "Успешно!") {
         authorization.style.display = "none";
         this.signIn(user, authorization, main);
@@ -105,15 +116,24 @@ class Authorization {
     this.api.signIn(user).then((res: iAuthResp) => {
       if (res.message === "Authenticated") {
         localStorage.setItem("userId", res.userId);
+        localStorage.setItem("name", user.name);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("password", user.password);
         localStorage.setItem("token", res.token);
         localStorage.setItem("refreshToken", res.refreshToken);
         authorization.style.display = "none";
-        main.auth(res.name);
+        main.auth();
       } else {
         const msg: HTMLSpanElement | null = document.querySelector("#auth_msg");
         if (msg) msg.innerHTML = res.message;
       }
     });
+  }
+  addCloseBtn(authorization: HTMLElement) {
+    const close = document.createElement("button") as HTMLButtonElement;
+    close.className = "close-forma";
+    close.innerHTML = `<img src="https://i.ibb.co/28QgS5c/delete.png" alt="delete">`;
+    authorization.append(close);
   }
 }
 

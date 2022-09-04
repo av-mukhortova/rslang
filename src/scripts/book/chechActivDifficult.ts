@@ -1,7 +1,15 @@
 import LocalKeySaveDel from "./localKeySaveDel";
+import UserWords from "../userWords";
+import DificaltBook from "./dificaltBook";
 
 const localKeySaveDel = new LocalKeySaveDel("cardDifficults");
 class ChechActivDifficult {
+  userWords: UserWords;
+  dificaltBook: DificaltBook;
+  constructor() {
+    this.userWords = new UserWords();
+    this.dificaltBook = new DificaltBook();
+  }
   add(
     card: HTMLElement,
     cardDifficult: HTMLElement,
@@ -19,6 +27,7 @@ class ChechActivDifficult {
     cardDifficultDel.style.display = "block";
     cardDifficult.style.display = "none";
     card.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
+    this.userWords.addDifficultWord(card.id);
     localKeySaveDel.save(groupId, pageNumber, cardID, wordsNode, pagination);
   }
   dell(
@@ -38,6 +47,7 @@ class ChechActivDifficult {
     cardDifficult.style.display = "block";
     cardDifficultDell.style.display = "none";
     card.style.boxShadow = "";
+    this.dificaltBook.delete(cardID);
     localKeySaveDel.remove(groupId, pageNumber, cardID, wordsNode, pagination);
   }
 }

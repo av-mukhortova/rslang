@@ -1,7 +1,5 @@
 import Pages from "./pages";
 import "../../assets/styles/bookStyle/chapter.css";
-import { justObject } from "../../types/index";
-import UserWords from "../userWords";
 
 interface Key {
   key: string[];
@@ -11,31 +9,20 @@ class Chapter {
   dificaltKeys: string | null;
   countStudi: number;
   countDifficalt: number;
-  userWords: UserWords;
-  words: justObject;
+  authorization: boolean;
 
   constructor() {
     this.studiKeys = localStorage.getItem("studi");
     this.dificaltKeys = localStorage.getItem("cardDifficults");
     this.countStudi = 0;
     this.countDifficalt = 0;
-    this.userWords = new UserWords();
-    this.words = {};
+    this.authorization = localStorage.getItem("userId") ? true : false;
   }
 
   public create() {
-    const isAuth = localStorage.getItem("userId");
-    if (isAuth) {
-      this.userWords.getUserWords().then((words) => {
-        this.words = words;
-        this.draw();
-      });
-    } else {
-      this.draw();
-    }
+    this.draw();
   }
   public draw() {
-    console.log(this.words);
     const book: HTMLDivElement | null = document.querySelector(".bookPage");
     book?.classList.remove("hidden");
     const main: HTMLDivElement | null = document.querySelector(".mainPage");
@@ -59,11 +46,11 @@ class Chapter {
       if (this.countStudi === 30 && this.countDifficalt === 30) {
         chapter.setAttribute("class", `chapter `);
         chapter.style.height = `${heightBook}px`;
-        chapter.style.boxShadow = "0px 0px 7px 7px #43DE1C";
+        chapter.style.border = "6px solid #43DE1C";
         chapter.style.boxShadow = "inset 0px 0px 18px 18px #F06C5D";
       } else if (this.countStudi === 30) {
         chapter.setAttribute("class", `chapter`);
-        chapter.style.boxShadow = "0px 0px 7px 7px #43DE1C";
+        chapter.style.border = "6px solid #43DE1C";
         chapter.style.height = `${heightBook}px`;
         chapter.style.border = "";
       } else if (this.countDifficalt === 30) {
@@ -77,7 +64,14 @@ class Chapter {
       }
 
       const number = document.createElement("p");
-      number.textContent = `chapter ${i + 1}`;
+      if (i === 6) {
+        if (!this.authorization) {
+          chapter.style.display = "none";
+        }
+        number.textContent = `Difficult`;
+      } else {
+        number.textContent = `chapter ${i + 1}`;
+      }
       chapter.append(number);
       chapters.append(chapter);
     }
@@ -87,7 +81,7 @@ class Chapter {
       const idChapter = (e.target as HTMLElement).closest("div") as HTMLElement;
       if (!idChapter?.getAttribute("id")) return;
       const group = idChapter?.getAttribute("id")?.split("-")[1];
-      // book?.setAttribute("class", `bookPage chapter-${group}`);
+      //  book?.setAttribute("class", `bookPage chapter-${group}`);
       book?.setAttribute("class", `bookPage`);
       const pages = new Pages();
       if (!group) return;

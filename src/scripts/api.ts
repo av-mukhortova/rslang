@@ -22,7 +22,16 @@ export default class Api {
     }
     return arr;
   }
-  public async takeStatistic(userUid: string | null): Promise<iStatistics> {
+  public async getWordId(id: string): Promise<iWord> {
+    const res = await fetch(`${constants.URL}/words/${id}`, {
+      method: "GET",
+    });
+    const words = await res.json();
+    return words;
+  }
+  public async takeStatistic(
+    userUid: string | null
+  ): Promise<iStatistics | null> {
     const res = await fetch(`${constants.URL}/users/${userUid}/statistics`, {
       method: "GET",
 
@@ -32,8 +41,13 @@ export default class Api {
         "Content-Type": "application/json",
       },
     });
-    const words = await res.json();
-    return words;
+    if (res.ok) {
+      const words = await res.json();
+      return words;
+    } else if (res.status === 401) {
+      this.refreshToken(userUid).then(() => this.takeStatistic(userUid));
+    }
+    return null;
   }
   public async transferData(userUid: string | null, datas: iStatistics) {
     const info = await fetch(`${constants.URL}/users/${userUid}/statistics`, {
@@ -45,8 +59,12 @@ export default class Api {
       },
       body: JSON.stringify(datas),
     });
-    const result = await info.json();
-    return result;
+    if (info.ok) {
+      const result = await info.json();
+      return result;
+    } else if (info.status === 401) {
+      this.refreshToken(userUid).then(() => this.transferData(userUid, datas));
+    }
   }
   public async createUser(user: iUser): Promise<string> {
     const res = await fetch(`${constants.URL}/users`, {
@@ -92,7 +110,7 @@ export default class Api {
     };
     return resp;
   }
-  public async refreshToken(userId: string | null): Promise<iAuthResp> {
+  public async refreshToken(userId: string | null): Promise<iAuthResp | null> {
     const res = await fetch(`${constants.URL}/users/${userId}/tokens`, {
       method: "GET",
       headers: {
@@ -107,18 +125,12 @@ export default class Api {
       localStorage.setItem("refreshToken", content.refreshToken);
       return content;
     }
-    const resp: iAuthResp = {
-      message: "",
-      token: "",
-      refreshToken: "",
-      userId: "",
-      name: "",
-    };
-    return resp;
+    return null;
   }
   public async createWord(
     userId: string | null,
     wordId: string | null,
+    difficulty: boolean,
     type: string | null,
     playName: string | null,
     inProgress = 0
@@ -126,7 +138,7 @@ export default class Api {
     const now = new Date();
     const date = now.getDate() + "." + now.getMonth();
     const body = {
-      difficulty: type === "difficulty" ? "hard" : "easy",
+      difficulty: difficulty ? "hard" : "easy",
       optional: {
         isLearned: type === "isLearned",
         isNew: type === "isNew",
@@ -150,11 +162,57 @@ export default class Api {
     if (res.ok) {
       return true;
     } else if (res.status === 401) {
-      this.refreshToken(userId);
+      this.refreshToken(userId).then(() =>
+        this.createWord(userId, wordId, difficulty, type, playName, inProgress)
+      );
+    } else if (res.status == 417) {
+      this.updateWord(userId, wordId, difficulty, type, playName, inProgress);
+    }
+    return false;
+  }
+  public async updateWord(
+    userId: string | null,
+    wordId: string | null,
+    difficulty: boolean,
+    type: string | null,
+    playName: string | null,
+    inProgress = 0
+  ): Promise<boolean> {
+    const now = new Date();
+    const date = now.getDate() + "." + now.getMonth();
+    const body = {
+      difficulty: difficulty ? "hard" : "easy",
+      optional: {
+        isLearned: type === "isLearned",
+        isNew: type === "isNew",
+        playName: playName,
+        date: date,
+        inProgress: inProgress,
+      },
+    };
+    const res = await fetch(
+      `${constants.URL}/users/${userId}/words/${wordId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (res.ok) {
+      return true;
+    } else if (res.status === 401) {
+      this.refreshToken(userId).then(() =>
+        this.updateWord(userId, wordId, difficulty, type, playName, inProgress)
+      );
     }
     return false;
   }
   public async getUserWords(userId: string | null): Promise<iUserWord[]> {
+    const arr: Array<iUserWord> = [];
     const res = await fetch(`${constants.URL}/users/${userId}/words`, {
       method: "GET",
       headers: {
@@ -163,17 +221,37 @@ export default class Api {
         "Content-Type": "application/json",
       },
     });
-    const words = await res.json();
-    const arr: Array<iUserWord> = [];
-    for (const key in words) {
-      arr.push(words[key]);
+    if (res.ok) {
+      const words = await res.json();
+      for (const key in words) {
+        arr.push(words[key]);
+      }
+    } else if (res.status === 401) {
+      this.refreshToken(userId).then(() => this.getUserWords(userId));
     }
     return arr;
+  }
+  public async getUserWordsDifSt(userId: string | null): Promise<string[]> {
+    const res = await fetch(`${constants.URL}/users/${userId}/words`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      const words = await res.json();
+      return words;
+    } else if (res.status === 401) {
+      this.refreshToken(userId).then(() => this.getUserWordsDifSt(userId));
+    }
+    return [];
   }
   public async getUserWordById(
     userId: string | null,
     wordId: string | null
-  ): Promise<iWord> {
+  ): Promise<iUserWord | null> {
     const res = await fetch(
       `${constants.URL}/users/${userId}/words/${wordId}`,
       {
@@ -185,18 +263,27 @@ export default class Api {
         },
       }
     );
-    const word = await res.json();
-    return word;
-  }
-  public async getWord(id: string): Promise<iWord> {
-    const res = await fetch(`${constants.URL}/words/${id}`, {
-      method: "GET",
-    });
-    const words = await res.json();
-    const arr: Array<iWord> = [];
-    for (const key in words) {
-      arr.push(words[key]);
+    if (res.ok) {
+      const word = await res.json();
+      return word;
+    } else if (res.status === 401) {
+      this.refreshToken(userId).then(() =>
+        this.getUserWordById(userId, wordId)
+      );
     }
-    return arr[0];
+    return null;
+  }
+  public async removeUserWordById(
+    userId: string | null,
+    wordId: string | null
+  ) {
+    await fetch(`${constants.URL}/users/${userId}/words/${wordId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
   }
 }

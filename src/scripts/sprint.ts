@@ -96,6 +96,8 @@ export default class Sprint {
     return res;
   }
   private askLevel(): void {
+    const footer: HTMLElement | null = document.querySelector("footer");
+    footer?.classList.add("hidden");
     const levelDiv: HTMLDivElement | null = document.querySelector(".level");
     levelDiv?.classList.remove("hidden");
     const levelDlg: HTMLDivElement | null =
@@ -159,6 +161,7 @@ export default class Sprint {
           ? words[i].wordTranslate
           : words[wrongIndex].wordTranslate;
       const pair: iPair = {
+        wordId: words[i].id,
         word: words[i].word,
         translate: translate,
         isCorrect: translate === words[i].wordTranslate,
@@ -317,7 +320,13 @@ export default class Sprint {
   }
   public checkAnswer(answer: boolean): void {
     if (answer === this.pairs[this.currentPair].isCorrect) {
+      this.userWordsUI.addProgress(
+        this.pairs[this.currentPair].wordId,
+        true,
+        "sprint"
+      );
       const res: iPair = {
+        wordId: this.pairs[this.currentPair].wordId,
         word: this.pairs[this.currentPair].word,
         translate: this.pairs[this.currentPair].translate,
         isCorrect: true,
@@ -328,7 +337,13 @@ export default class Sprint {
       this.results.push(res);
       this.addPoints();
     } else {
+      this.userWordsUI.addProgress(
+        this.pairs[this.currentPair].wordId,
+        false,
+        "sprint"
+      );
       const res: iPair = {
+        wordId: this.pairs[this.currentPair].wordId,
         word: this.pairs[this.currentPair].word,
         translate: this.pairs[this.currentPair].translate,
         isCorrect: false,
@@ -431,6 +446,7 @@ export default class Sprint {
       const soundImg: HTMLImageElement | null = document.createElement("img");
       soundImg.src = "./assets/img/volume.png";
       soundImg.alt = "sound";
+      soundImg.style.backgroundColor = "inherit";
       tdSound.append(soundBtn, soundLabel);
       soundLabel.append(soundImg);
       const tdWord: HTMLTableCellElement | null = document.createElement("td");

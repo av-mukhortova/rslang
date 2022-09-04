@@ -8,6 +8,7 @@ import GameLink from "./gameLink";
 import "../../assets/styles/bookStyle/pages.css";
 import { process } from "../../scripts/audiocall";
 import Sprint from "../sprint";
+import DificaltBook from "./dificaltBook";
 
 const games = [
   {
@@ -23,13 +24,17 @@ const games = [
     id: "book-sprint-btn",
   },
 ];
-const authorizedCheck = true;
+const authorizedCheck = localStorage.getItem("userId") ? true : false;
 
 class Pages {
   page: number;
+  dificaltBook: DificaltBook;
+  sprint: Sprint;
 
   constructor() {
     this.page = 0;
+    this.dificaltBook = new DificaltBook();
+    this.sprint = new Sprint();
   }
 
   getWordData(chapters: HTMLElement, group: string) {
@@ -59,52 +64,70 @@ class Pages {
     prevBtn.setAttribute("id", "prev-btn");
     nextBtn.setAttribute("id", "next-btn");
 
-    prevBtn.style.height = `${heightBook}px`;
-    nextBtn.style.height = `${heightBook}px`;
+    if (group === "6") {
+      this.dificaltBook.create(chapters, containerWords, words, group);
+    } else {
+      prevBtn.style.height = `${heightBook}px`;
+      nextBtn.style.height = `${heightBook}px`;
 
-    pageNumber.textContent = `${this.page + 1}`;
-    const itemPage = new ItemPage();
-    data.forEach((el): void => {
-      words.innerHTML += itemPage.create(el, group);
-    });
-
-    for (let i = 0; i <= 29; i++) {
-      pagination.innerHTML += paginationItem.create(i + 1);
-    }
-
-    const gameBlock = document.createElement("div");
-    if (authorizedCheck) {
-      gameBlock.setAttribute("class", "game-block");
-      games.forEach((el) => {
-        gameBlock.innerHTML += gameLink.creat(
-          el.link,
-          el.name,
-          +group,
-          this.page,
-          el.img,
-          el.id
-        );
+      pageNumber.textContent = `${this.page + 1}`;
+      const itemPage = new ItemPage();
+      data.forEach((el): void => {
+        words.innerHTML += itemPage.create(el, group);
       });
-    }
 
-    prevBtn.innerHTML = "<";
-    nextBtn.innerHTML = ">";
+      for (let i = 0; i <= 29; i++) {
+        pagination.innerHTML += paginationItem.create(i + 1);
+      }
 
-    containerWords.append(prevBtn);
-    containerWords.append(nextBtn);
-    containerWords.append(words);
-    containerWords.append(pageNumber);
-    containerWords.append(pagination);
-    containerWords.append(gameBlock);
-    chapters.append(containerWords);
+      const gameBlock = document.createElement("div");
+      if (authorizedCheck) {
+        gameBlock.setAttribute("class", "game-block");
+        games.forEach((el) => {
+          gameBlock.innerHTML += gameLink.creat(
+            el.link,
+            el.name,
+            +group,
+            this.page,
+            el.img,
+            el.id
+          );
+        });
+      }
 
-    const wordsNode = document.querySelector(".words") as HTMLElement;
-    checkWordsOnload.check(wordsNode, pagination, this.page, group);
+      prevBtn.innerHTML = "<";
+      nextBtn.innerHTML = ">";
 
-    prevBtn.addEventListener("click", (): void => {
-      if (this.page > 0) {
-        this.page -= 1;
-        this.getWordData(chapters, group);
+      containerWords.append(prevBtn);
+      containerWords.append(nextBtn);
+      containerWords.append(words);
+      containerWords.append(pageNumber);
+      containerWords.append(pagination);
+      containerWords.append(gameBlock);
+      chapters.append(containerWords);
+
+      const wordsNode = document.querySelector(".words") as HTMLElement;
+      checkWordsOnload.check(wordsNode, pagination, this.page, group);
+
+      prevBtn.addEventListener("click", (): void => {
+        if (this.page > 0) {
+          this.page -= 1;
+          this.getWordData(chapters, group);
+        }
+      });
+      nextBtn.addEventListener("click", (): void => {
+        if (this.page < 29) {
+          this.page += 1;
+          this.getWordData(chapters, group);
+        }
+      });
+
+      const sprintBtn = document.querySelector("#book-sprint-btn");
+      if (sprintBtn) {
+        sprintBtn.addEventListener("click", (): void => {
+          chapters.innerHTML = "";
+          this.sprint.startFromBook(group, this.page);
+        });
       }
     });
     nextBtn.addEventListener("click", (): void => {
@@ -117,54 +140,51 @@ class Pages {
     audiocallBtn?.addEventListener("click", (): void => {
       process(Number(group), this.page);
     });
-
-    const sprint = new Sprint();
-    const sprintBtn = document.querySelector("#book-sprint-btn");
-    if (sprintBtn) {
-      sprintBtn.addEventListener("click", (): void => {
-        sprint.startFromBook(group, this.page);
+      document.addEventListener("keydown", (event) => {
+        if (this.sprint.isKeyUp && this.sprint.isPlaying) {
+          if (event.code === "ArrowRight") this.sprint.checkAnswer(true);
+          if (event.code === "ArrowLeft") this.sprint.checkAnswer(false);
+          this.sprint.isKeyUp = false;
+        }
       });
-    }
-    document.addEventListener("keydown", (event) => {
-      if (sprint.isKeyUp && sprint.isPlaying) {
-        if (event.code === "ArrowRight") sprint.checkAnswer(true);
-        if (event.code === "ArrowLeft") sprint.checkAnswer(false);
-        sprint.isKeyUp = false;
-      }
-    });
-    document.addEventListener("keyup", (event) => {
-      if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
-        sprint.isKeyUp = true;
-      }
-    });
+      document.addEventListener("keyup", (event) => {
+        if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
+          this.sprint.isKeyUp = true;
+        }
+      });
 
-    pagination.addEventListener("click", (e: Event): void => {
-      const idButton = (e.target as HTMLElement).closest(
-        "button"
+      pagination.addEventListener("click", (e: Event): void => {
+        const idButton = (e.target as HTMLElement).closest(
+          "button"
+        ) as HTMLElement;
+        if (!idButton?.getAttribute("id")) return;
+        const page = idButton?.getAttribute("id")?.split("-")[1];
+        if (!page) return;
+        this.page = +page - 1;
+        this.getWordData(chapters, group);
+      });
+      document.querySelectorAll(".btn_audiocall_book")?.forEach((item) => {
+        item.addEventListener("click", async () => {
+          const btnAudiocallBook = document.querySelector(
+            ".btn_audiocall_book"
+          );
+          const groupList = Number(
+            btnAudiocallBook?.getAttribute("group_audio")
+          );
+          const pageList = Number(btnAudiocallBook?.getAttribute("page_audio"));
+          process(groupList, pageList);
+        });
+      });
+
+      const containerWordsClass = document.querySelector(
+        ".container-words"
       ) as HTMLElement;
-      if (!idButton?.getAttribute("id")) return;
-      const page = idButton?.getAttribute("id")?.split("-")[1];
-      if (!page) return;
-      this.page = +page - 1;
-      this.getWordData(chapters, group);
-    });
-    document.querySelectorAll(".btn_audiocall_book")?.forEach((item) => {
-      item.addEventListener("click", async () => {
-        const btnAudiocallBook = document.querySelector(".btn_audiocall_book");
-        const groupList = Number(btnAudiocallBook?.getAttribute("group_audio"));
-        const pageList = Number(btnAudiocallBook?.getAttribute("page_audio"));
-        process(groupList, pageList);
+      containerWordsClass.addEventListener("click", (e: Event): void => {
+        chechActiv.check(e, this.page, group, wordsNode, pagination);
       });
-    });
 
-    const containerWordsClass = document.querySelector(
-      ".container-words"
-    ) as HTMLElement;
-    containerWordsClass.addEventListener("click", (e: Event): void => {
-      chechActiv.check(e, this.page, group, wordsNode, pagination);
-    });
-
-    this.check();
+      this.check();
+    }
   }
 
   check(): void {

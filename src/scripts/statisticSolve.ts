@@ -11,13 +11,6 @@ export async function CreateStatistic(
   lengthOfTruth: string,
   nameOfGame: string
 ) {
-  console.log(month);
-  console.log(day);
-  console.log(neWords);
-  console.log(percentOfTruth);
-  console.log(lengthOfTruth);
-  console.log(nameOfGame);
-
   const userUid = localStorage.getItem("userId");
   function createResult(
     learnedWords: number,
@@ -284,19 +277,17 @@ export async function StatProcess() {
     if (ctx) {
       ctx.fillStyle = color[i];
     }
-    const dp = data[i];
-    ctx?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
-  }
-  const labels = [
-    `Новые слова ${statistic.optional.audiocall.neWords.length}`,
-    `Правильные ответы${Number(trueAnswers) * 10}`,
-    "Линия ответов",
-  ];
+    const labels = [
+      `Новые слова ${statistic.optional.audiocall.neWords.length}`,
+      `Правильные ответы${Number(trueAnswers) * 10}`,
+      "Линия ответов",
+    ];
 
-  if (ctx) {
-    ctx.fillStyle = "black";
-  }
-  for (let i = 0; i < labels.length; i++) {
-    ctx?.fillText(labels[i], 25 + i * 100, 475);
+    if (ctx) {
+      ctx.fillStyle = "black";
+    }
+    for (let i = 0; i < labels.length; i++) {
+      ctx?.fillText(labels[i], 25 + i * 100, 475);
+    }
   }
 }
