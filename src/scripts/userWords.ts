@@ -70,10 +70,18 @@ class UserWords {
         .getUserWordById(localStorage.getItem("userId"), wordId)
         .then((res: iUserWord | null) => {
           if (res) {
-            this.api.createWord(
+            this.api.updateWord(
               localStorage.getItem("userId"),
               wordId,
               res.difficulty === "hard",
+              "isLearned",
+              playName
+            );
+          } else {
+            this.api.createWord(
+              localStorage.getItem("userId"),
+              wordId,
+              false,
               "isLearned",
               playName
             );
@@ -86,10 +94,18 @@ class UserWords {
         .getUserWordById(localStorage.getItem("userId"), wordId)
         .then((res: iUserWord | null) => {
           if (res) {
-            this.api.createWord(
+            this.api.updateWord(
               localStorage.getItem("userId"),
               wordId,
               res.difficulty === "hard",
+              "isNew",
+              playName
+            );
+          } else {
+            this.api.createWord(
+              localStorage.getItem("userId"),
+              wordId,
+              false,
               "isNew",
               playName
             );
@@ -102,7 +118,7 @@ class UserWords {
         .getUserWordById(localStorage.getItem("userId"), wordId)
         .then((res: iUserWord | null) => {
           if (res) {
-            this.api.createWord(
+            this.api.updateWord(
               localStorage.getItem("userId"),
               wordId,
               true,
@@ -113,6 +129,15 @@ class UserWords {
                 : "",
               playName,
               res.optional.inProgress
+            );
+          } else {
+            this.api.createWord(
+              localStorage.getItem("userId"),
+              wordId,
+              true,
+              "isNew",
+              playName,
+              0
             );
           }
         });
