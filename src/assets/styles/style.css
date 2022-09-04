@@ -25,6 +25,9 @@ button {
     background: linear-gradient(to right, rgba(250, 128, 114, 0.28), rgba(255, 165, 0, 0.28), rgba(255, 255, 0, 0.28), rgba(50, 205, 50, 0.28), rgba(0, 191, 255, 0.28), rgba(0, 0, 255, 0.28), rgba(138, 43, 226, 0.28));
     text-align: center;
 }
+.statPage{
+    height:2000px;
+}
 .notice_btn {
     display: flex;
     flex-direction: row;
@@ -159,7 +162,9 @@ button {
     text-align: center;
 }
 
-#canvas {
+#canvas,
+#canvas2,
+#canvas3  {
     border: 1px solid black;
 }
 
@@ -175,4 +180,33 @@ button {
 
 .item-page__errors {
     color: red;
+}
+
+.can_main{
+    justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+   
+}
+
+.can_text{
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto;
+    padding-top: 20vh;
+   
+;}
+.can_title{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 auto;
+}
+.inside_color_first{
+    background-color: red;
+}
+.inside_color_second{
+    background-color: green;
+}
+.inside_color_third{
+    background-color: yellow;
 }
