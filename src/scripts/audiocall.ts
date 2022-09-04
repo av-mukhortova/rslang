@@ -2,6 +2,7 @@ import Api from "./api";
 import { iArray } from "../types/index";
 const api = new Api();
 import { CreateStatistic } from "./statisticSolve";
+import UserWords from "./userWords";
 
 async function search(group: string, page: string, wordChange: number) {
   const resultArr = await api.getWords(group, page);

@@ -258,21 +258,32 @@ export async function StatProcess() {
   const statPage = document.querySelector(".statPage") as HTMLElement;
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   const canvas2 = document.getElementById("canvas2") as HTMLCanvasElement;
+  const canvas3 = document.getElementById("canvas3") as HTMLCanvasElement;
   const userUid = localStorage.getItem("userId");
   const statistic = await api.takeStatistic(userUid);
   const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D | null;
   const ctx2 = canvas2?.getContext("2d") as CanvasRenderingContext2D | null;
+  const ctx3 = canvas3?.getContext("2d") as CanvasRenderingContext2D | null;
   const infoInside = document.querySelector(".info_inside") as HTMLElement;
   const infoInside2 = document.querySelector(".info_inside2") as HTMLElement;
-
+  const infoInside3 = document.querySelector(".info_inside3") as HTMLElement;
+  let fullAnswer: number | undefined;
   statPage.classList.remove("hidden");
 
   if (statistic) {
     const color = ["red", "green", "yellow"];
-    const trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
+    let trueAnswers = statistic.optional.audiocall.percentOfTruth.reduce(
       (a, b) => Number(a) + Number(b),
       Number("0")
     );
+    if (Number(statistic.optional.audiocall.percentOfTruth.length) > 0) {
+      trueAnswers =
+        trueAnswers /
+        Number(statistic.optional.audiocall.percentOfTruth.length);
+    }
+
+    fullAnswer = trueAnswers;
+    console.log(fullAnswer);
     const data = [
       Number(statistic.optional.audiocall.neWords.length),
       Number(trueAnswers),
@@ -297,10 +308,18 @@ export async function StatProcess() {
   }
   if (statistic) {
     const color = ["red", "green", "yellow"];
-    const trueAnswers = statistic.optional.sprint.percentOfTruth.reduce(
+    let trueAnswers = statistic.optional.sprint.percentOfTruth.reduce(
       (a, b) => Number(a) + Number(b),
       Number("0")
     );
+    if (Number(statistic.optional.sprint.percentOfTruth.length) > 0) {
+      trueAnswers =
+        trueAnswers / Number(statistic.optional.sprint.percentOfTruth.length);
+    }
+    if (fullAnswer != undefined) {
+      fullAnswer = (fullAnswer + trueAnswers) / 2;
+    }
+
     const data = [
       Number(statistic.optional.sprint.neWords.length),
       Number(trueAnswers) * 3,
@@ -322,5 +341,31 @@ export async function StatProcess() {
     infoInside2.innerHTML = `<div class="inside_color_first">количество новых слов за день:${labels[0]}</div>
     <div class="inside_color_second">процент правильных ответов:${labels[1]}</div>
     <div class="inside_color_third">самая длинная серия правильных ответов:${labels[2]}</div>`;
+  }
+  if (statistic) {
+    const color = ["red", "green", "yellow"];
+    const trueAnswers = fullAnswer;
+    const data = [
+      Number(statistic.optional.sprint.neWords.length) +
+        Number(statistic.optional.audiocall.neWords.length),
+      Number(trueAnswers) * 3,
+      Number(statistic.learnedWords) * 10,
+    ];
+    for (let i = 0; i < data.length; i++) {
+      if (ctx3) {
+        ctx3.fillStyle = color[i];
+      }
+      const dp = data[i];
+      ctx3?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
+    }
+    const labels = [
+      `${statistic.optional.sprint.neWords.length}`,
+      `${Number(trueAnswers)}`,
+      `${Number(statistic.learnedWords)}`,
+    ];
+
+    infoInside3.innerHTML = `<div class="inside_color_first">количество новых слов за день:${labels[0]}</div>
+    <div class="inside_color_second">процент правильных ответов:${labels[1]}</div>
+    <div class="inside_color_third">количество изученных слов за день:${labels[2]}</div>`;
   }
 }
