@@ -1,14 +1,14 @@
 import Sprint from "../sprint";
 import Chapter from "../book/chapter";
 import MenuLinks from "./menuLinks";
-import { process } from "../audiocall";
+import { AudioCall } from "../audiocall";
 import { StatProcess } from "../statisticSolve";
 
 const links = [
   {
     id: 1,
     text: "Главная страница",
-    linkPage: "#main",
+    linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/home.png",
     alt: "home.png",
     key: "main",
@@ -16,7 +16,7 @@ const links = [
   {
     id: 2,
     text: "Учебник",
-    linkPage: "#book",
+    linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/book.png",
     alt: "book.png",
     key: "book",
@@ -24,7 +24,7 @@ const links = [
   {
     id: 3,
     text: "Мини-игра «Аудиовызов»",
-    linkPage: "#audiocall",
+    linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/game.png",
     alt: "game.png",
     key: "audiocall",
@@ -32,7 +32,7 @@ const links = [
   {
     id: 4,
     text: "Мини-игра «Спринт»",
-    linkPage: "#sprint",
+    linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/game.png",
     alt: "game.png",
     key: "sprint",
@@ -40,7 +40,7 @@ const links = [
   {
     id: 5,
     text: "Статистика",
-    linkPage: "#stat",
+    linkPage: "#",
     linkimg: "https://www.imagehousing.com/images/2022/08/27/statistics.png",
     alt: "statistics.png",
     key: "stat",
@@ -49,8 +49,10 @@ const links = [
 
 class Menu {
   sprint: Sprint;
+  audiocall: AudioCall;
   constructor() {
     this.sprint = new Sprint();
+    this.audiocall = new AudioCall();
   }
   create() {
     const menuLinks = new MenuLinks();
@@ -87,7 +89,8 @@ class Menu {
     const sprintPage = document.querySelector(".sprint") as HTMLElement;
     const wordsPage = document.querySelector(".wordsPage") as HTMLElement;
     const audocallPage = document.querySelector(".audocallPage") as HTMLElement;
-    // const statPage = document.querySelector(".statPage") as HTMLElement;
+    const starter_pack = document.querySelector(".starter_pack") as HTMLElement;
+    const statPage = document.querySelector(".statPage") as HTMLElement;
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
@@ -96,6 +99,11 @@ class Menu {
       mainDiv.classList.add("hidden");
       switch (id) {
         case "main": {
+          starter_pack.classList.add("hidden");
+          audocallPage.classList.add("hidden");
+          statPage.classList.add("hidden");
+          this.sprint.isPlaying = false;
+          this.audiocall.isPlayed = false;
           mainDiv.classList.remove("hidden");
           if (book?.classList.contains("hidden") === false) {
             book?.classList.add("hidden");
@@ -104,6 +112,10 @@ class Menu {
         }
         case "sprint":
         case "studi_game-sprint": {
+          starter_pack.classList.add("hidden");
+          audocallPage.classList.add("hidden");
+          statPage.classList.add("hidden");
+          this.audiocall.isPlayed = false;
           const footer: HTMLElement | null = document.querySelector("footer");
           footer?.classList.add("hidden");
           this.sprint.start();
@@ -123,19 +135,25 @@ class Menu {
         }
         case "audiocall":
         case "studi_game-audio": {
+          this.sprint.isPlaying = false;
+          statPage.classList.add("hidden");
           const footer: HTMLElement | null = document.querySelector("footer");
           footer?.classList.add("hidden");
-          const bookPage: HTMLElement | null =
-            document.querySelector(".bookPage");
-          bookPage?.classList.add("hidden");
+          book.classList.add("hidden");
           const sprintPage: HTMLElement | null =
             document.querySelector(".sprintPage");
           sprintPage?.classList.add("hidden");
-          process();
+          const level: HTMLElement | null = document.querySelector(".level");
+          level?.classList.add("hidden");
+          this.audiocall.start();
 
           break;
         }
         case "stat": {
+          starter_pack.classList.add("hidden");
+          audocallPage.classList.add("hidden");
+          this.audiocall.isPlayed = false;
+          this.sprint.isPlaying = false;
           const sprintPage: HTMLElement | null =
             document.querySelector(".sprintPage");
           sprintPage?.classList.add("hidden");
@@ -145,11 +163,18 @@ class Menu {
           if (wordsPage?.classList.contains("hidden") === false) {
             wordsPage?.classList.add("hidden");
           }
+          const level: HTMLElement | null = document.querySelector(".level");
+          level?.classList.add("hidden");
           StatProcess();
           break;
         }
         case "book":
         case "studi_book": {
+          starter_pack.classList.add("hidden");
+          audocallPage.classList.add("hidden");
+          statPage.classList.add("hidden");
+          this.audiocall.isPlayed = false;
+          this.sprint.isPlaying = false;
           chapter.create();
           if (sprintPage?.classList.contains("hidden") === false) {
             sprintPage?.classList.add("hidden");

@@ -82,7 +82,7 @@ export default class App {
         window.location.reload();
       }
     });
-    document.addEventListener("DOMContentLoaded", () => {
+    /* document.addEventListener("DOMContentLoaded", () => {
       const page = location.hash.replace("#", "");
       const attr = page.split("/");
       this.menu.toLink(attr[0]);
@@ -92,7 +92,7 @@ export default class App {
       console.log(page);
       const attr = page.split("/");
       this.menu.toLink(attr[0]);
-    };
+    }; */
   }
   public auth() {
     const auth: HTMLDivElement | null = document.querySelector(

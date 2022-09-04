@@ -1,3 +1,5 @@
+import { StatProcess } from "../statisticSolve";
+
 class StatisticsText {
   create(): HTMLElement {
     const statisticsContainet = document.createElement("div") as HTMLElement;
@@ -30,7 +32,9 @@ class StatisticsText {
     statisticsContainet.append(statisticsTextDiv);
 
     statLink?.addEventListener("click", (): void => {
-      alert("запустить статистику");
+      const mainDiv = document.querySelector(".mainPage") as HTMLElement;
+      mainDiv.classList.add("hidden");
+      StatProcess();
     });
     return statisticsContainet;
   }
