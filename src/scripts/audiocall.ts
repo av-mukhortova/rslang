@@ -57,6 +57,7 @@ const wordMain = document.querySelector(".word_main") as HTMLElement;
 const winElement = document.querySelector(".win_element") as HTMLElement;
 const winWrong = document.querySelector(".win_wrong") as HTMLElement;
 const finishElement = document.querySelector(".finish_element") as HTMLElement;
+const wordCharacter = document.querySelector(".word_character") as HTMLElement;
 const pictureParametres = document.querySelector(
   ".picture_parametres"
 ) as HTMLImageElement;
@@ -87,6 +88,7 @@ export async function process(groupSet = 9, randPage = 31) {
       pageList = Number(btnAudiocallBook?.getAttribute("page_audio"));
       fullDatas = await search(String(groupList), String(pageList), wordChange);
       audiocallPage.classList.remove("hidden");
+      fullDatas.AudioM.play();
       element1.innerHTML = fullDatas.Arr[0];
       element2.innerHTML = fullDatas.Arr[1];
       element3.innerHTML = fullDatas.Arr[2];
@@ -101,6 +103,7 @@ export async function process(groupSet = 9, randPage = 31) {
   } else {
     audiocallPage.classList.remove("hidden");
     fullDatas = await search(String(groupList), String(pageList), wordChange);
+    fullDatas.AudioM.play();
     audiocallPage.classList.remove("hidden");
     element1.innerHTML = fullDatas.Arr[0];
     element2.innerHTML = fullDatas.Arr[1];
@@ -119,7 +122,7 @@ export async function process(groupSet = 9, randPage = 31) {
       audiocallPage.classList.remove("hidden");
 
       fullDatas = await search(String(groupList), String(pageList), wordChange);
-
+      fullDatas.AudioM.play();
       element1.innerHTML = `1.${fullDatas.Arr[0]}`;
       element2.innerHTML = `2.${fullDatas.Arr[1]}`;
       element3.innerHTML = `3.${fullDatas.Arr[2]}`;
@@ -150,11 +153,13 @@ export async function process(groupSet = 9, randPage = 31) {
       });
       if (item.innerHTML.split(".")[1] == fullDatas.wordTrans) {
         trueAnswersArr.push(fullDatas);
+        wordCharacter.style.backgroundColor = "green";
         seriesNumber++;
       } else {
         falseAnswersArr.push(fullDatas);
         seriesArray.push(seriesNumber);
         seriesNumber = 0;
+        wordCharacter.style.backgroundColor = "red";
       }
 
       pressElementNext.classList.remove("hidden");
@@ -163,13 +168,15 @@ export async function process(groupSet = 9, randPage = 31) {
       pictureElement.classList.remove("hidden");
     });
   });
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", async function (event) {
     if (event.code == "Digit1") {
       event.preventDefault();
       if (element1.innerHTML.split(".")[1] == fullDatas.wordTrans) {
         trueAnswersArr.push(fullDatas);
         seriesNumber++;
+        wordCharacter.style.backgroundColor = "green";
       } else {
+        wordCharacter.style.backgroundColor = "red";
         falseAnswersArr.push(fullDatas);
         seriesArray.push(seriesNumber);
         seriesNumber = 0;
@@ -187,7 +194,9 @@ export async function process(groupSet = 9, randPage = 31) {
       if (element2.innerHTML.split(".")[1] == fullDatas.wordTrans) {
         trueAnswersArr.push(fullDatas);
         seriesNumber++;
+        wordCharacter.style.backgroundColor = "green";
       } else {
+        wordCharacter.style.backgroundColor = "red";
         falseAnswersArr.push(fullDatas);
         seriesArray.push(seriesNumber);
         seriesNumber = 0;
@@ -205,7 +214,9 @@ export async function process(groupSet = 9, randPage = 31) {
       if (element3.innerHTML.split(".")[1] == fullDatas.wordTrans) {
         trueAnswersArr.push(fullDatas);
         seriesNumber++;
+        wordCharacter.style.backgroundColor = "green";
       } else {
+        wordCharacter.style.backgroundColor = "red";
         falseAnswersArr.push(fullDatas);
         seriesArray.push(seriesNumber);
         seriesNumber = 0;
@@ -223,7 +234,9 @@ export async function process(groupSet = 9, randPage = 31) {
       if (element4.innerHTML.split(".")[1] == fullDatas.wordTrans) {
         trueAnswersArr.push(fullDatas);
         seriesNumber++;
+        wordCharacter.style.backgroundColor = "green";
       } else {
+        wordCharacter.style.backgroundColor = "red";
         falseAnswersArr.push(fullDatas);
         seriesArray.push(seriesNumber);
         seriesNumber = 0;
@@ -241,7 +254,9 @@ export async function process(groupSet = 9, randPage = 31) {
       if (element5.innerHTML.split(".")[1] == fullDatas.wordTrans) {
         trueAnswersArr.push(fullDatas);
         seriesNumber++;
+        wordCharacter.style.backgroundColor = "green";
       } else {
+        wordCharacter.style.backgroundColor = "red";
         falseAnswersArr.push(fullDatas);
         seriesArray.push(seriesNumber);
         seriesNumber = 0;
@@ -256,22 +271,140 @@ export async function process(groupSet = 9, randPage = 31) {
     }
     if (event.code == "Space") {
       event.preventDefault();
-      pressElementAlternate.innerHTML.split(".")[1] == fullDatas.wordTrans
-        ? trueAnswersArr.push(fullDatas)
-        : falseAnswersArr.push(fullDatas);
-      seriesArray.push(seriesNumber);
-      seriesNumber = 0;
-      pressElementNext.classList.remove("hidden");
-      pressElementAlternate.classList.add("hidden");
-      wordMain.classList.remove("hidden");
-      pictureElement.classList.remove("hidden");
-      [element1, element2, element3, element4, element5].forEach((item) => {
-        item.setAttribute("disabled", "disabled");
-      });
+      if (pressElementNext.classList.contains("hidden")) {
+        wordCharacter.style.backgroundColor = "red";
+        pressElementAlternate.innerHTML.split(".")[1] == fullDatas.wordTrans
+          ? trueAnswersArr.push(fullDatas)
+          : falseAnswersArr.push(fullDatas);
+        seriesArray.push(seriesNumber);
+        seriesNumber = 0;
+        pressElementNext.classList.remove("hidden");
+        pressElementAlternate.classList.add("hidden");
+        wordMain.classList.remove("hidden");
+        pictureElement.classList.remove("hidden");
+        [element1, element2, element3, element4, element5].forEach((item) => {
+          item.setAttribute("disabled", "disabled");
+        });
+      } else {
+        fullDatas = await search(
+          String(groupList),
+          String(pageList),
+          wordChange
+        );
+        wordCharacter.style.backgroundColor = "transparent";
+        wordMain.classList.add("hidden");
+        pressElementNext.classList.add("hidden");
+        pressElementAlternate.classList.remove("hidden");
+        pictureElement.classList.add("hidden");
+        element1.innerHTML = `1.${fullDatas.Arr[0]}`;
+        element2.innerHTML = `2.${fullDatas.Arr[1]}`;
+        element3.innerHTML = `3.${fullDatas.Arr[2]}`;
+        element4.innerHTML = `4.${fullDatas.Arr[3]}`;
+        element5.innerHTML = `5.${fullDatas.Arr[4]}`;
+        wordMain.innerHTML = fullDatas.Word;
+        pictureParametres.src = fullDatas.imgMessage;
+
+        [element1, element2, element3, element4, element5].forEach((item) => {
+          item.removeAttribute("disabled");
+        });
+        const array3 = trueAnswersArr.concat(falseAnswersArr);
+        console.log(array3.length);
+        if (array3.length < 10) {
+          fullDatas.AudioM.play();
+          wordChange++;
+        } else {
+          seriesArray.push(seriesNumber);
+          const newWordArray = [];
+          for (let i = 0; i < array3.length; i++) {
+            newWordArray.push(array3[i].Word);
+          }
+
+          seriesNumber = 0;
+          const date = new Date();
+          const percArray = [String(trueAnswersArr.length)];
+          const maxSize = Math.max.apply(null, seriesArray);
+          const day = String(date.getDate());
+          const month = String(date.getMonth());
+
+          CreateStatistic(
+            month,
+            day,
+            newWordArray,
+            percArray,
+            String(maxSize),
+            "audiocall"
+          );
+
+          const Charlee = document.createElement("div");
+          const foxtrot = document.createElement("div");
+          foxtrot.classList.add("remove_item");
+          winElement.appendChild(foxtrot);
+          foxtrot.appendChild(Charlee);
+
+          Charlee.innerHTML = `Количество ${trueAnswersArr.length * 10}%`;
+          finishElement.classList.remove("hidden");
+          trueAnswersArr.forEach((item) => {
+            const Eco = document.createElement("div");
+            const Bravo = document.createElement("span");
+            const Delta = document.createElement("img");
+            foxtrot.appendChild(Eco);
+            Eco.appendChild(Bravo);
+            Eco.appendChild(Delta);
+            Delta.src = "https://i.ibb.co/j55JQNJ/73675.png";
+            Delta.classList.add("small_img_size");
+            Delta.setAttribute("word_ident", `${item.Word}`);
+
+            Bravo.classList.add("win_show");
+            Bravo.innerHTML = `${item.Word}-${item.wordTrans}`;
+          });
+          const Charlee1 = document.createElement("div");
+          const foxtrot1 = document.createElement("div");
+          foxtrot1.classList.add("remove_item");
+          winWrong.appendChild(foxtrot1);
+          foxtrot1.appendChild(Charlee1);
+
+          Charlee1.innerHTML = `Количество ${falseAnswersArr.length * 10}%`;
+          falseAnswersArr.forEach((item) => {
+            const Eco = document.createElement("div");
+            const Bravo = document.createElement("span");
+            const Delta = document.createElement("img");
+
+            foxtrot1.appendChild(Eco);
+            Eco.classList.add("win_show");
+            Eco.appendChild(Bravo);
+            Eco.appendChild(Delta);
+            Delta.src = "https://i.ibb.co/j55JQNJ/73675.png";
+            Delta.classList.add("small_img_size");
+            Delta.setAttribute("word_ident", `${item.Word}`);
+            Bravo.innerHTML = `${item.Word}-${item.wordTrans}`;
+          });
+          const smallImgSize = document.querySelectorAll(
+            ".small_img_size"
+          ) as NodeListOf<Element>;
+          smallImgSize.forEach((item) => {
+            item.addEventListener("click", () => {
+              for (let i = 0; i < trueAnswersArr.length; i++) {
+                if (item.getAttribute("word_ident") == trueAnswersArr[i].Word) {
+                  trueAnswersArr[i].AudioM.play();
+                }
+              }
+              for (let i = 0; i < falseAnswersArr.length; i++) {
+                if (
+                  item.getAttribute("word_ident") == falseAnswersArr[i].Word
+                ) {
+                  falseAnswersArr[i].AudioM.play();
+                }
+              }
+            });
+          });
+        }
+      }
     }
   });
   pressElementNext?.addEventListener("click", async () => {
     fullDatas = await search(String(groupList), String(pageList), wordChange);
+    fullDatas.AudioM.play();
+    wordCharacter.style.backgroundColor = "transparent";
     wordMain.classList.add("hidden");
     pressElementNext.classList.add("hidden");
     pressElementAlternate.classList.remove("hidden");

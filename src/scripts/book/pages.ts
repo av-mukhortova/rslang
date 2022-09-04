@@ -129,6 +129,17 @@ class Pages {
           this.sprint.startFromBook(group, this.page);
         });
       }
+    });
+    nextBtn.addEventListener("click", (): void => {
+      if (this.page < 29) {
+        this.page += 1;
+        this.getWordData(chapters, group);
+      }
+    });
+    const audiocallBtn = document.querySelector("#book-audiocall-btn");
+    audiocallBtn?.addEventListener("click", (): void => {
+      process(Number(group), this.page);
+    });
       document.addEventListener("keydown", (event) => {
         if (this.sprint.isKeyUp && this.sprint.isPlaying) {
           if (event.code === "ArrowRight") this.sprint.checkAnswer(true);
