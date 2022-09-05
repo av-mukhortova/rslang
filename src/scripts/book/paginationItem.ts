@@ -81,6 +81,7 @@ class PaginationItem {
 
   create(): HTMLElement {
     const pagination = document.querySelector(".pagination") as HTMLDivElement;
+    pagination.classList.remove("hidden");
     pagination.innerHTML = "";
 
     for (let num = 0; num <= 29; num++) {

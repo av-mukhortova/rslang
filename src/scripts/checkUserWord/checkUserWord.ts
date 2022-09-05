@@ -12,15 +12,15 @@ class CheckUserWord {
 
   checkDiff(cardID: string | null) {
     const word = this.api.getUserWordsDifSt(localStorage.getItem("userId"));
-    console.log(word);
+    // console.log(word);
 
     word.then((el) => {
-      console.log("CheckUserWord", cardID, el);
+      // console.log("CheckUserWord", cardID, el);
       el.forEach((iem) => {
         const elem = JSON.parse(JSON.stringify(iem));
         if (elem.wordId === cardID) {
           if (elem.difficulty === "hard") {
-            console.log("CheckUserWord", cardID);
+            // console.log("CheckUserWord", cardID);
             this.dificaltBook.delete(cardID);
           }
         }
@@ -29,15 +29,15 @@ class CheckUserWord {
   }
   checkStudi(cardID: string | null) {
     const word = this.api.getUserWordsDifSt(localStorage.getItem("userId"));
-    console.log(word);
+    // console.log(word);
 
     word.then((el) => {
       el.forEach((iem) => {
         const elem = JSON.parse(JSON.stringify(iem));
-        console.log("CheckUserWord", cardID, el);
+        // console.log("CheckUserWord", cardID, el);
         if (elem.wordId === cardID) {
           if (elem.difficulty === "easy") {
-            console.log("CheckUserWord", cardID);
+            // console.log("CheckUserWord", cardID);
             this.dificaltBook.delete(cardID);
           }
         }
