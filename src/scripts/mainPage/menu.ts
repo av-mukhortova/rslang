@@ -2,7 +2,7 @@ import Sprint from "../sprint";
 import Chapter from "../book/chapter";
 import MenuLinks from "./menuLinks";
 import { AudioCall } from "../audiocall";
-import { StatProcess } from "../statisticSolve";
+import { Statistic } from "../statisticSolve";
 
 const links = [
   {
@@ -50,9 +50,11 @@ const links = [
 class Menu {
   sprint: Sprint;
   audiocall: AudioCall;
+  stat: Statistic;
   constructor() {
     this.sprint = new Sprint();
     this.audiocall = new AudioCall();
+    this.stat = new Statistic();
   }
   create() {
     const menuLinks = new MenuLinks();
@@ -165,7 +167,7 @@ class Menu {
           }
           const level: HTMLElement | null = document.querySelector(".level");
           level?.classList.add("hidden");
-          StatProcess();
+          this.stat.StatProcess();
           break;
         }
         case "book":
