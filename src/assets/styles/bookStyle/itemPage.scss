@@ -1,0 +1,128 @@
+.container-words {
+    width: 100%;
+}
+
+.item-page {
+    h4 {
+        display: inline-block;
+        font-size: 22px;
+        margin-bottom: 11px;
+        padding-bottom: 4px;
+    }
+
+    p {
+        margin-bottom: 12px;
+        font-family: 'Tahoma';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: 0.015em;
+    }
+
+    &__en {
+        margin-bottom: 16px;
+        padding-bottom: 4px;
+    }
+
+    &__ru {
+        margin-bottom: 24px;
+    }
+
+    &__voce {
+        width: 232px;
+        height: 29px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background: #E7EEEF;
+        font-family: 'Tahoma';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: 0.015em;
+        border: 1px solid #000000;
+        border-radius: 20px;
+    }
+
+    &__voce img {
+        width: 20px;
+    }
+
+    &__voce:hover {
+        box-shadow: inset 0px 0px 8px 6px #44DE1E;
+    }
+
+    &__authorized {
+
+        button {
+            width: 167px;
+            height: 30px;
+            margin-bottom: 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #E7EEEF;
+            border: 1px solid #000000;
+            border-radius: 20px;
+        }
+
+        button:hover {
+            box-shadow: inset 0px 0px 8px 6px #44DE1E;
+        }
+
+        .item-page__difficult img {
+            width: 18px;
+            margin-left: 5px;
+        }
+
+        .item-page__difficult-delete img {
+            width: 12px;
+            margin-left: 5px;
+        }
+    }
+}
+
+.page-0 {
+    h4,
+    .item-page__en {
+        border-bottom: 6px solid #FD8B7E;
+    }
+}
+.page-1 {
+    h4,
+    .item-page__en {
+        border-bottom: 6px solid #FFA500;
+    }
+}
+.page-2 {
+    h4,
+    .item-page__en {
+        border-bottom: 6px solid #FFFF00;
+    }
+}
+.page-3 {
+    h4,
+    .item-page__en {
+        border-bottom: 6px solid #32CD32;
+    }
+}
+.page-4 {
+    h4,
+    .item-page__en {
+        border-bottom: 6px solid #00BFFF;
+    }
+}
+.page-5 {
+    h4,
+    .item-page__en {
+        border-bottom: 6px solid #0000FF;
+    }
+}
+.page-6 {
+    h4,
+    .item-page__en {
+        border-bottom: 6px solid #8A2BE2;
+    }
+}
