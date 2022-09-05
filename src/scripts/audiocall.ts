@@ -107,15 +107,19 @@ export class AudioCall {
     btn6.className = "btn_start_level";
     notice_btn?.append(btn1, btn2, btn3, btn4, btn5, btn6);
 
-    const exit = document.createElement("button");
-    exit.id = "StartExit";
-    exit.innerHTML = "Выход";
-    exit.className = "choise1";
-    starterPack.append(exit);
-
+    const exit = document.querySelector("#StartExit");
+    if (!exit) {
+      const exit = document.createElement("button");
+      exit.id = "StartExit";
+      exit.innerHTML = "Выход";
+      exit.className = "choise1";
+      starterPack.append(exit);
+    }
     const close_btn = document.querySelector("#StartExit");
     close_btn?.addEventListener("click", (): void => {
-      alert("сделать выход");
+      starterPack.classList.add("hidden");
+      const mainDiv = document.querySelector(".mainPage") as HTMLElement;
+      mainDiv.classList.remove("hidden");
     });
   }
   drawAudiocall() {
@@ -132,6 +136,7 @@ export class AudioCall {
     if (win_wrong) win_wrong.innerHTML = "Неравильные:";
     const finish_element: HTMLDivElement | null =
       document.querySelector(".finish_element");
+    finish_element?.replaceChildren();
     const close = document.createElement("button");
     close.id = "Exit";
     close.innerHTML = "Выход";
@@ -146,6 +151,7 @@ export class AudioCall {
 
     const press_element: HTMLDivElement | null =
       document.querySelector(".press_element");
+    press_element?.replaceChildren();
     const img: HTMLImageElement | null = document.createElement("img");
     img.src = "https://i.ibb.co/j55JQNJ/73675.png";
     img.width = 100;
@@ -153,6 +159,7 @@ export class AudioCall {
 
     const choise_element: HTMLDivElement | null =
       document.querySelector(".choise_element");
+    choise_element?.replaceChildren();
     const el1 = document.createElement("button");
     el1.id = "element1";
     el1.className = "choise";
