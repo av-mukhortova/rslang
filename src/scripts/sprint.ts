@@ -2,7 +2,7 @@ import constants from "../constants";
 import { iPair, iWord, justObject } from "../types/index";
 import Api from "./api";
 import Chapter from "./book/chapter";
-import { CreateStatistic } from "./statisticSolve";
+import { Statistic } from "./statisticSolve";
 import UserWords from "./userWords";
 
 export default class Sprint {
@@ -29,6 +29,7 @@ export default class Sprint {
   userWordsUI: UserWords;
   words: justObject;
   wordsInProgress: justObject;
+  stat: Statistic;
 
   constructor() {
     this.api = new Api();
@@ -52,6 +53,7 @@ export default class Sprint {
     this.words = {};
     this.wordsInProgress = {};
     this.gameWords = [];
+    this.stat = new Statistic();
   }
 
   public start(): void {
@@ -626,7 +628,7 @@ export default class Sprint {
       ).toString()
     );
 
-    CreateStatistic(
+    this.stat.CreateStatistic(
       month.toString(),
       date.toString(),
       this.gameWords,

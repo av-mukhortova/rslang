@@ -1,7 +1,7 @@
 import Api from "./api";
 import { iArray } from "../types/index";
 const api = new Api();
-import { CreateStatistic } from "./statisticSolve";
+import { Statistic } from "./statisticSolve";
 import UserWords from "./userWords";
 
 export class AudioCall {
@@ -12,6 +12,7 @@ export class AudioCall {
   trueAnswersArr: Array<iArray>;
   falseAnswersArr: Array<iArray>;
   userWords: UserWords;
+  stat: Statistic;
   constructor() {
     this.groupList = 0;
     this.pageList = 0;
@@ -20,6 +21,7 @@ export class AudioCall {
     this.trueAnswersArr = [];
     this.falseAnswersArr = [];
     this.userWords = new UserWords();
+    this.stat = new Statistic();
   }
   async start() {
     this.groupList = 9;
@@ -446,7 +448,7 @@ export class AudioCall {
             const day = String(date.getDate());
             const month = String(date.getMonth());
 
-            CreateStatistic(
+            this.stat.CreateStatistic(
               month,
               day,
               newWordArray,
@@ -570,7 +572,7 @@ export class AudioCall {
         const day = String(date.getDate());
         const month = String(date.getMonth());
 
-        CreateStatistic(
+        this.stat.CreateStatistic(
           month,
           day,
           newWordArray,

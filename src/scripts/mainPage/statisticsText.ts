@@ -1,6 +1,10 @@
-import { StatProcess } from "../statisticSolve";
+import { Statistic } from "../statisticSolve";
 
 class StatisticsText {
+  stat: Statistic;
+  constructor() {
+    this.stat = new Statistic();
+  }
   create(): HTMLElement {
     const statisticsContainet = document.createElement("div") as HTMLElement;
     const statisticsTextDiv = document.createElement("div") as HTMLElement;
@@ -34,7 +38,7 @@ class StatisticsText {
     statLink?.addEventListener("click", (): void => {
       const mainDiv = document.querySelector(".mainPage") as HTMLElement;
       mainDiv.classList.add("hidden");
-      StatProcess();
+      this.stat.StatProcess();
     });
     return statisticsContainet;
   }
