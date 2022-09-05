@@ -191,6 +191,13 @@ export class AudioCall {
       ".press_element_next"
     );
     if (press_element_next) press_element_next.innerHTML = "Дальше";
+
+    choise_element?.classList.remove("hidden");
+    const element_character = document.querySelector(".element_character");
+    element_character?.classList.remove("hidden");
+    const word_character = document.querySelector(".word_character");
+    word_character?.classList.remove("hidden");
+    press_element?.classList.remove("hidden");
   }
   async startFromBook(groupSet: number, randPage: number) {
     const pagination = document.querySelector(".pagination") as HTMLDivElement;
@@ -616,6 +623,16 @@ export class AudioCall {
 
         Charlee.innerHTML = `Количество ${this.trueAnswersArr.length * 10}%`;
         finishElement.classList.remove("hidden");
+
+        const choise_element = document.querySelector(".choise_element");
+        choise_element?.classList.add("hidden");
+        const element_character = document.querySelector(".element_character");
+        element_character?.classList.add("hidden");
+        const word_character = document.querySelector(".word_character");
+        word_character?.classList.add("hidden");
+        const press_element = document.querySelector(".press_element");
+        press_element?.classList.add("hidden");
+
         this.trueAnswersArr.forEach((item) => {
           const Eco = document.createElement("div");
           const Bravo = document.createElement("span");
