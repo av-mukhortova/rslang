@@ -96,11 +96,13 @@ class Menu {
     const sprintResultsPage = document.querySelector(
       ".sprint_results"
     ) as HTMLElement;
+    const pagination = document.querySelector(".pagination") as HTMLDivElement;
     if (id) {
       const mainDiv = document.querySelector(".mainPage") as HTMLElement;
       mainDiv.classList.add("hidden");
       switch (id) {
         case "main": {
+          pagination.classList.add("hidden");
           starter_pack.classList.add("hidden");
           audocallPage.classList.add("hidden");
           statPage.classList.add("hidden");
@@ -114,6 +116,7 @@ class Menu {
         }
         case "sprint":
         case "studi_game-sprint": {
+          pagination.classList.add("hidden");
           starter_pack.classList.add("hidden");
           audocallPage.classList.add("hidden");
           statPage.classList.add("hidden");
@@ -137,6 +140,7 @@ class Menu {
         }
         case "audiocall":
         case "studi_game-audio": {
+          pagination.classList.add("hidden");
           this.sprint.isPlaying = false;
           statPage.classList.add("hidden");
           const footer: HTMLElement | null = document.querySelector("footer");
@@ -152,6 +156,7 @@ class Menu {
           break;
         }
         case "stat": {
+          pagination.classList.add("hidden");
           starter_pack.classList.add("hidden");
           audocallPage.classList.add("hidden");
           this.audiocall.isPlayed = false;
@@ -172,6 +177,7 @@ class Menu {
         }
         case "book":
         case "studi_book": {
+          pagination.classList.add("hidden");
           starter_pack.classList.add("hidden");
           audocallPage.classList.add("hidden");
           statPage.classList.add("hidden");

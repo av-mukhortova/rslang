@@ -44,6 +44,10 @@
   border-radius: 100%;
 }
 
+.hidden {
+  display: none;
+}
+
 .pagination button:hover {
   background-color:#43DE1C;
 }
