@@ -503,15 +503,15 @@ export default class Sprint {
     const book_res: HTMLButtonElement | null =
       document.querySelector("#result_book");
     book_res?.addEventListener("click", (): void => {
-      const book: HTMLDivElement | null = document.querySelector(".bookPage");
-      book?.classList.remove("hidden");
+      // const book: HTMLDivElement | null = document.querySelector(".bookPage");
+      // book?.classList.remove("hidden");
       const main: HTMLDivElement | null =
         document.querySelector(".sprint_results");
       main?.classList.add("hidden");
-      if (!this.isBook) {
-        const chapter = new Chapter();
-        chapter.create();
-      }
+      // if (!this.isBook) {
+      const chapter = new Chapter();
+      chapter.create();
+      // }
     });
   }
   private removeChecks() {
@@ -622,9 +622,8 @@ export default class Sprint {
 
     const percent = [];
     percent.push(
-      (
-        (this.countCorrect / (this.countCorrect + this.countIncorrect)) *
-        100
+      Math.round(
+        (this.countCorrect / (this.countCorrect + this.countIncorrect)) * 100
       ).toString()
     );
 

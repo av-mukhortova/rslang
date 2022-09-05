@@ -85,7 +85,7 @@ export class Statistic {
               [],
               ""
             );
-
+      console.log(1);
       await api.transferData(userUid, datas);
       console.log("hi");
     }
@@ -93,6 +93,7 @@ export class Statistic {
       month != getStatistic?.optional.month ||
       day != getStatistic.optional.day
     ) {
+      console.log(2);
       let count = getStatistic?.optional.sprint.per;
       if (count) {
         count?.push([neWords]);
@@ -155,7 +156,7 @@ export class Statistic {
                 [],
                 ""
               );
-
+        console.log(3);
         await api.transferData(userUid, datas);
       }
     } else {
@@ -189,6 +190,7 @@ export class Statistic {
           ? lengthTruthInside
           : lengthOfTruth;
       try {
+        console.log(4);
         const datas =
           nameOfGame == "audiocall"
             ? createResult(
@@ -211,13 +213,14 @@ export class Statistic {
                 exitFullArrayLengthNewWords,
                 percentArray,
                 maxLengthTruthInside,
-                [],
-                [],
-                ""
+                getStatistic.optional.audiocall.neWords,
+                getStatistic.optional.audiocall.percentOfTruth,
+                getStatistic.optional.audiocall.lengthOfTruth
               );
 
         await api.transferData(userUid, datas);
       } catch (e) {
+        console.log(5);
         await api.refreshToken(userUid);
         const datas =
           nameOfGame == "audiocall"
@@ -226,9 +229,9 @@ export class Statistic {
                 month,
                 day,
                 count,
-                [],
-                [],
-                "",
+                getStatistic.optional.sprint.neWords,
+                getStatistic.optional.sprint.percentOfTruth,
+                getStatistic.optional.sprint.lengthOfTruth,
                 exitFullArrayLengthNewWords,
                 percentArray,
                 maxLengthTruthInside
@@ -241,9 +244,9 @@ export class Statistic {
                 exitFullArrayLengthNewWords,
                 percentArray,
                 maxLengthTruthInside,
-                [],
-                [],
-                ""
+                getStatistic.optional.audiocall.neWords,
+                getStatistic.optional.audiocall.percentOfTruth,
+                getStatistic.optional.audiocall.lengthOfTruth
               );
 
         await api.transferData(userUid, datas);
@@ -269,7 +272,7 @@ export class Statistic {
     const infoInside = document.querySelector(".info_inside") as HTMLElement;
     const infoInside2 = document.querySelector(".info_inside2") as HTMLElement;
     const infoInside3 = document.querySelector(".info_inside3") as HTMLElement;
-    let fullAnswer: number | undefined;
+    let fullAnswer = 0;
     statPage.classList.remove("hidden");
 
     if (statistic) {
@@ -285,7 +288,7 @@ export class Statistic {
       }
 
       fullAnswer = trueAnswers;
-      console.log(fullAnswer);
+
       const data = [
         Number(statistic.optional.audiocall.neWords.length),
         Number(trueAnswers),
@@ -345,12 +348,46 @@ export class Statistic {
     <div class="inside_color_third">самая длинная серия правильных ответов:${labels[2]}</div>`;
     }
     if (statistic) {
+      const kraken = new Set();
+      const firstKraken = statistic.optional.sprint.neWords;
+      const secondKraken = statistic.optional.audiocall.neWords;
+      firstKraken.forEach((item) => kraken.add(item));
+      secondKraken.forEach((item) => kraken.add(item));
       const color = ["red", "green", "yellow"];
-      const trueAnswers = fullAnswer;
+      let trueAnswers = 0;
+      if (
+        statistic.optional.sprint.neWords.length > 0 &&
+        statistic.optional.audiocall.neWords.length > 0
+      ) {
+        trueAnswers = fullAnswer;
+      }
+      if (
+        statistic.optional.sprint.neWords.length > 0 &&
+        statistic.optional.audiocall.neWords.length == 0
+      ) {
+        const truth = statistic.optional.sprint.percentOfTruth.reduce(
+          (a, b) => Number(a) + Number(b),
+          Number("0")
+        );
+
+        trueAnswers =
+          truth / Number(statistic.optional.sprint.percentOfTruth.length);
+      }
+      if (
+        statistic.optional.sprint.neWords.length == 0 &&
+        statistic.optional.audiocall.neWords.length > 0
+      ) {
+        const truth = statistic.optional.audiocall.percentOfTruth.reduce(
+          (a, b) => Number(a) + Number(b),
+          Number("0")
+        );
+        trueAnswers =
+          truth / Number(statistic.optional.audiocall.percentOfTruth.length);
+      }
+
       const data = [
-        Number(statistic.optional.sprint.neWords.length) +
-          Number(statistic.optional.audiocall.neWords.length),
-        Number(trueAnswers) * 3,
+        Number(kraken.size),
+        Number(trueAnswers) * 10,
         Number(statistic.learnedWords) * 10,
       ];
       for (let i = 0; i < data.length; i++) {
@@ -361,7 +398,7 @@ export class Statistic {
         ctx3?.fillRect(40 + i * 100, 460 - dp * 5, 50, dp * 5);
       }
       const labels = [
-        `${statistic.optional.sprint.neWords.length}`,
+        `${Number(kraken.size)}`,
         `${Number(trueAnswers)}`,
         `${Number(statistic.learnedWords)}`,
       ];

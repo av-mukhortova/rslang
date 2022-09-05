@@ -3,6 +3,7 @@ import { iArray } from "../types/index";
 const api = new Api();
 import { Statistic } from "./statisticSolve";
 import UserWords from "./userWords";
+const userWords = new UserWords();
 
 export class AudioCall {
   groupList: number;
@@ -106,15 +107,19 @@ export class AudioCall {
     btn6.className = "btn_start_level";
     notice_btn?.append(btn1, btn2, btn3, btn4, btn5, btn6);
 
-    const exit = document.createElement("button");
-    exit.id = "StartExit";
-    exit.innerHTML = "Выход";
-    exit.className = "choise1";
-    starterPack.append(exit);
-
+    const exit = document.querySelector("#StartExit");
+    if (!exit) {
+      const exit = document.createElement("button");
+      exit.id = "StartExit";
+      exit.innerHTML = "Выход";
+      exit.className = "choise1";
+      starterPack.append(exit);
+    }
     const close_btn = document.querySelector("#StartExit");
     close_btn?.addEventListener("click", (): void => {
-      alert("сделать выход");
+      starterPack.classList.add("hidden");
+      const mainDiv = document.querySelector(".mainPage") as HTMLElement;
+      mainDiv.classList.remove("hidden");
     });
   }
   drawAudiocall() {
@@ -131,20 +136,28 @@ export class AudioCall {
     if (win_wrong) win_wrong.innerHTML = "Неравильные:";
     const finish_element: HTMLDivElement | null =
       document.querySelector(".finish_element");
-    const close = document.createElement("button");
-    close.id = "Exit";
-    close.innerHTML = "Выход";
-    close.className = "choise11";
+    // finish_element?.replaceChildren();
+    const close = document.querySelector("#Exit");
+    if (!close) {
+      const close = document.createElement("button");
+      close.id = "Exit";
+      close.innerHTML = "Выход";
+      close.className = "choise11";
+      finish_element?.append(close);
+    }
 
-    const again = document.createElement("button");
-    again.id = "Again";
-    again.innerHTML = "Снова";
-    again.className = "choise11";
-
-    finish_element?.append(close, again);
+    const again = document.querySelector("#Again");
+    if (!again) {
+      const again = document.createElement("button");
+      again.id = "Again";
+      again.innerHTML = "Снова";
+      again.className = "choise11";
+      finish_element?.append(again);
+    }
 
     const press_element: HTMLDivElement | null =
       document.querySelector(".press_element");
+    press_element?.replaceChildren();
     const img: HTMLImageElement | null = document.createElement("img");
     img.src = "https://i.ibb.co/j55JQNJ/73675.png";
     img.width = 100;
@@ -152,6 +165,7 @@ export class AudioCall {
 
     const choise_element: HTMLDivElement | null =
       document.querySelector(".choise_element");
+    choise_element?.replaceChildren();
     const el1 = document.createElement("button");
     el1.id = "element1";
     el1.className = "choise";
@@ -179,20 +193,30 @@ export class AudioCall {
     if (press_element_next) press_element_next.innerHTML = "Дальше";
   }
   async startFromBook(groupSet: number, randPage: number) {
+    const pagination = document.querySelector(".pagination") as HTMLDivElement;
+    const footer = document.querySelector("footer") as HTMLDivElement;
+    pagination.classList.add("hidden");
+    footer.classList.add("hidden");
     this.groupList = groupSet;
     this.pageList = randPage;
     console.log(randPage);
+
     const book = document.querySelector(".bookPage") as HTMLElement;
     book.classList.add("hidden");
     const audiocallPage = document.querySelector(
       ".audocallPage"
     ) as HTMLElement;
     audiocallPage.classList.remove("hidden");
+    this.drawAudiocall();
     const fullDatas: iArray = await search(
       String(this.groupList),
       String(this.pageList),
       this.wordChange
     );
+    console.log(fullDatas.wordId);
+    const learnedArray = await userWords.getUserWordsLikeArray();
+    const learnedWord1 = learnedArray.filter((item) => item.isLearned == true);
+    console.log(learnedWord1);
     fullDatas.AudioM.play();
     audiocallPage.classList.remove("hidden");
     const element1 = document.getElementById("element1") as HTMLElement;
@@ -539,7 +563,7 @@ export class AudioCall {
         String(this.pageList),
         this.wordChange
       );
-      fullDatas.AudioM.play();
+
       wordCharacter.style.backgroundColor = "transparent";
       wordMain.classList.add("hidden");
       pressElementNext.classList.add("hidden");
@@ -559,6 +583,7 @@ export class AudioCall {
       const array3 = this.trueAnswersArr.concat(this.falseAnswersArr);
       console.log(array3.length);
       if (array3.length < 10) {
+        fullDatas.AudioM.play();
         this.wordChange++;
       } else {
         seriesArray.push(seriesNumber);
