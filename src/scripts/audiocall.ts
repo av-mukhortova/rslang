@@ -42,9 +42,11 @@ export class AudioCall {
           this.groupList = Number(item.getAttribute("level"));
           starterPack.classList.add("hidden");
           const audiocallPage = document.querySelector(
-            ".audiocall"
+            ".audocallPage"
           ) as HTMLElement;
           audiocallPage.classList.remove("hidden");
+          const audiocall = document.querySelector(".audiocall") as HTMLElement;
+          audiocall.classList.remove("hidden");
 
           const fullDatas: iArray = await search(
             String(this.groupList),
