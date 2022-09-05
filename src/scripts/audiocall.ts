@@ -187,15 +187,19 @@ export class AudioCall {
     if (press_element_next) press_element_next.innerHTML = "Дальше";
   }
   async startFromBook(groupSet: number, randPage: number) {
+    const pagination = document.querySelector(".pagination") as HTMLDivElement;
+    pagination.classList.add("hidden");
     this.groupList = groupSet;
     this.pageList = randPage;
     console.log(randPage);
+
     const book = document.querySelector(".bookPage") as HTMLElement;
     book.classList.add("hidden");
     const audiocallPage = document.querySelector(
       ".audocallPage"
     ) as HTMLElement;
     audiocallPage.classList.remove("hidden");
+    this.drawAudiocall();
     const fullDatas: iArray = await search(
       String(this.groupList),
       String(this.pageList),
@@ -445,6 +449,7 @@ export class AudioCall {
           });
           const array3 = this.trueAnswersArr.concat(this.falseAnswersArr);
           console.log(array3.length);
+          alert(array3.length);
           if (array3.length < 10) {
             fullDatas.AudioM.play();
             this.wordChange++;

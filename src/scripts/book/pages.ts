@@ -142,7 +142,6 @@ class Pages {
       const sprintBtn = document.querySelector("#book-sprint-btn");
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
-          location.hash = "booksprint";
           this.sprint.startFromBook(group, this.page);
         });
       }
