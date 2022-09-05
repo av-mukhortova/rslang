@@ -21,23 +21,24 @@ class DificaltBook {
     group: string
   ) {
     const word = this.api.getUserWordsDifSt(localStorage.getItem("userId"));
-
+    const pagination = document.querySelector(".pagination") as HTMLElement;
     word
       .then((el) => {
         const keyDificults: string[] = [];
-        const keyDificultsStades: string[] = [];
+        // const keyDificultsStades: string[] = [];
         el.forEach((iem) => {
           const elem = JSON.parse(JSON.stringify(iem));
           if (elem.difficulty === "hard") {
             keyDificults.push(elem.wordId);
-            keyDificultsStades.push(elem.wordId);
+            // keyDificultsStades.push(elem.wordId);
           } else {
-            keyDificultsStades.push(elem.wordId);
+            // keyDificultsStades.push(elem.wordId);
           }
         });
-        return keyDificultsStades;
+        return keyDificults;
       })
       .then((keyDificults) => {
+        pagination.classList.add("hidden");
         keyDificults.forEach((id: string) => {
           const card = this.api.getWordId(id);
           card.then((el: iWord) => {
@@ -54,16 +55,16 @@ class DificaltBook {
           this.voses.start(path);
         });
         return keyDificults;
-      })
-      .then((keyDificults) => {
-        //  УДАЛИТЬ все
-        // console.log("keyDificults_+_+", keyDificults);
-        localStorage.removeItem("cardDifficults");
-        localStorage.removeItem("studi");
-        keyDificults.forEach((id: string) => {
-          this.api.removeUserWordById(localStorage.getItem("userId"), id);
-        });
       });
+    // .then((keyDificults) => {
+    //   //  УДАЛИТЬ все
+    //   // console.log("keyDificults_+_+", keyDificults);
+    //   localStorage.removeItem("cardDifficults");
+    //   localStorage.removeItem("studi");
+    //   keyDificults.forEach((id: string) => {
+    //     this.api.removeUserWordById(localStorage.getItem("userId"), id);
+    //   });
+    // });
   }
   delete(id: string | null) {
     this.api.removeUserWordById(localStorage.getItem("userId"), id);

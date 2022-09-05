@@ -136,18 +136,24 @@ export class AudioCall {
     if (win_wrong) win_wrong.innerHTML = "Неравильные:";
     const finish_element: HTMLDivElement | null =
       document.querySelector(".finish_element");
-    finish_element?.replaceChildren();
-    const close = document.createElement("button");
-    close.id = "Exit";
-    close.innerHTML = "Выход";
-    close.className = "choise11";
+    // finish_element?.replaceChildren();
+    const close = document.querySelector("#Exit");
+    if (!close) {
+      const close = document.createElement("button");
+      close.id = "Exit";
+      close.innerHTML = "Выход";
+      close.className = "choise11";
+      finish_element?.append(close);
+    }
 
-    const again = document.createElement("button");
-    again.id = "Again";
-    again.innerHTML = "Снова";
-    again.className = "choise11";
-
-    finish_element?.append(close, again);
+    const again = document.querySelector("#Again");
+    if (!again) {
+      const again = document.createElement("button");
+      again.id = "Again";
+      again.innerHTML = "Снова";
+      again.className = "choise11";
+      finish_element?.append(again);
+    }
 
     const press_element: HTMLDivElement | null =
       document.querySelector(".press_element");
@@ -188,7 +194,9 @@ export class AudioCall {
   }
   async startFromBook(groupSet: number, randPage: number) {
     const pagination = document.querySelector(".pagination") as HTMLDivElement;
+    const footer = document.querySelector("footer") as HTMLDivElement;
     pagination.classList.add("hidden");
+    footer.classList.add("hidden");
     this.groupList = groupSet;
     this.pageList = randPage;
     console.log(randPage);
@@ -449,7 +457,6 @@ export class AudioCall {
           });
           const array3 = this.trueAnswersArr.concat(this.falseAnswersArr);
           console.log(array3.length);
-          alert(array3.length);
           if (array3.length < 10) {
             fullDatas.AudioM.play();
             this.wordChange++;
