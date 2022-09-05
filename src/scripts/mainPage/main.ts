@@ -5,6 +5,7 @@ import StatisticsText from "./statisticsText";
 import Team from "./team";
 import FooterBlock from "./footerBlock";
 import Menu from "./menu";
+import Chapter from "../book/chapter";
 
 class Main {
   header: Header;
@@ -12,6 +13,9 @@ class Main {
     this.header = new Header();
   }
   start() {
+    const chapter = new Chapter();
+    chapter.getDataHardLearn();
+
     const header = new Header();
     const studiBlockDiv = new StudiBlockDiv();
     const statisticsText = new StatisticsText();

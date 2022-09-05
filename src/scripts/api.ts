@@ -22,6 +22,15 @@ export default class Api {
     }
     return arr;
   }
+  public async getWordsGroup(group: string): Promise<iWord[]> {
+    const res: Array<iWord> = [];
+    for (let i = 0; i < 30; i++) {
+      const answer: Array<iWord> = await this.getWords(group, `${i}`);
+      // console.log("getWordsGroup", answer);
+      answer.forEach((item) => res.push(item));
+    }
+    return res;
+  }
   public async getWordId(id: string): Promise<iWord> {
     const res = await fetch(`${constants.URL}/words/${id}`, {
       method: "GET",

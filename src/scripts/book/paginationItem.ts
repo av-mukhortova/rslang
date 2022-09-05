@@ -73,7 +73,6 @@ class PaginationItem {
           }
         }
         if (this.paginationArr.length === 30) {
-          console.log("_+_+_+_+_+_+_+");
           this.create();
         }
       });
