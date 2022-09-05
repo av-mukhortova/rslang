@@ -6,9 +6,9 @@ import ChechActiv from "./chechActiv";
 import CheckWordsOnload from "./checkWordsOnload";
 import GameLink from "./gameLink";
 import "../../assets/styles/bookStyle/pages.css";
-import { process } from "../../scripts/audiocall";
 import Sprint from "../sprint";
 import DificaltBook from "./dificaltBook";
+import { AudioCall } from "../audiocall";
 
 const games = [
   {
@@ -30,12 +30,14 @@ class Pages {
   dificaltBook: DificaltBook;
   sprint: Sprint;
   api: Api;
+  audiocall: AudioCall;
 
   constructor() {
     this.page = 0;
     this.dificaltBook = new DificaltBook();
     this.sprint = new Sprint();
     this.api = new Api();
+    this.audiocall = new AudioCall();
   }
 
   getWordData(chapters: HTMLElement, group: string) {
@@ -139,7 +141,7 @@ class Pages {
       const sprintBtn = document.querySelector("#book-sprint-btn");
       if (sprintBtn) {
         sprintBtn.addEventListener("click", (): void => {
-          chapters.innerHTML = "";
+          location.hash = "booksprint";
           this.sprint.startFromBook(group, this.page);
         });
       }
@@ -147,7 +149,7 @@ class Pages {
 
     const audiocallBtn = document.querySelector("#book-audiocall-btn");
     audiocallBtn?.addEventListener("click", (): void => {
-      process(Number(group), this.page);
+      this.audiocall.startFromBook(Number(group), this.page);
     });
     document.addEventListener("keydown", (event) => {
       if (this.sprint.isKeyUp && this.sprint.isPlaying) {
@@ -179,14 +181,14 @@ class Pages {
         const btnAudiocallBook = document.querySelector(".btn_audiocall_book");
         const groupList = Number(btnAudiocallBook?.getAttribute("group_audio"));
         const pageList = Number(btnAudiocallBook?.getAttribute("page_audio"));
-        process(groupList, pageList);
+        this.audiocall.startFromBook(groupList, pageList);
       });
     });
 
     const containerWordsClass = document.querySelector(
       ".container-words"
     ) as HTMLElement;
-    containerWordsClass.addEventListener("click", (e: Event): void => {
+    containerWordsClass?.addEventListener("click", (e: Event): void => {
       // const wordsNode = document.querySelector(".words") as HTMLElement;
       chechActiv.check(e); //, this.page, group, wordsNode, pagination);
     });

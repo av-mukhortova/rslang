@@ -4,8 +4,6 @@ import UserWords from "../userWords";
 
 class CheckWordsOnload {
   api: Api;
-  // studi: string | null;
-  // cardDifficults: string | null;
   learnedWords: justObject;
   difficultWords: justObject;
   userWords: UserWords;
@@ -14,8 +12,6 @@ class CheckWordsOnload {
 
   constructor() {
     this.api = new Api();
-    // this.studi = localStorage.getItem("studi");
-    // this.cardDifficults = localStorage.getItem("cardDifficults");
     this.learnedWords = {};
     this.userWords = new UserWords();
     this.countDifficult = 0;
@@ -31,7 +27,6 @@ class CheckWordsOnload {
     console.log("++++++", pagination);
     console.log(pageNumber);
     console.log(group);
-    //---------------------------------------------НОВЫЙ БЛОК БЕЗ ЛОКАЛА
     const isAuth = localStorage.getItem("userId");
     if (isAuth) {
       this.learnedWords = await this.userWords.getUserWords();
@@ -62,48 +57,6 @@ class CheckWordsOnload {
       // все слова на странице изучены
       this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
     }
-    //----------------------------------------------НОВЫЙ БЛОК БЕЗ ЛОКАЛА
-
-    /* let studis: [] = [];
-    if (this.studi) {
-      studis = JSON.parse(this.studi);
-    }
-    let difficults: [] = [];
-    if (this.cardDifficults) {
-      difficults = JSON.parse(this.cardDifficults);
-    }
-    const gropStudes = studis[+group];
-    const gropDifficults = difficults[+group];
-
-    if (gropDifficults) {
-      if (gropDifficults[pageNumber]) {
-        const pageDifficults: [string] = gropDifficults[pageNumber]["key"];
-
-        if (pageDifficults.length >= 20) {
-          this.addPageStyle(
-            wordsNode,
-            pagination,
-            "pageDifficults",
-            pageNumber
-          );
-        }
-
-        if (gropDifficults[pageNumber]["key"]) {
-          this.addCardStyle(wordsNode, pageDifficults, "pageDifficults");
-        }
-      }
-    }
-
-    if (gropStudes) {
-      if (!gropStudes[pageNumber]) return;
-      const pageStudes: [string] = gropStudes[pageNumber]["key"];
-      if (pageStudes.length >= 20) {
-        this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
-      }
-      if (gropStudes[pageNumber]["key"]) {
-        this.addCardStyle(wordsNode, pageStudes, "pageStudes");
-      }
-    } */
   }
 
   addPageStyle(
