@@ -24,7 +24,7 @@ class CheckWordsOnload {
     pageNumber: number,
     group: string
   ) {
-    console.log(pagination);
+    console.log("++++++", pagination);
     console.log(pageNumber);
     console.log(group);
     const isAuth = localStorage.getItem("userId");
@@ -104,7 +104,7 @@ class CheckWordsOnload {
       const pagin_el = pagination.childNodes[i] as HTMLElement;
       if (pagin_el.nodeName !== "#text") {
         const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
-        if (pagin_elNum === String(pageNumber + 1)) {
+        if (pagin_elNum === String(pageNumber)) {
           if (namePage === "pageDifficults" || namePage === "cardDifficults") {
             pagin_el.style.boxShadow = "";
           }
@@ -125,7 +125,7 @@ class CheckWordsOnload {
       const pagin_el = pagination.childNodes[i] as HTMLElement;
       if (pagin_el.nodeName !== "#text") {
         const pagin_elNum = pagin_el.getAttribute("id")?.split("-")[1];
-        if (pagin_elNum === String(pageNumber + 1)) {
+        if (pagin_elNum === String(pageNumber)) {
           if (namePage === "pageDifficults" || namePage === "cardDifficults") {
             pagin_el.style.boxShadow = "inset 0px 0px 3px 3px #F06C5D";
           }
