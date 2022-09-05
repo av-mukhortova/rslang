@@ -1,0 +1,98 @@
+.level_dlg {
+    button {
+        background-color: inherit;
+        font-weight: 700;
+        border: 2px solid white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        box-shadow: inset 0px 0px 8px 6px #44DE1E;
+    }
+}
+
+.btn_start_level {
+    background-color: inherit;
+    font-weight: 700;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.btn_start_level:hover {
+    box-shadow: inset 0px 0px 8px 6px #44DE1E;
+}
+
+#level_close,
+#StartExit,
+.choise,
+.press_element_next,
+.press_element_alternate,
+.choise11 {
+    background-color: inherit;
+    border: 3px solid white;
+    border-radius: 25px;
+    font-weight: 900;
+}
+
+#level_close:hover,
+#StartExit:hover,
+.choise:hover,
+.press_element_next:hover,
+.press_element_alternate:hover,
+.choise11:hover {
+    box-shadow: inset 0px 0px 8px 6px #44DE1E;
+}
+
+.press_element_next,
+.press_element_alternate {
+    height: 50px;
+    border-radius: 100px;
+    padding-top: 20px;
+}
+
+.buttons_sprint,
+.footer_sprint,
+.res_btns {
+    button {
+        background: inherit;
+        border-radius: 100px;
+        border: 3px solid rgb(68, 66, 66);
+        font-weight: 600;
+    }
+
+    button:hover {
+        box-shadow: inset 0px 0px 8px 6px #44DE1E;
+        border: 3px solid #44DE1E;
+    }
+}
+
+.sprint_results {
+    table {
+        width: 1000px;
+        margin: 5px auto;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: inline-block;
+        margin-left: 200%;
+        padding-bottom: 30px;
+    }
+
+    tbody {
+        tr {
+            height: 50px;
+            font-size: 1.5rem;
+        }
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #e495e450;
+    }
+}
+
+.res_btns {
+    width: 1000px;
+    margin: 5px auto;
+    font-weight: 700;
+}
