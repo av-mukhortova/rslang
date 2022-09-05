@@ -3,6 +3,7 @@ import { iArray } from "../types/index";
 const api = new Api();
 import { Statistic } from "./statisticSolve";
 import UserWords from "./userWords";
+const userWords = new UserWords();
 
 export class AudioCall {
   groupList: number;
@@ -193,6 +194,10 @@ export class AudioCall {
       String(this.pageList),
       this.wordChange
     );
+    console.log(fullDatas.wordId);
+    const learnedArray = await userWords.getUserWordsLikeArray();
+    const learnedWord1 = learnedArray.filter((item) => item.isLearned == true);
+    console.log(learnedWord1);
     fullDatas.AudioM.play();
     audiocallPage.classList.remove("hidden");
     const element1 = document.getElementById("element1") as HTMLElement;
@@ -539,7 +544,7 @@ export class AudioCall {
         String(this.pageList),
         this.wordChange
       );
-      fullDatas.AudioM.play();
+
       wordCharacter.style.backgroundColor = "transparent";
       wordMain.classList.add("hidden");
       pressElementNext.classList.add("hidden");
@@ -559,6 +564,7 @@ export class AudioCall {
       const array3 = this.trueAnswersArr.concat(this.falseAnswersArr);
       console.log(array3.length);
       if (array3.length < 10) {
+        fullDatas.AudioM.play();
         this.wordChange++;
       } else {
         seriesArray.push(seriesNumber);
