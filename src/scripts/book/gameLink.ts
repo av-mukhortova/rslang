@@ -6,23 +6,8 @@ class GameLink {
     this.studiKeys = localStorage.getItem("studi");
     this.studiKeysLength = 0;
   }
-  creat(
-    link: string,
-    name: string,
-    group: number,
-    page: number,
-    img: string,
-    id: string
-  ) {
-    if (this.studiKeys) {
-      const studiKeys = JSON.parse(this.studiKeys);
-      if (studiKeys[group]) {
-        if (studiKeys[group][page]) {
-          this.studiKeysLength = studiKeys[group][page]["key"].length;
-        }
-      }
-    }
-    if (this.studiKeysLength === 20) {
+  creat(game: boolean, name: string, img: string, id: string) {
+    if (!game) {
       return `
         <div class="game" style="background-image: url(${img});">
           <div class="game-none"></div>

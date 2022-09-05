@@ -1,6 +1,24 @@
 import { justObject } from "../../types/index";
 import Api from "../api";
 import UserWords from "../userWords";
+import GameLink from "./gameLink";
+import { AudioCall } from "../audiocall";
+import Sprint from "../sprint";
+
+const games = [
+  {
+    link: "qqqqqqq",
+    name: "Аудиовызов",
+    img: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    id: "book-audiocall-btn",
+  },
+  {
+    link: "wwwww",
+    name: "Спринт",
+    img: "https://images.unsplash.com/photo-1608496601160-f86d19a44f9f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1561&q=80",
+    id: "book-sprint-btn",
+  },
+];
 
 class CheckWordsOnload {
   api: Api;
@@ -9,6 +27,9 @@ class CheckWordsOnload {
   userWords: UserWords;
   countLearned: number;
   countDifficult: number;
+  game: boolean;
+  sprint: Sprint;
+  audiocall: AudioCall;
 
   constructor() {
     this.api = new Api();
@@ -17,6 +38,9 @@ class CheckWordsOnload {
     this.countDifficult = 0;
     this.countLearned = 0;
     this.difficultWords = {};
+    this.game = true;
+    this.sprint = new Sprint();
+    this.audiocall = new AudioCall();
   }
   async check(
     wordsNode: HTMLElement,
@@ -27,6 +51,9 @@ class CheckWordsOnload {
     console.log("++++++", pagination);
     console.log(pageNumber);
     console.log(group);
+
+    const gameLink = new GameLink();
+
     const isAuth = localStorage.getItem("userId");
     if (isAuth) {
       this.learnedWords = await this.userWords.getUserWords();
@@ -55,8 +82,29 @@ class CheckWordsOnload {
     }
     if (this.countLearned >= 20) {
       // все слова на странице изучены
+      this.game = false;
       this.addPageStyle(wordsNode, pagination, "pageStudes", pageNumber);
     }
+    const gameBlock = document.createElement("div") as HTMLElement;
+    gameBlock.setAttribute("class", "game-block");
+    gameBlock.innerHTML = "";
+    games.forEach((el) => {
+      gameBlock.innerHTML += gameLink.creat(this.game, el.name, el.img, el.id);
+    });
+    wordsNode.append(gameBlock);
+
+    const sprintBtn = document.querySelector("#book-sprint-btn");
+    if (sprintBtn) {
+      sprintBtn.addEventListener("click", (): void => {
+        location.hash = "booksprint";
+        this.sprint.startFromBook(group, pageNumber);
+      });
+    }
+
+    const audiocallBtn = document.querySelector("#book-audiocall-btn");
+    audiocallBtn?.addEventListener("click", (): void => {
+      this.audiocall.startFromBook(Number(group), pageNumber);
+    });
   }
 
   addPageStyle(
