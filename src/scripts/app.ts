@@ -90,6 +90,7 @@ export default class App {
         localStorage.removeItem("password");
         localStorage.removeItem("groupBook");
         localStorage.removeItem("pageBook");
+        localStorage.removeItem("thisStylesChap");
         const auth: HTMLDivElement | null = document.querySelector(
           ".header__authorization"
         );
