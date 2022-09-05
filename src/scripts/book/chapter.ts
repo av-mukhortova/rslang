@@ -68,7 +68,8 @@ class Chapter {
     }
     const chapters = document.createElement("section");
     chapters.setAttribute("class", "chapters");
-    for (let i = 0; i < stylesChap.length + 1; i += 1) {
+    const length = stylesChap.length > 0 ? stylesChap.length : 6;
+    for (let i = 0; i < length + 1; i += 1) {
       const chapter = document.createElement("div");
       chapter.setAttribute("id", `chapter-${i}`);
       const heightBook = window.innerHeight;
