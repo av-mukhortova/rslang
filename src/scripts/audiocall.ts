@@ -27,6 +27,8 @@ export class AudioCall {
     this.wordChange = getRandom(11);
 
     const starterPack = document.querySelector(".starter_pack") as HTMLElement;
+    this.drawStarterPack(starterPack);
+    this.drawAudiocall();
     starterPack.classList.remove("hidden");
     const btnStartLevel = document.querySelectorAll(
       ".btn_start_level"
@@ -37,6 +39,9 @@ export class AudioCall {
           this.isPlayed = true;
           this.groupList = Number(item.getAttribute("level"));
           starterPack.classList.add("hidden");
+          const audiocallPage = document.querySelector(
+            ".audiocall"
+          ) as HTMLElement;
           audiocallPage.classList.remove("hidden");
 
           const fullDatas: iArray = await search(
@@ -45,18 +50,129 @@ export class AudioCall {
             this.wordChange
           );
           fullDatas.AudioM.play();
+          const element1 = document.getElementById("element1") as HTMLElement;
+          const element2 = document.getElementById("element2") as HTMLElement;
+          const element3 = document.getElementById("element3") as HTMLElement;
+          const element4 = document.getElementById("element4") as HTMLElement;
+          const element5 = document.getElementById("element5") as HTMLElement;
           element1.innerHTML = `1.${fullDatas.Arr[0]}`;
           element2.innerHTML = `2.${fullDatas.Arr[1]}`;
           element3.innerHTML = `3.${fullDatas.Arr[2]}`;
           element4.innerHTML = `4.${fullDatas.Arr[3]}`;
           element5.innerHTML = `5.${fullDatas.Arr[4]}`;
+          const wordMain = document.querySelector(".word_main") as HTMLElement;
           wordMain.innerHTML = fullDatas.Word;
+          const pictureParametres = document.querySelector(
+            ".picture_parametres"
+          ) as HTMLImageElement;
           pictureParametres.src = fullDatas.imgMessage;
           this.wordChange++;
           this.continue(fullDatas);
         }
       });
     });
+  }
+  drawStarterPack(starterPack: HTMLElement) {
+    const notice_btn: HTMLDivElement | null =
+      document.querySelector(".notice_btn");
+    notice_btn?.replaceChildren();
+    const btn1 = document.createElement("button");
+    btn1.dataset.level = "0";
+    btn1.innerHTML = "A1";
+    btn1.className = "btn_start_level";
+    const btn2 = document.createElement("button");
+    btn2.dataset.level = "1";
+    btn2.innerHTML = "A2";
+    btn2.className = "btn_start_level";
+    const btn3 = document.createElement("button");
+    btn3.dataset.level = "2";
+    btn3.innerHTML = "B1";
+    btn3.className = "btn_start_level";
+    const btn4 = document.createElement("button");
+    btn4.dataset.level = "3";
+    btn4.innerHTML = "B2";
+    btn4.className = "btn_start_level";
+    const btn5 = document.createElement("button");
+    btn5.dataset.level = "4";
+    btn5.innerHTML = "C1";
+    btn5.className = "btn_start_level";
+    const btn6 = document.createElement("button");
+    btn6.dataset.level = "5";
+    btn6.innerHTML = "C2";
+    btn6.className = "btn_start_level";
+    notice_btn?.append(btn1, btn2, btn3, btn4, btn5, btn6);
+
+    const exit = document.createElement("button");
+    exit.id = "StartExit";
+    exit.innerHTML = "Выход";
+    exit.className = "choise1";
+    starterPack.append(exit);
+
+    const close_btn = document.querySelector("#StartExit");
+    close_btn?.addEventListener("click", (): void => {
+      alert("сделать выход");
+    });
+  }
+  drawAudiocall() {
+    const res_element: HTMLDivElement | null =
+      document.querySelector(".res_element");
+    if (res_element) res_element.innerHTML = "Результат:";
+    const win_name: HTMLDivElement | null = document.querySelector(
+      ".win_element .win_name"
+    );
+    if (win_name) win_name.innerHTML = "Правильные:";
+    const win_wrong: HTMLDivElement | null = document.querySelector(
+      ".win_wrong .win_name"
+    );
+    if (win_wrong) win_wrong.innerHTML = "Неравильные:";
+    const finish_element: HTMLDivElement | null =
+      document.querySelector(".finish_element");
+    const close = document.createElement("button");
+    close.id = "Exit";
+    close.innerHTML = "Выход";
+    close.className = "choise11";
+
+    const again = document.createElement("button");
+    again.id = "Again";
+    again.innerHTML = "Снова";
+    again.className = "choise11";
+
+    finish_element?.append(close, again);
+
+    const press_element: HTMLDivElement | null =
+      document.querySelector(".press_element");
+    const img: HTMLImageElement | null = document.createElement("img");
+    img.src = "https://i.ibb.co/j55JQNJ/73675.png";
+    img.width = 100;
+    press_element?.append(img);
+
+    const choise_element: HTMLDivElement | null =
+      document.querySelector(".choise_element");
+    const el1 = document.createElement("button");
+    el1.id = "element1";
+    el1.className = "choise";
+    const el2 = document.createElement("button");
+    el2.id = "element2";
+    el2.className = "choise";
+    const el3 = document.createElement("button");
+    el3.id = "element3";
+    el3.className = "choise";
+    const el4 = document.createElement("button");
+    el4.id = "element4";
+    el4.className = "choise";
+    const el5 = document.createElement("button");
+    el5.id = "element5";
+    el5.className = "choise";
+    choise_element?.append(el1, el2, el3, el4, el5);
+
+    const press_element_alternate: HTMLDivElement | null =
+      document.querySelector(".press_element_alternate");
+    if (press_element_alternate) press_element_alternate.innerHTML = "Не знаю";
+
+    const press_element_next: HTMLDivElement | null = document.querySelector(
+      ".press_element_next"
+    );
+    if (press_element_next) press_element_next.innerHTML = "Дальше";
   }
   async startFromBook(groupSet: number, randPage: number) {
     this.groupList = groupSet;
@@ -75,12 +191,21 @@ export class AudioCall {
     );
     fullDatas.AudioM.play();
     audiocallPage.classList.remove("hidden");
+    const element1 = document.getElementById("element1") as HTMLElement;
+    const element2 = document.getElementById("element2") as HTMLElement;
+    const element3 = document.getElementById("element3") as HTMLElement;
+    const element4 = document.getElementById("element4") as HTMLElement;
+    const element5 = document.getElementById("element5") as HTMLElement;
     element1.innerHTML = fullDatas.Arr[0];
     element2.innerHTML = fullDatas.Arr[1];
     element3.innerHTML = fullDatas.Arr[2];
     element4.innerHTML = fullDatas.Arr[3];
     element5.innerHTML = fullDatas.Arr[4];
+    const wordMain = document.querySelector(".word_main") as HTMLElement;
     wordMain.innerHTML = fullDatas.Word;
+    const pictureParametres = document.querySelector(
+      ".picture_parametres"
+    ) as HTMLImageElement;
     pictureParametres.src = fullDatas.imgMessage;
     this.wordChange++;
     this.continue(fullDatas);
@@ -90,6 +215,35 @@ export class AudioCall {
     this.falseAnswersArr = [];
     const seriesArray: Array<number> = [];
     let seriesNumber = 0;
+    const element1 = document.getElementById("element1") as HTMLElement;
+    const element2 = document.getElementById("element2") as HTMLElement;
+    const element3 = document.getElementById("element3") as HTMLElement;
+    const element4 = document.getElementById("element4") as HTMLElement;
+    const element5 = document.getElementById("element5") as HTMLElement;
+    const wordCharacter = document.querySelector(
+      ".word_character"
+    ) as HTMLElement;
+    const pressElementAlternate = document.querySelector(
+      ".press_element_alternate"
+    ) as HTMLElement;
+    const pressElementNext = document.querySelector(
+      ".press_element_next"
+    ) as HTMLElement;
+    const pictureElement = document.querySelector(
+      ".picture_element"
+    ) as HTMLElement;
+    const wordMain = document.querySelector(".word_main") as HTMLElement;
+    const pictureParametres = document.querySelector(
+      ".picture_parametres"
+    ) as HTMLImageElement;
+    const winElement = document.querySelector(".win_element") as HTMLElement;
+    const finishElement = document.querySelector(
+      ".finish_element"
+    ) as HTMLElement;
+    const winWrong = document.querySelector(".win_wrong") as HTMLElement;
+    const exit = document.getElementById("Exit") as HTMLElement;
+    const again = document.getElementById("Again") as HTMLElement;
+
     document.querySelector(".press_element")?.addEventListener("click", () => {
       fullDatas.AudioM.play();
     });
@@ -566,31 +720,6 @@ async function search(group: string, page: string, wordChange: number) {
     wordId: wordId,
   };
 }
-const element1 = document.getElementById("element1") as HTMLElement;
-const element2 = document.getElementById("element2") as HTMLElement;
-const element3 = document.getElementById("element3") as HTMLElement;
-const element4 = document.getElementById("element4") as HTMLElement;
-const element5 = document.getElementById("element5") as HTMLElement;
-const exit = document.getElementById("Exit") as HTMLElement;
-const again = document.getElementById("Again") as HTMLElement;
-const pressElementAlternate = document.querySelector(
-  ".press_element_alternate"
-) as HTMLElement;
-const pressElementNext = document.querySelector(
-  ".press_element_next"
-) as HTMLElement;
-const audiocallPage = document.querySelector(".audiocall") as HTMLElement;
-const pictureElement = document.querySelector(
-  ".picture_element"
-) as HTMLElement;
-const wordMain = document.querySelector(".word_main") as HTMLElement;
-const winElement = document.querySelector(".win_element") as HTMLElement;
-const winWrong = document.querySelector(".win_wrong") as HTMLElement;
-const finishElement = document.querySelector(".finish_element") as HTMLElement;
-const wordCharacter = document.querySelector(".word_character") as HTMLElement;
-const pictureParametres = document.querySelector(
-  ".picture_parametres"
-) as HTMLImageElement;
 function getRandom(max: number) {
   return Math.floor(Math.random() * max);
 }
