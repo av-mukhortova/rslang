@@ -168,12 +168,10 @@ class Pages {
       const idButton = (e.target as HTMLElement).closest(
         "button"
       ) as HTMLElement;
-      // containerWordsClass.addEventListener("click", (e: Event): void => {
-      // chechActiv.check(e); //, this.page, group, wordsNode, pagination);
       if (!idButton?.getAttribute("id")) return;
       const page = idButton?.getAttribute("id")?.split("-")[1];
       if (!page) return;
-      this.page = +page - 1;
+      this.page = +page;
       this.getWordData(chapters, group);
     });
     document.querySelectorAll(".btn_audiocall_book")?.forEach((item) => {
