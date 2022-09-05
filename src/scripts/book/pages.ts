@@ -61,6 +61,7 @@ class Pages {
     const words = document.createElement("div") as HTMLDivElement;
     const pageNumber = document.createElement("div") as HTMLDivElement;
     const pagination = document.querySelector(".pagination") as HTMLDivElement;
+    pagination.classList.remove("hidden");
 
     containerWords.setAttribute("class", `container-words`);
     words.setAttribute("class", `words group__${group}`);
