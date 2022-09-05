@@ -3,9 +3,6 @@ import Api from "./api";
 import Authorization from "./mainPage/authorization/authorization";
 import Main from "./mainPage/main";
 import Menu from "./mainPage/menu";
-import Pages from "./book/pages";
-import Header from "../scripts/mainPage/header";
-import FooterBlock from "../scripts/mainPage/footerBlock";
 
 export default class App {
   menu: Menu;
@@ -36,27 +33,8 @@ export default class App {
       });
     }
 
-    if (localStorage.getItem("groupBook")) {
-      const pages = new Pages();
-      const header = new Header();
-      const footerBlock = new FooterBlock();
-
-      const footer = document.querySelector("footer") as HTMLElement;
-
-      header.start();
-      footer.append(footerBlock.create());
-
-      const book: HTMLDivElement | null = document.querySelector(".bookPage");
-      book?.classList.remove("hidden");
-      const group = localStorage.getItem("groupBook");
-      const chapters = document.createElement("section");
-      chapters.setAttribute("class", "chapters");
-      book?.append(chapters);
-      if (group) pages.getWordData(chapters, group);
-    } else {
-      const main = new Main();
-      main.start();
-    }
+    const main = new Main();
+    main.start();
 
     const menuBurger = document.querySelector(".header__burger");
     menuBurger?.addEventListener("click", () => {
@@ -88,9 +66,6 @@ export default class App {
         localStorage.removeItem("name");
         localStorage.removeItem("email");
         localStorage.removeItem("password");
-        localStorage.removeItem("groupBook");
-        localStorage.removeItem("pageBook");
-        localStorage.removeItem("thisStylesChap");
         const auth: HTMLDivElement | null = document.querySelector(
           ".header__authorization"
         );

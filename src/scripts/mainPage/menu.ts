@@ -129,10 +129,6 @@ class Menu {
           statPage.classList.add("hidden");
           this.audiocall.isPlayed = false;
           footer.classList.add("hidden");
-          this.sprint.start();
-          if (book?.classList.contains("hidden") === false) {
-            book?.classList.add("hidden");
-          }
           if (sprintResultsPage?.classList.contains("hidden") === false) {
             sprintResultsPage?.classList.add("hidden");
           }
@@ -142,6 +138,7 @@ class Menu {
           if (wordsPage?.classList.contains("hidden") === false) {
             wordsPage?.classList.add("hidden");
           }
+          this.sprint.start();
           break;
         }
         case "audiocall":

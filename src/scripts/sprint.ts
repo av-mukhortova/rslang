@@ -450,6 +450,7 @@ export default class Sprint {
       soundImg.src = "./assets/img/volume.png";
       soundImg.alt = "sound";
       soundImg.style.backgroundColor = "inherit";
+      soundImg.style.cursor = "pointer";
       tdSound.append(soundBtn, soundLabel);
       soundLabel.append(soundImg);
       const tdWord: HTMLTableCellElement | null = document.createElement("td");
@@ -549,6 +550,9 @@ export default class Sprint {
   public startFromBook(group: string, page: number) {
     const book: HTMLDivElement | null = document.querySelector(".bookPage");
     book?.classList.add("hidden");
+    const pagination: HTMLDivElement | null =
+      document.querySelector(".pagination");
+    pagination?.classList.add("hidden");
     const footer: HTMLElement | null = document.querySelector("footer");
     footer?.classList.add("hidden");
     this.resetAll();
