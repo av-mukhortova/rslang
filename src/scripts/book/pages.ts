@@ -144,12 +144,7 @@ class Pages {
         });
       }
     }
-    nextBtn.addEventListener("click", (): void => {
-      if (this.page < 29) {
-        this.page += 1;
-        this.getWordData(chapters, group);
-      }
-    });
+
     const audiocallBtn = document.querySelector("#book-audiocall-btn");
     audiocallBtn?.addEventListener("click", (): void => {
       process(Number(group), this.page);

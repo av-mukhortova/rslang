@@ -28,7 +28,7 @@ class CheckWordsOnload {
     pageNumber: number,
     group: string
   ) {
-    console.log(pagination);
+    console.log("++++++", pagination);
     console.log(pageNumber);
     console.log(group);
     //---------------------------------------------НОВЫЙ БЛОК БЕЗ ЛОКАЛА
