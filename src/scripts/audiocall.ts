@@ -3,7 +3,7 @@ import { iArray } from "../types/index";
 const api = new Api();
 import { Statistic } from "./statisticSolve";
 import UserWords from "./userWords";
-const userWords = new UserWords();
+// const userWords = new UserWords();
 
 export class AudioCall {
   groupList: number;
@@ -14,6 +14,7 @@ export class AudioCall {
   falseAnswersArr: Array<iArray>;
   userWords: UserWords;
   stat: Statistic;
+  mode: number;
   constructor() {
     this.groupList = 0;
     this.pageList = 0;
@@ -23,6 +24,7 @@ export class AudioCall {
     this.falseAnswersArr = [];
     this.userWords = new UserWords();
     this.stat = new Statistic();
+    this.mode = 1;
   }
   async start() {
     this.groupList = 9;
@@ -206,6 +208,8 @@ export class AudioCall {
     footer.classList.add("hidden");
     this.groupList = groupSet;
     this.pageList = randPage;
+    this.mode = 2;
+    this.wordChange = 0;
     console.log(randPage);
 
     const book = document.querySelector(".bookPage") as HTMLElement;
@@ -220,10 +224,21 @@ export class AudioCall {
       String(this.pageList),
       this.wordChange
     );
-    console.log(fullDatas.wordId);
-    const learnedArray = await userWords.getUserWordsLikeArray();
-    const learnedWord1 = learnedArray.filter((item) => item.isLearned == true);
-    console.log(learnedWord1);
+    // const learnedArray = await userWords.getUserWordsLikeArray();
+    // const learnedWord1 = learnedArray.filter((item) => item.isLearned == true);
+    const testArray = [];
+    for (let i = 0; testArray.length < 20; i++) {
+      testArray.push(
+        await search(
+          String(this.groupList),
+          String(this.pageList),
+          this.wordChange
+        )
+      );
+      this.wordChange++;
+    }
+    // const lineOfThruth = [];
+
     fullDatas.AudioM.play();
     audiocallPage.classList.remove("hidden");
     const element1 = document.getElementById("element1") as HTMLElement;

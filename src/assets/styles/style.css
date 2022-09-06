@@ -157,7 +157,10 @@ button {
 
 #canvas,
 #canvas2,
-#canvas3  {
+#canvas3,
+#canvas4,
+#canvas5
+ {
     border: 1px solid black;
 }
 
@@ -181,7 +184,7 @@ button {
     flex-direction: row;
    
 }
-
+.can_text_Add,
 .can_text{
     font-size: 24px;
     font-weight: bold;
