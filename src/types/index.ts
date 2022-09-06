@@ -56,6 +56,7 @@ export interface iStatistics {
       percentOfTruth: Array<string>;
       lengthOfTruth: string;
       per: unknown[] | undefined;
+      per1: unknown[] | undefined;
     };
     audiocall: {
       neWords: unknown[];
