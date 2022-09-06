@@ -548,7 +548,9 @@ export default class Sprint {
   }
   public startFromBook(group: string, page: number) {
     const book: HTMLDivElement | null = document.querySelector(".bookPage");
+    const pagination = document.querySelector(".pagination") as HTMLDivElement;
     book?.classList.add("hidden");
+    pagination.classList.add("hidden");
     const footer: HTMLElement | null = document.querySelector("footer");
     footer?.classList.add("hidden");
     this.resetAll();

@@ -148,59 +148,61 @@ class UserWords {
     isCorrect: boolean,
     playName: string
   ): void {
-    this.api
-      .getUserWordById(localStorage.getItem("userId"), wordId)
-      .then((res: iUserWord | null) => {
-        if (res) {
-          const isLearned = res.optional.isLearned;
-          const progress = +res.optional.inProgress;
-          if (isCorrect) {
-            if (!isLearned) {
-              if (progress === 2) {
-                this.api.updateWord(
-                  localStorage.getItem("userId"),
-                  wordId,
-                  res.difficulty === "hard",
-                  "isLearned",
-                  playName,
-                  0,
-                  res.optional.errors ? res.optional.errors : 0
-                );
-              } else {
-                this.api.updateWord(
-                  localStorage.getItem("userId"),
-                  wordId,
-                  res.difficulty === "hard",
-                  "isNew",
-                  playName,
-                  progress + 1,
-                  res.optional.errors ? res.optional.errors : 0
-                );
+    if (localStorage.getItem("userId")) {
+      this.api
+        .getUserWordById(localStorage.getItem("userId"), wordId)
+        .then((res: iUserWord | null) => {
+          if (res) {
+            const isLearned = res.optional.isLearned;
+            const progress = +res.optional.inProgress;
+            if (isCorrect) {
+              if (!isLearned) {
+                if (progress === 2) {
+                  this.api.updateWord(
+                    localStorage.getItem("userId"),
+                    wordId,
+                    res.difficulty === "hard",
+                    "isLearned",
+                    playName,
+                    0,
+                    res.optional.errors ? res.optional.errors : 0
+                  );
+                } else {
+                  this.api.updateWord(
+                    localStorage.getItem("userId"),
+                    wordId,
+                    res.difficulty === "hard",
+                    "isNew",
+                    playName,
+                    progress + 1,
+                    res.optional.errors ? res.optional.errors : 0
+                  );
+                }
               }
+            } else if (!isCorrect) {
+              this.api.updateWord(
+                localStorage.getItem("userId"),
+                wordId,
+                res.difficulty === "hard",
+                "isNew",
+                playName,
+                0,
+                res.optional.errors ? res.optional.errors + 1 : 1
+              );
             }
-          } else if (!isCorrect) {
-            this.api.updateWord(
+          } else {
+            this.api.createWord(
               localStorage.getItem("userId"),
               wordId,
-              res.difficulty === "hard",
+              false,
               "isNew",
               playName,
-              0,
-              res.optional.errors ? res.optional.errors + 1 : 1
+              isCorrect ? 1 : 0,
+              isCorrect ? 0 : 1
             );
           }
-        } else {
-          this.api.createWord(
-            localStorage.getItem("userId"),
-            wordId,
-            false,
-            "isNew",
-            playName,
-            isCorrect ? 1 : 0,
-            isCorrect ? 0 : 1
-          );
-        }
-      });
+        });
+    }
   }
 }
 

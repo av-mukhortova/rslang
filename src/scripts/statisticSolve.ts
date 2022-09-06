@@ -18,6 +18,7 @@ export class Statistic {
       month: string,
       day: string,
       per: unknown[] | undefined,
+      per1: unknown[] | undefined,
       sprintNeWords: unknown[],
       sprintPercentOfTruth: Array<string>,
       sprintLengthOfTruth: string,
@@ -35,6 +36,7 @@ export class Statistic {
             percentOfTruth: sprintPercentOfTruth,
             lengthOfTruth: sprintLengthOfTruth,
             per: per,
+            per1: per1,
           },
 
           audiocall: {
@@ -55,6 +57,7 @@ export class Statistic {
     const learnedWord1 = learnedWord.filter((item) => item.isLearned == true);
 
     const learnedWords = learnedWord1.length;
+
     try {
       await api.refreshToken(userUid);
       getStatistic = await api.takeStatistic(userUid);
@@ -68,6 +71,7 @@ export class Statistic {
               [],
               [],
               [],
+              [],
               "",
               neWords,
               percentOfTruth,
@@ -77,6 +81,7 @@ export class Statistic {
               learnedWords,
               month,
               day,
+              [],
               [],
               neWords,
               percentOfTruth,
@@ -93,11 +98,20 @@ export class Statistic {
       month != getStatistic?.optional.month ||
       day != getStatistic.optional.day
     ) {
-      console.log(2);
       let count = getStatistic?.optional.sprint.per;
       if (count) {
         count?.push([neWords]);
-      } else count = [[neWords]];
+      } else {
+        count = [];
+        count.push([neWords]);
+      }
+      let count1 = getStatistic?.optional.sprint.per1;
+      if (count1) {
+        count1?.push(learnedWords);
+      } else {
+        count1 = [];
+        count1.push(learnedWords);
+      }
 
       try {
         const datas =
@@ -107,6 +121,7 @@ export class Statistic {
                 month,
                 day,
                 count,
+                count1,
                 [],
                 [],
                 "",
@@ -119,6 +134,7 @@ export class Statistic {
                 month,
                 day,
                 count,
+                count1,
                 neWords,
                 percentOfTruth,
                 lengthOfTruth,
@@ -137,6 +153,7 @@ export class Statistic {
                 month,
                 day,
                 count,
+                count1,
                 [],
                 [],
                 "",
@@ -149,6 +166,7 @@ export class Statistic {
                 month,
                 day,
                 count,
+                count1,
                 neWords,
                 percentOfTruth,
                 lengthOfTruth,
@@ -165,13 +183,22 @@ export class Statistic {
           ? getStatistic.optional.audiocall.neWords
           : getStatistic.optional.sprint.neWords;
       const count = getStatistic.optional.sprint.per;
+      const count1 = getStatistic.optional.sprint.per1;
 
-      const charlie = neWords.concat(count);
-      const delta = [];
-      delta.push(charlie);
-      console.log(delta);
+      let charlie = neWords.concat(count);
+      if (count1) {
+        count1[count1?.length - 1] = learnedWords;
+      }
+
+      charlie = Array.from(charlie);
+
+      const delta = [charlie];
+
       count?.pop();
+
       count?.push(delta);
+
+      console.log(`привеЖ${count}`);
       const fullArray = neWords.concat(dataInside);
       const SetNumberOfNew = new Set();
       fullArray.forEach((item) => SetNumberOfNew.add(item));
@@ -197,7 +224,8 @@ export class Statistic {
                 learnedWords,
                 month,
                 day,
-                delta,
+                count,
+                count1,
                 getStatistic.optional.sprint.neWords,
                 getStatistic.optional.sprint.percentOfTruth,
                 getStatistic.optional.sprint.lengthOfTruth,
@@ -209,7 +237,8 @@ export class Statistic {
                 learnedWords,
                 month,
                 day,
-                delta,
+                count,
+                count1,
                 exitFullArrayLengthNewWords,
                 percentArray,
                 maxLengthTruthInside,
@@ -229,6 +258,7 @@ export class Statistic {
                 month,
                 day,
                 count,
+                count1,
                 getStatistic.optional.sprint.neWords,
                 getStatistic.optional.sprint.percentOfTruth,
                 getStatistic.optional.sprint.lengthOfTruth,
@@ -241,6 +271,7 @@ export class Statistic {
                 month,
                 day,
                 count,
+                count1,
                 exitFullArrayLengthNewWords,
                 percentArray,
                 maxLengthTruthInside,
@@ -264,11 +295,15 @@ export class Statistic {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const canvas2 = document.getElementById("canvas2") as HTMLCanvasElement;
     const canvas3 = document.getElementById("canvas3") as HTMLCanvasElement;
+    const canvas4 = document.getElementById("canvas4") as HTMLCanvasElement;
+    const canvas5 = document.getElementById("canvas5") as HTMLCanvasElement;
     const userUid = localStorage.getItem("userId");
     const statistic = await api.takeStatistic(userUid);
     const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D | null;
     const ctx2 = canvas2?.getContext("2d") as CanvasRenderingContext2D | null;
     const ctx3 = canvas3?.getContext("2d") as CanvasRenderingContext2D | null;
+    const ctx4 = canvas4?.getContext("2d") as CanvasRenderingContext2D | null;
+    const ctx5 = canvas5?.getContext("2d") as CanvasRenderingContext2D | null;
     const infoInside = document.querySelector(".info_inside") as HTMLElement;
     const infoInside2 = document.querySelector(".info_inside2") as HTMLElement;
     const infoInside3 = document.querySelector(".info_inside3") as HTMLElement;
@@ -291,7 +326,7 @@ export class Statistic {
 
       const data = [
         Number(statistic.optional.audiocall.neWords.length),
-        Number(trueAnswers),
+        Number(trueAnswers) * 10,
         Number(statistic.optional.audiocall.lengthOfTruth) * 10,
       ];
       for (let i = 0; i < data.length; i++) {
@@ -327,7 +362,7 @@ export class Statistic {
 
       const data = [
         Number(statistic.optional.sprint.neWords.length),
-        Number(trueAnswers) * 3,
+        Number(trueAnswers) * 10,
         Number(statistic.optional.sprint.lengthOfTruth) * 10,
       ];
       for (let i = 0; i < data.length; i++) {
@@ -407,11 +442,96 @@ export class Statistic {
     <div class="inside_color_second">процент правильных ответов:${labels[1]}</div>
     <div class="inside_color_third">количество изученных слов за день:${labels[2]}</div>`;
     }
+    if (statistic) {
+      const color = "green";
+      const datok: unknown[] | undefined = statistic.optional.sprint.per;
+      const data = [];
+      if (datok) {
+        for (let i = 0; i < datok?.length; i++) {
+          const qwerty = datok[i];
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          const bravo = qwerty.flat(Infinity);
+          const charlee = new Set();
+          for (let j = 0; j < bravo.length; j++) {
+            charlee.add(bravo[j]);
+          }
+          data.push(charlee.size);
+        }
+      }
+
+      for (let i = 0; i < data.length; i++) {
+        ctx4?.fillText(String(data[i]), 50 + i * 100, 475);
+      }
+      for (let i = 0; i < data.length; i++) {
+        if (ctx4) {
+          ctx4.fillStyle = color;
+        }
+        const dp = data[i];
+        ctx4?.fillRect(1 + (i + 1) * 8, 460 - dp * 5, 10, dp * 10);
+      }
+
+      // eslint-disable-next-line no-inner-declarations, @typescript-eslint/no-explicit-any
+      function addToElem(elem: string, data: any[]) {
+        const elemInDom = document.querySelector(elem);
+        if (!elemInDom) return;
+        data.forEach((item: string, index) => {
+          const div = document.createElement("div");
+          div.innerHTML = `День ${index + 1}:${item}`;
+          elemInDom.append(div);
+        });
+      }
+
+      addToElem(".info_inside4", data);
+    }
+    if (statistic) {
+      const color = "red";
+
+      const data: unknown[] | undefined = statistic.optional.sprint.per1;
+
+      if (data) {
+        for (let i = 0; i < data.length; i++) {
+          ctx5?.fillText(String(data[i]), 50 + i * 100, 475);
+        }
+        for (let i = 0; i < data.length; i++) {
+          if (ctx5) {
+            ctx5.fillStyle = color;
+          }
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          const dp = Number(data[i] > 7)
+            ? (Number(data[i]) + 1) * 5
+            : (Number(data[i]) + 1) * 10;
+          console.log(dp);
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          ctx5?.fillRect(1 + (i + 1) * 8, 460 - (dp + 1) * 5, 10, dp * 300);
+        }
+      }
+
+      // eslint-disable-next-line no-inner-declarations, @typescript-eslint/no-explicit-any
+      function addToElem(elem: string, data: unknown[] | undefined) {
+        const elemInDom = document.querySelector(elem);
+        if (!elemInDom) return;
+        data?.forEach((item, index: number) => {
+          const div = document.createElement("div");
+          div.innerHTML = `День ${index + 1}:${item}`;
+          elemInDom.append(div);
+        });
+      }
+
+      addToElem(".info_inside5", data);
+    }
   }
 
   drawStat() {
     const can_text: HTMLDivElement | null = document.querySelector(".can_text");
     if (can_text) can_text.innerHTML = "Краткосрочная статистика(Мини-Игры)";
+
+    const can_text_Add: HTMLDivElement | null =
+      document.querySelector(".can_text_Add");
+    if (can_text_Add)
+      can_text_Add.innerHTML = "Долгосрочная статистика статистика(Мини-Игры)";
 
     const stat_audiocall: HTMLDivElement | null =
       document.querySelector(".stat_audiocall");
@@ -424,5 +544,12 @@ export class Statistic {
     const stat_words: HTMLDivElement | null =
       document.querySelector(".stat_words");
     if (stat_words) stat_words.innerHTML = "По словам";
+
+    const stat_new: HTMLDivElement | null = document.querySelector(".stat_new");
+    if (stat_new) stat_new.innerHTML = "Новые слова";
+
+    const stat_learned: HTMLDivElement | null =
+      document.querySelector(".stat_learned");
+    if (stat_learned) stat_learned.innerHTML = "Изученные слова";
   }
 }
