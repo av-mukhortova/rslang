@@ -3,7 +3,7 @@ import { iArray } from "../types/index";
 const api = new Api();
 import { Statistic } from "./statisticSolve";
 import UserWords from "./userWords";
-const userWords = new UserWords();
+// const userWords = new UserWords();
 
 export class AudioCall {
   groupList: number;
@@ -224,8 +224,8 @@ export class AudioCall {
       String(this.pageList),
       this.wordChange
     );
-    const learnedArray = await userWords.getUserWordsLikeArray();
-    const learnedWord1 = learnedArray.filter((item) => item.isLearned == true);
+    // const learnedArray = await userWords.getUserWordsLikeArray();
+    // const learnedWord1 = learnedArray.filter((item) => item.isLearned == true);
     const testArray = [];
     for (let i = 0; testArray.length < 20; i++) {
       testArray.push(
@@ -237,7 +237,7 @@ export class AudioCall {
       );
       this.wordChange++;
     }
-    const lineOfThruth = [];
+    // const lineOfThruth = [];
 
     fullDatas.AudioM.play();
     audiocallPage.classList.remove("hidden");
